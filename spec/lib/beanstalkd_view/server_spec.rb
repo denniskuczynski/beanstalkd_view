@@ -37,8 +37,9 @@ describe BeanstalkdView::Server do
     end
     
     it "should show error at: /", :type => :request do
-      visit '/'
-      page.should have_content "BeanstalkdView::BeanstalkdUtils::BadURL"
+      expect {
+        visit '/'
+      }.should raise_error(BeanstalkdView::BeanstalkdUtils::BadURL)
     end
   end
   
