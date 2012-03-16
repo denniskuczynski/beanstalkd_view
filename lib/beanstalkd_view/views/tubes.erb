@@ -1,0 +1,32 @@
+<div class="row">
+	<div class="span12">
+	  <h2>Tubes</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Server</th>
+            <th>Tubes</th>
+          </tr>
+        </thead>
+        <tbody>
+		  <% @tubes.keys.each do |key| %>
+          <tr>
+            <td><%= key %></td>
+            <td>
+				<table class="table">
+					<tbody>
+						<% @tubes[key].each do |tube| %>
+						<tr>
+							<td><a href="/beanstalkd/tube/<%= tube %>"><%= tube %></a></td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+				
+			</td>
+          </tr>
+		  <% end %>
+        </tbody>
+      </table>
+	</div>
+</div>
