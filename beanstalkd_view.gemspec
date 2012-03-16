@@ -19,9 +19,11 @@ Gem::Specification.new do |s|
   s.test_files    = Dir.glob("spec/**/*")
   s.require_paths = ["lib"]
 
-  s.add_dependency "sinatra",         ">= 0.9.2"
+  s.add_dependency "sinatra",         ">= 1.1.0"
   s.add_dependency "beanstalk-client",         ">= 1.1.1"
 
   s.add_development_dependency "rake"
+  s.add_development_dependency "rack-test"
   s.add_development_dependency "rspec"
+  s.add_development_dependency "capybara"
 end
