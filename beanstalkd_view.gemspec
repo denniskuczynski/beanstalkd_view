@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.homepage    =
     'https://github.com/denniskuczynski/beanstalkd_view'
   
-  s.files             = %w( README Gemfile Rakefile )
+  s.files             = %w( README.md Gemfile Rakefile )
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("bin/**/*")
   s.test_files    = Dir.glob("spec/**/*")

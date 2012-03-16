@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/denniskuczynski/beanstalkd_view.png?branch=master)](http://travis-ci.org/denniskuczynski/beanstalkd_view)
+
 A Sinatra app to view/manage beanstalkd queues that can be embedded in a Rails app similar to what's available in Resque.
 
 To use, include the gem:
