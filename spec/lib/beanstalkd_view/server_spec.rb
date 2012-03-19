@@ -1,8 +1,9 @@
 require 'spec_helper'
 
-describe BeanstalkdView::Server do
+describe BeanstalkdView::Server, :type => :request do
   
   before :all do
+    ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
     Capybara.app = BeanstalkdView::Server.new
   end
 
@@ -14,17 +15,17 @@ describe BeanstalkdView::Server do
       end
     end
 
-    it "should show the overview at: /", :type => :request do
+    it "should show the overview at: /" do
       visit '/'
-      page.should have_content "Beanstalkd View"
-      page.should have_content "Statistics"
-      page.should have_content "Tubes"
+      body.should have_content "Beanstalkd View"
+      body.should have_content "Statistics"
+      body.should have_content "Tubes"
     end
   
-    it "should show the default tube stats at: tube/default", :type => :request do
+    it "should show the default tube stats at: tube/default" do
       visit '/tube/default'
-      page.should have_content "Beanstalkd View"
-      page.should have_content "Statistics"
+      body.should have_content "Beanstalkd View"
+      body.should have_content "Statistics"
     end
   end
   
@@ -36,10 +37,9 @@ describe BeanstalkdView::Server do
       end
     end
     
-    it "should show error at: /", :type => :request do
-      expect {
-        visit '/'
-      }.should raise_error(BeanstalkdView::BeanstalkdUtils::BadURL)
+    it "should show error at: /" do
+      visit '/'
+      page.should have_content "Beanstalk::NotConnected"
     end
   end
   

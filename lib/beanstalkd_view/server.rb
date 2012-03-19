@@ -4,21 +4,28 @@ module BeanstalkdView
     include BeanstalkdView::BeanstalkdUtils
       
     get "/" do
-      @tubes = beanstalk.list_tubes
-      @stats = beanstalk.stats
-      erb :index
+      begin
+        @tubes = beanstalk.list_tubes
+        @stats = beanstalk.stats
+        erb :index
+      rescue Beanstalk::NotConnected => @error
+        erb :error
+      end
     end
     
     get "/tube/:tube" do
-      @stats = beanstalk.stats_tube(params[:tube])
-      erb :tube_stats
+      begin
+        @stats = beanstalk.stats_tube(params[:tube])
+        erb :tube_stats
+      rescue Beanstalk::NotConnected => @error
+        erb :error
+      end
     end
     
     get "/resources/*" do |path|
       file = File.expand_path(File.join('resources', path), File.dirname(__FILE__))
       send_file file
     end
-    
-  end
-    
+  
+  end  
 end
