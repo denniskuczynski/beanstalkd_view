@@ -1,20 +1,207 @@
 <div class="row">
 	<div class="span12">
-	  <h2>Statistics</h2>
+
       <table class="table">
         <thead>
           <tr>
-            <th>Key</th>
-            <th>Value</th>
+            <th colspan="2">Current Jobs</th>
           </tr>
         </thead>
         <tbody>
-		  <% @stats.keys.each do |key| %>
           <tr>
-            <td><%= key %></td>
-            <td><%= @stats[key] %></td>
+            <td><a href="#" rel="tooltip" title="The number of ready jobs with priority < 1024.">Urgent</a></td>
+            <td><%= @stats["current-jobs-urgent"].inspect %></td>
           </tr>
-		  <% end %>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The number of jobs in the ready queue.">Ready</a></td>
+            <td><%= @stats["current-jobs-ready"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The number of jobs reserved by all clients.">Reserved</a></td>
+            <td><%= @stats["current-jobs-reserved"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The number of delayed jobs.">Delayed</a></td>
+            <td><%= @stats["current-jobs-delayed"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="he number of buried jobs.">Buried</a></td>
+            <td><%= @stats["current-jobs-buried"].inspect %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th colspan="2">Statistics</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative count of times a job has timed out.">Job Timeouts</a></td>
+            <td><%= @stats["job-timeouts"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative count of jobs created.">Total Jobs</a></td>
+            <td><%= @stats["total-jobs"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The maximum number of bytes in a job.">Max Job Size</a></td>
+            <td><%= @stats["max-job-size"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The number of currently open connections.">Current Connections</a></td>
+            <td><%= @stats["current-connections"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The number of open connections that have each issued at least one put command.">Current Producers</a></td>
+            <td><%= @stats["current-producers"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The number of open connections that have each issued at least one reserve command.">Current Workers</a></td>
+            <td><%= @stats["current-workers"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The number of open connections that have issued a reserve command but not yet received a response.">Current Waiting</a></td>
+            <td><%= @stats["current-waiting"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative count of connections.">Total Connections</a></td>
+            <td><%= @stats["total-connections"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The process id of the server.">pid</a></td>
+            <td><%= @stats["pid"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The version string of the server.">Version</a></td>
+            <td><%= @stats["version"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The accumulated user CPU time of this process in seconds and microseconds.">rusage-utime</a></td>
+            <td><%= @stats["rusage-utime"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The accumulated system CPU time of this process in seconds and microseconds.">rusage-stime</a></td>
+            <td><%= @stats["rusage-stime"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The number of seconds since this server started running.">Uptime</a></td>
+            <td><%= @stats["uptime"].inspect %></td>
+          </tr>
+        </tbody>
+      </table>
+
+	  <table class="table">
+        <thead>
+          <tr>
+            <th colspan="2">Binlog</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The index of the oldest binlog file needed to store the current jobs.">Oldest Index</a></td>
+            <td><%= @stats["binlog-oldest-index"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The index of the current binlog file being written to. If binlog is not active this value will be 0.">Current Index</a></td>
+            <td><%= @stats["binlog-current-index"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The maximum size in bytes a binlog file is allowed to get before a new binlog file is opened.">Max Size</a></td>
+            <td><%= @stats["binlog-max-size"].inspect %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th colspan="2">API Call Histogram</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of put commands.">put</a></td>
+            <td><%= @stats["cmd-put"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of peek commands.">peek</a></td>
+            <td><%= @stats["cmd-peek"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of peek-ready commands.">peek-ready</a></td>
+            <td><%= @stats["cmd-peek-ready"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of peek-delayed commands.">peek-delayed</a></td>
+            <td><%= @stats["cmd-peek-delayed"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of peek-buried commands.">peek-buried</a></td>
+            <td><%= @stats["cmd-peek-buried"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of reserve commands.">reserve</a></td>
+            <td><%= @stats["cmd-reserve"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of use commands.">use</a></td>
+            <td><%= @stats["cmd-use"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of watch commands.">watch</a></td>
+            <td><%= @stats["cmd-watch"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of ignore commands.">ignore</a></td>
+            <td><%= @stats["cmd-ignore"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of delete commands.">delete</a></td>
+            <td><%= @stats["cmd-delete"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of release commands.">release</a></td>
+            <td><%= @stats["cmd-release"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of bury commands.">bury</a></td>
+            <td><%= @stats["cmd-bury"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of kick commands.">kick</a></td>
+            <td><%= @stats["cmd-kick"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of stats commands.">stats</a></td>
+            <td><%= @stats["cmd-stats"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of stats-job commands.">stats-job</a></td>
+            <td><%= @stats["cmd-stats-job"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of stats-tube commands.">stats-tube</a></td>
+            <td><%= @stats["cmd-stats-tube"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of list-tubes commands.">list-tubes</a></td>
+            <td><%= @stats["cmd-list-tubes"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of list-tube-used commands.">list-tube-used</a></td>
+            <td><%= @stats["cmd-list-tube-used"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of list-tubes-watched commands.">list-tubes-watched</a></td>
+            <td><%= @stats["cmd-list-tubes-watched"].inspect %></td>
+          </tr>
+          <tr>
+            <td><a href="#" rel="tooltip" title="The cumulative number of pause-tube commands.">pause-tube</a></td>
+            <td><%= @stats["cmd-pause-tube"].inspect %></td>
+          </tr>
         </tbody>
       </table>
   </div>
