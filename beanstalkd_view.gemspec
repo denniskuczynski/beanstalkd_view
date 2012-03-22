@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "sinatra",         ">= 1.1.0"
   s.add_dependency "beanstalk-client",         ">= 1.1.1"
+  s.add_dependency "json"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rack-test"

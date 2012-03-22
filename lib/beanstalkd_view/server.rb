@@ -27,6 +27,53 @@ module BeanstalkdView
       end
     end
     
+    get "/peek/:tube/:type" do
+      content_type :json
+      begin
+        response = nil
+        beanstalk.on_tube(params[:tube]) do |conn|
+          puts "On Tube #{conn.inspect} #{params[:type]}"
+          if (params[:type]) == "ready"
+            puts "Peaking Ready"
+            response = conn.peek_ready()
+          elsif (params[:type]) == "delayed"
+            puts "Peaking Delayed"
+            response = conn.peek_delayed()
+          else
+            puts "Peeking Buried"
+            response = conn.peek_buried()
+          end
+        end
+        if response
+          ret_value = response.stats
+          ret_value["body"] = response.body
+          ret_value.to_json
+        else
+          { :error => "No job was found, or an error occurred while trying to peek at the next job."}.to_json
+        end
+      rescue Beanstalk::NotConnected => @error
+        { :error => @error.to_s }.to_json
+      end
+    end
+
+    get "/delete/:tube/:job_id" do
+       begin
+          response = nil
+          beanstalk.on_tube(params[:tube]) do |conn|
+            response = conn.delete(params[:job_id].to_i)
+          end
+          if response
+            session[:message] = "Deleted Job #{params[:job_id]}"
+            redirect "/beanstalkd/tube/#{params[:tube]}"
+          else
+            session[:message] = "Error deleting Job #{params[:job_id]}"
+            redirect "/beanstalkd/tube/#{params[:tube]}"
+          end
+        rescue Beanstalk::NotConnected => @error
+          erb :error
+        end
+    end
+    
     post "/kick" do
       begin
         response = nil

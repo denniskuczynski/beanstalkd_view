@@ -78,10 +78,20 @@
 
 	<h3>Kick Tube</h3>
 	<form class="well form-inline" name="pause_form" action="/beanstalkd/kick" method="POST">
-	  <input type="hidden" name="tube" value="<%= @stats["name"] %>">
+	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @stats["name"] %>">
 	  <input type="text" class="input-medium" placeholder="Number of Jobs" name="bound">
 	  <button type="submit" class="btn">Kick</button>
 	</form>
-	
+
+	<h3>Peek Jobs</h3>	
+	<form class="well" name="peek_jobs">
+	  <a id="peek_ready_btn" href="javascript:false" class="btn">Peek Ready</a>
+	  <a id="peek_delayed_btn" href="javascript:false" class="btn">Peek Delayed</a>
+	  <a id="peek_buried_btn" href="javascript:false" class="btn">Peek Buried</a>
+	</form>
+
   </div>
+
+<%= erb :job_info_popup %>
+
 </div>
