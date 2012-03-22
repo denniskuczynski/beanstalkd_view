@@ -1,6 +1,6 @@
 <div class="row">
-	<div class="span12">
-		<h1><%= @stats["name"].inspect %></h1>
+	<div class="span6">
+		<h1>Tube: <%= @stats["name"] %></h1>
 
 	    <table class="table">
 	      <thead>
@@ -10,23 +10,23 @@
 	      </thead>
 	      <tbody>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The number of ready jobs with priority < 1024 in this tube.">Urgent</a></td>
+	          <td rel="tooltip" title="The number of ready jobs with priority < 1024 in this tube.">Urgent</td>
 	          <td><%= @stats["current-jobs-urgent"].inspect %></td>
 	        </tr>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The number of jobs in the ready queue in this tube.">Ready</a></td>
+	          <td rel="tooltip" title="The number of jobs in the ready queue in this tube.">Ready</td>
 	          <td><%= @stats["current-jobs-ready"].inspect %></td>
 	        </tr>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The number of jobs reserved by all clients in this tube.">Reserved</a></td>
+	          <td rel="tooltip" title="The number of jobs reserved by all clients in this tube.">Reserved</td>
 	          <td><%= @stats["current-jobs-reserved"].inspect %></td>
 	        </tr>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The number of delayed jobs in this tube.">Delayed</a></td>
+	          <td rel="tooltip" title="The number of delayed jobs in this tube.">Delayed</td>
 	          <td><%= @stats["current-jobs-delayed"].inspect %></td>
 	        </tr>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The number of buried jobs in this tube.">Buried</a></td>
+	          <td rel="tooltip" title="The number of buried jobs in this tube.">Buried</td>
 	          <td><%= @stats["current-jobs-buried"].inspect %></td>
 	        </tr>
 		  </tbody>
@@ -40,19 +40,19 @@
 	      </thead>
 	      <tbody>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The cumulative count of jobs created in this tube.">Total Jobs</a></td>
+	          <td rel="tooltip" title="The cumulative count of jobs created in this tube.">Total Jobs</td>
 	          <td><%= @stats["total-jobs"].inspect %></td>
 	        </tr>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The number of open connections that have issued a reserve command while watching this tube but not yet received a response.">Current Waiting</a></td>
+	          <td rel="tooltip" title="The number of open connections that have issued a reserve command while watching this tube but not yet received a response.">Current Waiting</td>
 	          <td><%= @stats["current-waiting"].inspect %></td>
 	        </tr>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The number of seconds the tube has been paused for.">Time Paused</a></td>
+	          <td rel="tooltip" title="The number of seconds the tube has been paused for.">Time Paused</td>
 	          <td><%= @stats["pause"].inspect %></td>
 	        </tr>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The number of seconds until the tube is un-paused.">Pause Time Left</a></td>
+	          <td rel="tooltip" title="The number of seconds until the tube is un-paused.">Pause Time Left</td>
 	          <td><%= @stats["pause-time-left"].inspect %></td>
 	        </tr>
 	      </tbody>
@@ -66,10 +66,22 @@
 	      </thead>
 	      <tbody>
 	        <tr>
-	          <td><a href="#" rel="tooltip" title="The cumulative number of pause-tube commands for this tube.">pause-tube</a></td>
+	          <td rel="tooltip" title="The cumulative number of pause-tube commands for this tube.">pause-tube</td>
 	          <td><%= @stats["cmd-pause-tube"].inspect %></td>
 	        </tr>
 	      </tbody>
 	    </table>
+  </div>
+
+  <div class="span6">
+	<h2>Actions</h2>
+
+	<h3>Kick Tube</h3>
+	<form class="well form-inline" name="pause_form" action="/beanstalkd/kick" method="POST">
+	  <input type="hidden" name="tube" value="<%= @stats["name"] %>">
+	  <input type="text" class="input-medium" placeholder="Number of Jobs" name="bound">
+	  <button type="submit" class="btn">Kick</button>
+	</form>
+	
   </div>
 </div>
