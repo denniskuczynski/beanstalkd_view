@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
+begin
+  require 'vegas'
+rescue LoadError
+  require 'rubygems'
+  require 'vegas'
+end  
+require 'beanstalkd_view'
+
+ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
+
+Vegas::Runner.new(BeanstalkdView::Server, 'Beanstalkd View')

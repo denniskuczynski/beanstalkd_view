@@ -16,11 +16,13 @@ Gem::Specification.new do |s|
   s.files             = %w( README.md Gemfile Rakefile )
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("bin/**/*")
+  s.executables       = [ "beanstalkd_view" ]
   s.test_files    = Dir.glob("spec/**/*")
   s.require_paths = ["lib"]
 
   s.add_dependency "sinatra",         ">= 1.1.0"
   s.add_dependency "beanstalk-client",         ">= 1.1.1"
+  s.add_dependency "vegas",           "~> 0.1.2"
   s.add_dependency "json"
 
   s.add_development_dependency "rake"
