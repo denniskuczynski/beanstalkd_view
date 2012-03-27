@@ -78,7 +78,7 @@ module BeanstalkdView
       begin
         response = beanstalk.pause_tube(params[:tube], params[:delay].to_i)
         if response
-          session[:message] = "Paused #{params[:tube]}. No jobs will be reserved for #{params[:delay]} seconds."
+          session[:message] = "Paused #{params[:tube]}. No jobs will be reserved for #{params[:delay].to_i} seconds."
           redirect "/beanstalkd/tube/#{params[:tube]}"
         else
           session[:message] = "Error pausing #{params[:tube]}."

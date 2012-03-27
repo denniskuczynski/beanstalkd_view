@@ -3,7 +3,7 @@ a {
 }
 
 .navbar-inner {
-  background-color: #5BB75B;
+  background-color: #008000;
   background-image: none;
 }
 
@@ -13,16 +13,16 @@ a {
 }
 
 .well {
-  background-color: #5BB75B;
+  background-color: #008000;
 }
 
 .modal-header {
-  background-color: #5BB75B;
+  background-color: #008000;
   color: white;
 }
 
 .modal-footer {
-  background-color: #5BB75B;  
+  background-color: #008000;  
 }
 
 td {

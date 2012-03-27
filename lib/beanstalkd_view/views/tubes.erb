@@ -12,7 +12,7 @@
         	<% @tubes[key].each do |tube| %>
 		  <tr>
             <td><%= key %></td>
-			<td><a href="/beanstalkd/tube/<%= tube %>"><%= tube %></a></td>
+			<td><a href="<%= url("/tube/#{tube}") %>"><%= tube %></a></td>
 			</tr>
 			<% end %>
 		  <% end %>

@@ -87,15 +87,16 @@
 
   <div class="span6">
 	<h3>Pause Tube</h3>
-	<form class="well form-inline" name="pause_form" action="/beanstalkd/pause" method="POST">
+	<form class="well form-inline" name="pause_form" action="<%= url('/pause') %>" method="POST">
 	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @stats["name"] %>">
+      <input id="form_url_base" type="hidden" name="url_base" value="<%= url('/') %>">
 	  <input type="text" class="span3" placeholder="Number of seconds to wait" name="delay">
 	  <button type="submit" class="btn">Pause</button>
 	</form>
 
 	<h3>Kick Tube</h3>
-	<form class="well form-inline" name="kick_form" action="/beanstalkd/kick" method="POST">
-	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @stats["name"] %>">
+	<form class="well form-inline" name="kick_form" action="<%= url('/kick') %>" method="POST">
+	  <input type="hidden" name="tube" value="<%= @stats["name"] %>">
 	  <input type="text" class="span3" placeholder="Number of jobs" name="bound">
 	  <button type="submit" class="btn">Kick</button>
 	</form>
