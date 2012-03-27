@@ -64,10 +64,10 @@ module BeanstalkdView
           end
           if response
             session[:message] = "Deleted Job #{params[:job_id]}"
-            redirect "/beanstalkd/tube/#{params[:tube]}"
+            redirect url("/tube/#{params[:tube]}")
           else
             session[:message] = "Error deleting Job #{params[:job_id]}"
-            redirect "/beanstalkd/tube/#{params[:tube]}"
+            redirect url("/tube/#{params[:tube]}")
           end
         rescue Beanstalk::NotConnected => @error
           erb :error
@@ -79,14 +79,14 @@ module BeanstalkdView
         response = beanstalk.pause_tube(params[:tube], params[:delay].to_i)
         if response
           session[:message] = "Paused #{params[:tube]}. No jobs will be reserved for #{params[:delay].to_i} seconds."
-          redirect "/beanstalkd/tube/#{params[:tube]}"
+          redirect url("/tube/#{params[:tube]}")
         else
           session[:message] = "Error pausing #{params[:tube]}."
-          redirect "/beanstalkd/tube/#{params[:tube]}"
+          redirect url("/tube/#{params[:tube]}")
         end
       rescue NameError => @error
         session[:message] = "The pause_tube method is currently not implemented by this version of beanstalk-client."
-        redirect "/beanstalkd/tube/#{params[:tube]}"
+        redirect url("/tube/#{params[:tube]}")
       rescue Beanstalk::NotConnected => @error
         erb :error
       end
@@ -100,10 +100,10 @@ module BeanstalkdView
         end
         if response
           session[:message] = "Kicked #{params[:tube]} for #{response} jobs."
-          redirect "/beanstalkd/tube/#{params[:tube]}"
+          redirect url("/tube/#{params[:tube]}")
         else
           session[:message] = "Error kicking #{params[:tube]}."
-          redirect "/beanstalkd/tube/#{params[:tube]}"
+          redirect url("/tube/#{params[:tube]}")
         end
       rescue Beanstalk::NotConnected => @error
         erb :error
