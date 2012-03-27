@@ -49,3 +49,7 @@ bundle exec beanstalkd_view
 
 
 (This will use the vegas gem to launch the Sinatra app on an available port.)
+
+
+![Screenshot](http://s9.postimage.org/tpfksm5kv/beanstalkd_view.png)
+
