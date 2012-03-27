@@ -74,6 +74,24 @@ module BeanstalkdView
         end
     end
     
+    post "/pause" do
+      begin
+        response = beanstalk.pause_tube(params[:tube], params[:delay].to_i)
+        if response
+          session[:message] = "Paused #{params[:tube]}. No jobs will be reserved for #{params[:delay]} seconds."
+          redirect "/beanstalkd/tube/#{params[:tube]}"
+        else
+          session[:message] = "Error pausing #{params[:tube]}."
+          redirect "/beanstalkd/tube/#{params[:tube]}"
+        end
+      rescue NameError => @error
+        session[:message] = "The pause_tube method is currently not implemented by this version of beanstalk-client."
+        redirect "/beanstalkd/tube/#{params[:tube]}"
+      rescue Beanstalk::NotConnected => @error
+        erb :error
+      end
+    end
+    
     post "/kick" do
       begin
         response = nil
@@ -81,10 +99,10 @@ module BeanstalkdView
           response = conn.kick(params[:bound].to_i)
         end
         if response
-          session[:message] = "Kicked #{params[:tube]} for #{response} jobs"
+          session[:message] = "Kicked #{params[:tube]} for #{response} jobs."
           redirect "/beanstalkd/tube/#{params[:tube]}"
         else
-          session[:message] = "Error kicking #{params[:tube]}"
+          session[:message] = "Error kicking #{params[:tube]}."
           redirect "/beanstalkd/tube/#{params[:tube]}"
         end
       rescue Beanstalk::NotConnected => @error

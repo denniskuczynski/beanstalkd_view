@@ -1,3 +1,30 @@
+a {
+  color: #090;
+}
+
+.navbar-inner {
+  background-color: #5BB75B;
+  background-image: none;
+}
+
+.navbar .brand {
+  color: white;
+  font-weight: bold;
+}
+
+.well {
+  background-color: #5BB75B;
+}
+
+.modal-header {
+  background-color: #5BB75B;
+  color: white;
+}
+
+.modal-footer {
+  background-color: #5BB75B;  
+}
+
 td {
   width: 285px;
 }
