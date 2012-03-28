@@ -16,6 +16,10 @@ a {
   background-color: #008000;
 }
 
+.control-label {
+  color: white;
+}
+
 .modal-header {
   background-color: #008000;
   color: white;

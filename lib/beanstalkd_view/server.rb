@@ -16,6 +16,25 @@ module BeanstalkdView
       end
     end
     
+    post "/add_job" do
+      begin
+        response = nil
+        body = JSON.parse(params[:body])
+        beanstalk.on_tube(params[:tube]) do |conn|
+          response = conn.put([ params[:tube], body ].to_json, params[:priority].to_i, params[:delay].to_i, params[:ttr].to_i)
+        end
+        if response
+          session[:message] = "Added job #{response.inspect}"
+          redirect url("/")
+        else
+          session[:message] = "Error adding job"
+          redirect url("/")
+        end
+      rescue Beanstalk::NotConnected => @error
+        erb :error
+      end
+    end
+    
     get "/tube/:tube" do
       begin
         @stats = beanstalk.stats_tube(params[:tube])

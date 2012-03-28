@@ -1,5 +1,256 @@
-<h1>Overview</h1>
+<div class="row">
+	<div class="span6">
+      <h1>Overview</h1>
 
-<%= erb :tubes %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Server</th>
+            <th>Tubes</th>
+          </tr>
+        </thead>
+        <tbody>
+		  <% @tubes.keys.each do |key| %>
+        	<% @tubes[key].each do |tube| %>
+		  <tr>
+            <td><%= key %></td>
+			<td><a href="<%= url("/tube/#{tube}") %>"><%= tube %></a></td>
+			</tr>
+			<% end %>
+		  <% end %>
+		</tbody>
+      </table>
 
-<%= erb :general_stats %>
+	<table class="table">
+        <thead>
+          <tr>
+            <th colspan="2">Current Jobs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr rel="tooltip" title="The number of ready jobs with priority < 1024.">
+            <td>Urgent</td>
+			<% if @stats["current-jobs-urgent"] > 0 %>
+              <td><span class="badge badge-warning"><%= @stats["current-jobs-urgent"] %></span></td>
+			<% else %>
+              <td><%= @stats["current-jobs-urgent"] %></td>
+			<% end %>
+          </tr>
+          <tr rel="tooltip" title="The number of jobs in the ready queue.">
+            <td>Ready</td>
+            <td><%= @stats["current-jobs-ready"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The number of jobs reserved by all clients.">
+            <td>Reserved</td>
+            <td><%= @stats["current-jobs-reserved"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The number of delayed jobs.">
+            <td>Delayed</td>
+            <td><%= @stats["current-jobs-delayed"] %></td>
+          </tr>
+          <tr rel="tooltip" title="he number of buried jobs.">
+            <td>Buried</td>
+			<% if @stats["current-jobs-buried"] > 0 %>
+              <td><span class="badge badge-error"><%= @stats["current-jobs-buried"] %></span></td>
+			<% else %>
+              <td><%= @stats["current-jobs-buried"] %></td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th colspan="2">Statistics</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr rel="tooltip" title="The cumulative count of times a job has timed out.">
+            <td>Job Timeouts</td>
+            <td><%= @stats["job-timeouts"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative count of jobs created.">
+            <td>Total Jobs</td>
+            <td><%= @stats["total-jobs"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The maximum number of bytes in a job.">
+            <td>Max Job Size</td>
+            <td><%= @stats["max-job-size"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The number of currently open connections.">
+            <td>Current Connections</td>
+            <td><%= @stats["current-connections"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The number of open connections that have each issued at least one put command.">
+            <td>Current Producers</td>
+            <td><%= @stats["current-producers"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The number of open connections that have each issued at least one reserve command.">
+            <td>Current Workers</td>
+            <td><%= @stats["current-workers"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The number of open connections that have issued a reserve command but not yet received a response.">
+            <td>Current Waiting</td>
+            <td><%= @stats["current-waiting"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative count of connections.">
+            <td>Total Connections</td>
+            <td><%= @stats["total-connections"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The process id of the server.">
+            <td>pid</td>
+            <td><%= @stats["pid"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The version string of the server.">
+            <td>Version</td>
+            <td><%= @stats["version"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The accumulated user CPU time of this process in seconds and microseconds.">
+            <td>rusage-utime</td>
+            <td><%= @stats["rusage-utime"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The accumulated system CPU time of this process in seconds and microseconds.">
+            <td>rusage-stime</td>
+            <td><%= @stats["rusage-stime"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The number of seconds since this server started running.">
+            <td>Uptime</td>
+            <td><%= @stats["uptime"] %></td>
+          </tr>
+        </tbody>
+      </table>
+
+	  <table class="table">
+        <thead>
+          <tr>
+            <th colspan="2">Binlog</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr rel="tooltip" title="The index of the oldest binlog file needed to store the current jobs.">
+            <td>Oldest Index</td>
+            <td><%= @stats["binlog-oldest-index"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The index of the current binlog file being written to. If binlog is not active this value will be 0.">
+            <td>Current Index</td>
+            <td><%= @stats["binlog-current-index"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The maximum size in bytes a binlog file is allowed to get before a new binlog file is opened.">
+            <td>Max Size</td>
+            <td><%= @stats["binlog-max-size"] %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr/>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th colspan="2">API Call Histogram</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr rel="tooltip" title="The cumulative number of put commands.">
+            <td>put</td>
+            <td><%= @stats["cmd-put"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of peek commands.">
+            <td>peek</td>
+            <td><%= @stats["cmd-peek"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of peek-ready commands.">
+            <td>peek-ready</td>
+            <td><%= @stats["cmd-peek-ready"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of peek-delayed commands.">
+            <td>peek-delayed</td>
+            <td><%= @stats["cmd-peek-delayed"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of peek-buried commands.">
+            <td>peek-buried</td>
+            <td><%= @stats["cmd-peek-buried"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of reserve commands.">
+            <td>reserve</td>
+            <td><%= @stats["cmd-reserve"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of use commands.">
+            <td>use</td>
+            <td><%= @stats["cmd-use"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of watch commands.">
+            <td>watch</td>
+            <td><%= @stats["cmd-watch"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of ignore commands.">
+            <td>ignore</td>
+            <td><%= @stats["cmd-ignore"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of delete commands.">
+            <td>delete</td>
+            <td><%= @stats["cmd-delete"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of release commands.">
+            <td>release</td>
+            <td><%= @stats["cmd-release"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of bury commands.">
+            <td>bury</td>
+            <td><%= @stats["cmd-bury"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of kick commands.">
+            <td>kick</td>
+            <td><%= @stats["cmd-kick"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of stats commands.">
+            <td>stats</td>
+            <td><%= @stats["cmd-stats"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of stats-job commands.">
+            <td>stats-job</td>
+            <td><%= @stats["cmd-stats-job"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of stats-tube commands.">
+            <td>stats-tube</td>
+            <td><%= @stats["cmd-stats-tube"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of list-tubes commands.">
+            <td>list-tubes</td>
+            <td><%= @stats["cmd-list-tubes"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of list-tube-used commands.">
+            <td>list-tube-used</td>
+            <td><%= @stats["cmd-list-tube-used"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of list-tubes-watched commands.">
+            <td>list-tubes-watched</td>
+            <td><%= @stats["cmd-list-tubes-watched"] %></td>
+          </tr>
+          <tr rel="tooltip" title="The cumulative number of pause-tube commands.">
+            <td>pause-tube</td>
+            <td><%= @stats["cmd-pause-tube"] %></td>
+          </tr>
+        </tbody>
+      </table>
+	</div>
+	
+	<div class="span6">
+		  <div class="span6">
+			<h3>Add Job</h3>
+			<form id="add_job_form" class="well" name="add_job_form" action="<%= url('/add_job') %>" method="POST">
+			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube">
+			  <input id="form_job_priority" type="text" class="span3" placeholder="Priority, e.g. 65536" name="priority">
+			  <input id="form_job_delay" type="text" class="span3" placeholder="Delay, e.g. 0" name="delay">
+			  <input id="form_job_ttr" type="text" class="span3" placeholder="TTR, e.g. 120" name="ttr">
+			  <label class="control-label" for="textarea">Job Body JSON Hash, e.g. {} or {"id": 1, "name": "Bob"}</label>
+			  <textarea id="form_job_body" class="input-xlarge" name="body" rows="3"></textarea>
+			  <br/>
+			  <a id="add_job_btn" href="javascript:false" class="btn">Add Job</a>
+			</form>
+		  </div>
+    </div>
+</div>
+
+<%= erb :job_info_popup %>
