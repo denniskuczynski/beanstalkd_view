@@ -250,7 +250,37 @@
 			  <a id="add_job_btn" href="javascript:false" class="btn">Add Job</a>
 			</form>
 		  </div>
+		
+		<div class="span6">
+			<h3>Total Jobs</h3>
+            <canvas id="total_jobs_chart"></canvas>
+		  </div>
     </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	var data = <%= @total_jobs_data.to_json.html_safe %>
+	  //Create pie chart
+	  var bluffGraph = new Bluff.Pie('total_jobs_chart', 570);
+      //Setup theme
+      var colors = ['#6886B4', '#FDD84E', '#72AE6E', '#D1695E', '#8A6EAF', '#EFAA43', 'white'];  
+  	  bluffGraph.set_theme({
+	    colors: colors,
+	    marker_color: 'white',
+	    font_color: 'white',
+	    background_colors: ['#008000', '#008000']
+	  });
+	  bluffGraph.tooltips = true;
+
+	  for (i in data.items) {
+	    var item = data.items[i];
+	    //Add each data item to pie
+	    bluffGraph.data(item.label, item.data);
+	  }
+	  //Finally draw the chart
+	  bluffGraph.draw();
+});
+</script>
 
 <%= erb :job_info_popup %>

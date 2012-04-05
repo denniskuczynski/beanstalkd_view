@@ -8,6 +8,7 @@ module BeanstalkdView
       begin
         @tubes = beanstalk.list_tubes
         @stats = beanstalk.stats
+        @total_jobs_data = get_total_jobs_data(@tubes)
         @message = session[:message]
         session[:message] = nil
         erb :index
@@ -132,6 +133,23 @@ module BeanstalkdView
     get "/resources/*" do |path|
       file = File.expand_path(File.join('resources', path), File.dirname(__FILE__))
       send_file file
+    end
+    
+    def get_total_jobs_data(tubes)
+      total_jobs_data = Hash.new
+      items = Array.new
+      tubes.keys.each do |key|
+        tubes[key].each do |tube|
+          stats = beanstalk.stats_tube(tube)
+          total_jobs = stats['total-jobs']
+          datum = Hash.new
+          datum["label"] = "#{tube} - #{total_jobs}"
+          datum["data"] = total_jobs
+          items << datum
+        end
+      end
+      total_jobs_data["items"] = items
+      total_jobs_data
     end
   
   end  
