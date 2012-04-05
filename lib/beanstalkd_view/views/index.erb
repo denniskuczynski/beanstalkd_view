@@ -292,7 +292,7 @@
 $(document).ready(function(){
 	var data = <%= @total_jobs_data.to_json.html_safe %>
 	  //Create pie chart
-	  var bluffGraph = new Bluff.Pie('total_jobs_chart', 570);
+	  var bluffGraph = new Bluff.Pie('total_jobs_chart', 460);
       //Setup theme
       var colors = ['#6886B4', '#FDD84E', '#72AE6E', '#D1695E', '#8A6EAF', '#EFAA43', 'white'];  
   	  bluffGraph.set_theme({
