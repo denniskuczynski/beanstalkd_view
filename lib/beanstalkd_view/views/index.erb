@@ -69,6 +69,7 @@
 	        <tr rel="tooltip" title="The rate of job bury calls to reserve calls.">
 	          <td>Bury Rate</td>
 			  <% bury_reserve_rate = (@stats["cmd-bury"].to_f / @stats["cmd-reserve"].to_f) %>
+			  <% bury_reserve_rate = 0 if bury_reserve_rate.nan? %>
 			  <% if bury_reserve_rate > 0.01 %>
 	          	<td class="data_cell"><span class="badge badge-error"><%= bury_reserve_rate %></span></td>
 	          <% else %>
@@ -78,6 +79,7 @@
 			<tr rel="tooltip" title="The rate of job timeouts to reserve calls.">
 	          <td>Timeout Rate</td>
 	          <% timeout_reserve_rate = (@stats["job-timeouts"].to_f / @stats["cmd-reserve"].to_f) %>
+	          <% timeout_reserve_rate = 0 if timeout_reserve_rate.nan? %>
 			  <% if timeout_reserve_rate > 0.01 %>
 	          	<td class="data_cell"><span class="badge badge-error"><%= timeout_reserve_rate %></span></td>
 	          <% else %>
