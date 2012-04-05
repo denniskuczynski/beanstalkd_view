@@ -62,9 +62,9 @@ beanstalkd_view is released under the MIT license:
 * http://www.opensource.org/licenses/MIT
 
 It makes use of the following components also using the MIT license:
-Sinatra - http://www.sinatrarb.com/
-jQuery - http://jquery.org/
-Bluff JS Graphs - http://bluff.jcoglan.com/
+* Sinatra - http://www.sinatrarb.com/
+* jQuery - http://jquery.org/
+* Bluff JS Graphs - http://bluff.jcoglan.com/
 
 And under the Apache license:
-Twitter Bootstrap - http://twitter.github.com/bootstrap/
+* Twitter Bootstrap - http://twitter.github.com/bootstrap/
