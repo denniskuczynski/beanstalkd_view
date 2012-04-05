@@ -60,6 +60,34 @@
       </table>
 
       <table class="table">
+	     <thead>
+	        <tr>
+	          <th colspan="2">Meta Statistics</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <tr rel="tooltip" title="The rate of job bury calls to reserve calls.">
+	          <td>Bury Rate</td>
+			  <% bury_reserve_rate = (@stats["cmd-bury"].to_f / @stats["cmd-reserve"].to_f) %>
+			  <% if bury_reserve_rate > 0.01 %>
+	          	<td class="data_cell"><span class="badge badge-error"><%= bury_reserve_rate %></span></td>
+	          <% else %>
+	            <td class="data_cell"><%= bury_reserve_rate %></td>
+	          <% end %>
+	        </tr>
+			<tr rel="tooltip" title="The rate of job timeouts to reserve calls.">
+	          <td>Timeout Rate</td>
+	          <% timeout_reserve_rate = (@stats["job-timeouts"].to_f / @stats["cmd-reserve"].to_f) %>
+			  <% if timeout_reserve_rate > 0.01 %>
+	          	<td class="data_cell"><span class="badge badge-error"><%= timeout_reserve_rate %></span></td>
+	          <% else %>
+	            <td class="data_cell"><%= timeout_reserve_rate %></td>
+	          <% end %>
+	        </tr>
+	 	</tbody>
+	  </table>
+
+      <table class="table">
         <thead>
           <tr>
             <th colspan="2">Statistics</th>

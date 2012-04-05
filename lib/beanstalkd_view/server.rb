@@ -143,7 +143,7 @@ module BeanstalkdView
           stats = beanstalk.stats_tube(tube)
           total_jobs = stats['total-jobs']
           datum = Hash.new
-          datum["label"] = "#{tube} - #{total_jobs}"
+          datum["label"] = tube
           datum["data"] = total_jobs
           items << datum
         end
