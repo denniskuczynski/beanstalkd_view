@@ -1,10 +1,5 @@
-Bluff -- Beautiful graphs in JavaScript
-http://bluff.jcoglan.com
+beanstalkd_view
 
-Copyright (c) 2008-2010 James Coglan
-
-Original Ruby version (c) 2005-2010 Topfunky Corporation boss@topfunky.com
- 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including
