@@ -8,7 +8,9 @@ module BeanstalkdView
       begin
         @tubes = beanstalk.list_tubes
         @stats = beanstalk.stats
-        @total_jobs_data = get_total_jobs_data(@tubes)
+        chart_data = get_chart_data_hash(@tubes)
+        @total_jobs_data = chart_data["total_jobs_data"]
+        @buried_jobs_data = chart_data["buried_jobs_data"] if chart_data["buried_jobs_data"]["items"].size > 0
         @message = session[:message]
         session[:message] = nil
         erb :index
@@ -135,21 +137,34 @@ module BeanstalkdView
       send_file file
     end
     
-    def get_total_jobs_data(tubes)
-      total_jobs_data = Hash.new
-      items = Array.new
+    def get_chart_data_hash(tubes)
+      chart_data = Hash.new
+      chart_data["total_jobs_data"] = Hash.new
+      chart_data["buried_jobs_data"] = Hash.new
+      chart_data["total_jobs_data"]["items"] = Array.new
+      chart_data["buried_jobs_data"]["items"] = Array.new
       tubes.keys.each do |key|
         tubes[key].each do |tube|
           stats = beanstalk.stats_tube(tube)
+          #total_jobs
           total_jobs = stats['total-jobs']
-          datum = Hash.new
-          datum["label"] = tube
-          datum["data"] = total_jobs
-          items << datum
+          if total_jobs > 0
+            total_datum = Hash.new
+            total_datum["label"] = tube
+            total_datum["data"] = total_jobs
+            chart_data["total_jobs_data"]["items"] << total_datum
+          end
+          #buried_jobs
+          buried_jobs = stats['current-jobs-buried']
+          if buried_jobs > 0
+            buried_datum = Hash.new
+            buried_datum["label"] = tube
+            buried_datum["data"] = buried_jobs
+            chart_data["buried_jobs_data"]["items"] << buried_datum
+          end
         end
       end
-      total_jobs_data["items"] = items
-      total_jobs_data
+      chart_data
     end
   
   end  
