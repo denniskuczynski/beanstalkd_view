@@ -300,7 +300,7 @@ $(document).ready(function(){
 	
 	function draw_pie_chart(div, data) {
 		//Create pie charts
-		var chart = new Bluff.Pie(div, 460);
+		var chart = new Bluff.Bar(div, 460);
 	    //Setup theme
 	    var colors = ['#6886B4', '#FDD84E', '#72AE6E', '#D1695E', '#8A6EAF', '#EFAA43', 'white'];  
 	  	chart.set_theme({
@@ -310,7 +310,8 @@ $(document).ready(function(){
 		  background_colors: ['#008000', '#008000']
 		});
 		chart.tooltips = true;
-		//Add each data item to pie
+		chart.hide_line_markers = true;
+		//Add each data item to chart
 		for (i in data.items) {
 		  var item = data.items[i];
 		  chart.data(item.label, item.data);
