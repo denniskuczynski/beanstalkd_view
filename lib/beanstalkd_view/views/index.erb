@@ -310,12 +310,18 @@ $(document).ready(function(){
 		  background_colors: ['#008000', '#008000']
 		});
 		chart.tooltips = true;
-		chart.hide_line_markers = true;
+		chart.hide_line_markers = false;
+		chart.minimum_value = 0;
+		var max_value = 0;
 		//Add each data item to chart
 		for (i in data.items) {
 		  var item = data.items[i];
 		  chart.data(item.label, item.data);
+		  if (item.data > max_value) {
+			max_value = item.data;
+		  }
 		}
+		chart.maximum_value = max_value;
 		//Finally draw the chart
 		chart.draw();
 	}
