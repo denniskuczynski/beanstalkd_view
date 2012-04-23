@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="span6">
-		<h1><%= @stats["name"] %></h1>
+		<h1><%= @tube %></h1>
 
 	    <table class="table">
 	      <thead>
@@ -88,7 +88,7 @@
   <div class="span6">
     <h3>Pause Tube</h3>
 	<form class="well form-inline" name="pause_form" action="<%= url('/pause') %>" method="POST">
-	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @stats["name"] %>">
+	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @tube %>">
       <input id="form_url_base" type="hidden" name="url_base" value="<%= url('/') %>">
 	  <input type="text" class="span3" placeholder="Number of seconds to wait" name="delay">
 	  <button type="submit" class="btn">Pause</button>
@@ -96,7 +96,7 @@
 
     <h3>Kick Tube</h3>
 	<form class="well form-inline" name="kick_form" action="<%= url('/kick') %>" method="POST">
-	  <input type="hidden" name="tube" value="<%= @stats["name"] %>">
+	  <input type="hidden" name="tube" value="<%= @tube %>">
 	  <input type="text" class="span3" placeholder="Number of jobs" name="bound">
 	  <button type="submit" class="btn">Kick</button>
 	</form>

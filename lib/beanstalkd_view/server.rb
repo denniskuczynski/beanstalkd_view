@@ -45,7 +45,8 @@ module BeanstalkdView
     
     get "/tube/:tube" do
       begin
-        @stats = beanstalk.stats_tube(params[:tube])
+        @tube = params[:tube]
+        @stats = beanstalk.stats_tube(@tube)
         @message = session[:message]
         session[:message] = nil
         erb :tube_stats
@@ -142,18 +143,20 @@ module BeanstalkdView
       send_file file
     end
     
+    private
+    
     def get_chart_data_hash(tubes)
       chart_data = Hash.new
       chart_data["total_jobs_data"] = Hash.new
       chart_data["buried_jobs_data"] = Hash.new
       chart_data["total_jobs_data"]["items"] = Array.new
-      chart_data["buried_jobs_data"]["items"] = Array.new
-      tubes.keys.each do |key|
-        tubes[key].each do |tube|
+      chart_data["buried_jobs_data"]["items"] = Array.new 
+      tube_list(tubes).each do |tube|
+        begin
           stats = beanstalk.stats_tube(tube)
           #total_jobs
           total_jobs = stats['total-jobs']
-          if total_jobs > 0
+            if total_jobs > 0
             total_datum = Hash.new
             total_datum["label"] = tube
             total_datum["data"] = total_jobs
@@ -167,9 +170,21 @@ module BeanstalkdView
             buried_datum["data"] = buried_jobs
             chart_data["buried_jobs_data"]["items"] << buried_datum
           end
+        rescue Beanstalk::NotFoundError
+          puts "Ignoring Beanstalk::NotFoundError for #{tube}"
         end
       end
       chart_data
+    end
+    
+    def tube_list(tubes)
+      tube_list = Set.new
+      tubes.keys.each do |key|
+        tubes[key].each do |tube|
+          tube_list.add(tube)
+        end
+      end
+      tube_list
     end
   
   end  
