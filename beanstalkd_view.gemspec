@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "beanstalk-client",         ">= 1.1.1"
   s.add_dependency "vegas",           "~> 0.1.2"
   s.add_dependency "json"
+  s.add_dependency "rack"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rack-test"

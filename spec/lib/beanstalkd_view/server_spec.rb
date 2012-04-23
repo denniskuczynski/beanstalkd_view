@@ -27,6 +27,16 @@ describe BeanstalkdView::Server, :type => :request do
       body.should have_content "Beanstalkd View"
       body.should have_content "Statistics"
     end
+    
+    it "show be able to add a job on the overview page", :js => true do
+      visit '/'
+      form = find('#add_job_form')
+      form.click_link('Add Job')
+      body.should have_content "Add new job?"
+      click_link "confirm_add_job_btn"
+      body.should have_content "Added job "
+    end
+    
   end
   
   describe "with out beanstalkd daemon running" do

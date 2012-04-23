@@ -3,7 +3,12 @@ module BeanstalkdView
   class Server < Sinatra::Base
     include BeanstalkdView::BeanstalkdUtils
     enable :sessions
-      
+    
+    helpers do
+      include Rack::Utils
+      alias_method :h, :escape_html
+    end
+    
     get "/" do
       begin
         @tubes = beanstalk.list_tubes
