@@ -23,6 +23,8 @@ Use the following environment variable to specify the location of the beanstalk 
 ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
 ```
 
+(This can be a comma separated list.)
+
 Embedding in a Rails app
 ------------------------
 
