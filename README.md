@@ -53,7 +53,7 @@ bundle exec beanstalkd_view
 
 Screenshot
 ------------------------
-![Screenshot](http://s15.postimage.org/burvb1tjv/i_OS_Simulator_Screen_shot_Apr_5_2012_3_31_51_PM.png)
+![Screenshot](http://s16.postimage.org/4mdum0x79/i_OS_Simulator_Screen_shot_Apr_24_2012_10_29_33.png)
 
 License
 ------------------------

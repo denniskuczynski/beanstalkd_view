@@ -5,7 +5,7 @@ require "beanstalkd_view/version"
 Gem::Specification.new do |s|
   s.name        = 'beanstalkd_view'
   s.version     = BeanstalkdView::VERSION
-  s.date        = '2012-04-16'
+  s.date        = '2012-04-24'
   s.summary     = "A Sinatra app to view/manage beanstalkd queues that can be embedded in a Rails app similar to what's available in Resque"
   s.description = "A Sinatra app to view/manage beanstalkd queues that can be embedded in a Rails app similar to what's available in Resque"
   s.authors     = ["Dennis Kuczynski"]
@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_dependency "beanstalk-client",         ">= 1.1.1"
   s.add_dependency "vegas",           "~> 0.1.2"
   s.add_dependency "json"
-  s.add_dependency "rack"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "rack-test"

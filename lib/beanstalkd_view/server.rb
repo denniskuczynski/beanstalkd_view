@@ -1,13 +1,42 @@
+# Overiding the standard beanstalk-client Pool to ignore NotFoundErrors.
+# In this application, those errors should only occur when using multiple beanstalkd instances,
+#  when one instance does not have a tube, and others do.
+module Beanstalk
+  class Pool
+    def call_wrap(c, *args, &block)
+      self.last_conn = c
+      c.send(*args, &block)
+    rescue NotFoundError => ex
+      puts "Ignoring NotFoundError: #{ex.class}: #{ex}"
+      nil
+    rescue UnexpectedResponse => ex
+      raise ex
+    rescue EOFError, Errno::ECONNRESET, Errno::EPIPE => ex
+      self.remove(c)
+      raise ex
+    end
+    
+    def on_tube(tube, &block)
+      response = nil
+      connection_size = open_connections.size
+      # Retry if the desired tube is not found
+      # Randomly picking over double the connection size, should eventually find it...
+      #  but a better algorithm would be nicer at some point...
+      # Note, that with just 1 beanstalkd instance, this code should always return on the first send
+      for i in 1..(connection_size*2)
+        response = send_to_rand_conn(:on_tube, tube, &block)
+        break if not response.nil?
+      end
+      response
+    end
+  end
+end
+
 module BeanstalkdView
 
   class Server < Sinatra::Base
     include BeanstalkdView::BeanstalkdUtils
     enable :sessions
-    
-    helpers do
-      include Rack::Utils
-      alias_method :h, :escape_html
-    end
     
     get "/" do
       begin
@@ -60,15 +89,11 @@ module BeanstalkdView
       begin
         response = nil
         beanstalk.on_tube(params[:tube]) do |conn|
-          puts "On Tube #{conn.inspect} #{params[:type]}"
           if (params[:type]) == "ready"
-            puts "Peaking Ready"
             response = conn.peek_ready()
           elsif (params[:type]) == "delayed"
-            puts "Peaking Delayed"
             response = conn.peek_delayed()
           else
-            puts "Peeking Buried"
             response = conn.peek_buried()
           end
         end
@@ -145,13 +170,14 @@ module BeanstalkdView
     
     private
     
+    # Return the stats data in a format for the Bluff JS UI Charts
     def get_chart_data_hash(tubes)
       chart_data = Hash.new
       chart_data["total_jobs_data"] = Hash.new
       chart_data["buried_jobs_data"] = Hash.new
       chart_data["total_jobs_data"]["items"] = Array.new
       chart_data["buried_jobs_data"]["items"] = Array.new 
-      tube_list(tubes).each do |tube|
+      tube_set(tubes).each do |tube|
         begin
           stats = beanstalk.stats_tube(tube)
           #total_jobs
@@ -177,15 +203,16 @@ module BeanstalkdView
       chart_data
     end
     
-    def tube_list(tubes)
-      tube_list = Set.new
+    # Return a Set of tube names
+    def tube_set(tubes)
+      tube_set = Set.new
       tubes.keys.each do |key|
         tubes[key].each do |tube|
-          tube_list.add(tube)
+          tube_set.add(tube)
         end
       end
-      tube_list
+      tube_set
     end
-  
+
   end  
 end
