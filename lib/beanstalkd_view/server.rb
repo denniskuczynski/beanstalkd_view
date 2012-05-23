@@ -42,7 +42,8 @@ module BeanstalkdView
       begin
         @tubes = beanstalk.list_tubes
         @stats = beanstalk.stats
-        chart_data = get_chart_data_hash(@tubes)
+        @tube_set = tube_set(@tubes)
+        chart_data = get_chart_data_hash(@tube_set)
         @total_jobs_data = chart_data["total_jobs_data"]
         @buried_jobs_data = chart_data["buried_jobs_data"] if chart_data["buried_jobs_data"]["items"].size > 0
         @message = session[:message]
@@ -171,13 +172,13 @@ module BeanstalkdView
     private
     
     # Return the stats data in a format for the Bluff JS UI Charts
-    def get_chart_data_hash(tubes)
+    def get_chart_data_hash(tube_set)
       chart_data = Hash.new
       chart_data["total_jobs_data"] = Hash.new
       chart_data["buried_jobs_data"] = Hash.new
       chart_data["total_jobs_data"]["items"] = Array.new
       chart_data["buried_jobs_data"]["items"] = Array.new 
-      tube_set(tubes).each do |tube|
+      tube_set.each do |tube|
         begin
           stats = beanstalk.stats_tube(tube)
           #total_jobs

@@ -338,11 +338,9 @@ $(document).ready(function(){
 	
 	//Setup Typeahead For Tube Names on Add Job Form
 	var tubeNames = [];
-	<% @tubes.keys.each do |key| %>
-  	  <% @tubes[key].each do |tube| %>
-        tubeNames.push('<%=tube%>');
-		<% end %>
-	  <% end %>
+	<% @tube_set.each do |tube| %>
+	  tubeNames.push('<%=tube%>');
+	<% end %>
 	$('#form_tube_name').typeahead({source: tubeNames});
 });
 </script>
