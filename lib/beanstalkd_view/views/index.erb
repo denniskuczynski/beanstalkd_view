@@ -270,7 +270,7 @@
 		  <div class="span6">
             <h3>Add Job</h3>
 			<form id="add_job_form" class="well" name="add_job_form" action="<%= url('/add_job') %>" method="POST">
-			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube">
+			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube" data-provide="typeahead" autocomplete="off">
 			  <input id="form_job_priority" type="text" class="span3" placeholder="Priority, e.g. 65536" name="priority">
 			  <input id="form_job_delay" type="text" class="span3" placeholder="Delay, e.g. 0" name="delay">
 			  <input id="form_job_ttr" type="text" class="span3" placeholder="TTR, e.g. 120" name="ttr">
@@ -335,6 +335,15 @@ $(document).ready(function(){
 	  draw_pie_chart('buried_jobs_chart', buried_jobs_data);
 	  $("#buried_jobs_container").css('visibility', 'visible');
 	<% end %>
+	
+	//Setup Typeahead For Tube Names on Add Job Form
+	var tubeNames = [];
+	<% @tubes.keys.each do |key| %>
+  	  <% @tubes[key].each do |tube| %>
+        tubeNames.push('<%=tube%>');
+		<% end %>
+	  <% end %>
+	$('#form_tube_name').typeahead({source: tubeNames});
 });
 </script>
 
