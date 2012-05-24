@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'sinatra/base'
+require 'sinatra/cookies'
 require 'erb'
 require "beanstalk-client"
 require "json"

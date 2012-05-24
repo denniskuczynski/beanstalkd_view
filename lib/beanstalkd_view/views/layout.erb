@@ -3,16 +3,16 @@
 <html>
   <head>
     <title>Beanstalkd View - <%= BeanstalkdView::VERSION %></title>
-    <link rel="stylesheet" type="text/css" href="<%= url('/resources/bootstrap/css/bootstrap.min.css') %>"/>
-    <link rel="stylesheet" type="text/css" href="<%= url('/resources/bootstrap/css/overrides.css') %>"/>
+    <link rel="stylesheet" type="text/css" href="<%= u('/bootstrap/css/bootstrap.min.css') %>"/>
+    <link rel="stylesheet" type="text/css" href="<%= u('/bootstrap/css/overrides.css') %>"/>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <script type="text/javascript" src="<%= url('/resources/js/jquery-1.7.1.min.js') %>"></script>
-    <script type="text/javascript" src="<%= url('/resources/bootstrap/js/bootstrap.min.js') %>"></script>
-    <script type="text/javascript" src="<%= url('/resources/js/json2.js') %>"></script>
-    <script type="text/javascript" src="<%= url('/resources/js/peek_jobs.js') %>"></script>
-	<script language="javascript" src="<%= url('/resources/js/bluff/js-class.js') %>"></script>
-	<script language="javascript" src="<%= url('/resources/js/bluff/bluff-min.js') %>"></script>
-	<!--[if IE]><script language="javascript" src="<%= url('/resources/js/bluff/excanvas.js') %>"></script><![endif]-->
+    <script type="text/javascript" src="<%= u('/js/jquery-1.7.1.min.js') %>"></script>
+    <script type="text/javascript" src="<%= u('/bootstrap/js/bootstrap.min.js') %>"></script>
+    <script type="text/javascript" src="<%= u('/js/json2.js') %>"></script>
+    <script type="text/javascript" src="<%= u('/js/peek_jobs.js') %>"></script>
+	<script language="javascript" src="<%= u('/js/bluff/js-class.js') %>"></script>
+	<script language="javascript" src="<%= u('/js/bluff/bluff-min.js') %>"></script>
+	<!--[if IE]><script language="javascript" src="<%= u('/js/bluff/excanvas.js') %>"></script><![endif]-->
 	<script type="text/javascript">
 		<!-- Enable Tooltips -->
 		$(document).ready(function() {
@@ -25,20 +25,21 @@
 	<div class="navbar">
 	  <div class="navbar-inner">
 	    <div class="container">
-			<a class="brand" href="<%= url('/') %>">Beanstalkd View - <%= BeanstalkdView::VERSION %></a>
+			<a class="brand" href="<%= u("/") %>">Beanstalkd View - <%= BeanstalkdView::VERSION %></a>
 		</div>
 	  </div>
 	</div>
 	
 	<div class="container">
 		
-		<% if @message %>
+		<% message = notice_message %>
+		<% if message and not message.empty? %>
 			<div id='flash' class='notice'>
 				<div class="row">
 					<div class="span12">
 						<div class="alert alert-success">
 						 <h4 class="alert-heading">Notice:</h4>
-						  <%= @message %>
+						  <%= message %>
 						</div>
 					</div>
 				</div>		

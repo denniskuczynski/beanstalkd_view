@@ -62,7 +62,7 @@ describe BeanstalkdView::Server, :type => :request do
     
     it "show be able to peek_ready a tube", :js => true do
       visit '/tube/test.tube'
-      click_button "peek_ready_btn"
+      click_link('peek_ready_btn')
       body.should have_content "Job id:"
     end
   end

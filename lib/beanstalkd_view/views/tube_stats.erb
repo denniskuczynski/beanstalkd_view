@@ -87,15 +87,15 @@
 
   <div class="span6">
     <h3>Pause Tube</h3>
-	<form class="well form-inline" name="pause_form" action="<%= url('/pause') %>" method="POST">
+	<form class="well form-inline" name="pause_form" action="<%= u("/pause") %>" method="POST">
 	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @tube %>">
-      <input id="form_url_base" type="hidden" name="url_base" value="<%= url('/') %>">
+      <input id="form_url_base" type="hidden" name="url_base" value="<%= u("/") %>">
 	  <input type="text" class="span3" placeholder="Number of seconds to wait" name="delay">
 	  <button type="submit" class="btn">Pause</button>
 	</form>
 
     <h3>Kick Tube</h3>
-	<form class="well form-inline" name="kick_form" action="<%= url('/kick') %>" method="POST">
+	<form class="well form-inline" name="kick_form" action="<%= u("/kick") %>" method="POST">
 	  <input type="hidden" name="tube" value="<%= @tube %>">
 	  <input type="text" class="span3" placeholder="Number of jobs" name="bound">
 	  <button type="submit" class="btn">Kick</button>

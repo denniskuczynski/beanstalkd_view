@@ -12,10 +12,10 @@
         <tbody>
 		  <% @tubes.keys.each do |key| %>
         	<% @tubes[key].each do |tube| %>
-		  <tr>
-            <td><%= key %></td>
-			<td><a href="<%= url("/tube/#{tube}") %>"><%= tube %></a></td>
-			</tr>
+		    <tr>
+              <td><%= key %></td>
+			  <td><a href="<%= u("/tube/#{tube}") %>"><%= tube %></a></td>
+		    </tr>
 			<% end %>
 		  <% end %>
 		</tbody>
@@ -269,7 +269,7 @@
 	<div class="span6">
 		  <div class="span6">
             <h3>Add Job</h3>
-			<form id="add_job_form" class="well" name="add_job_form" action="<%= url('/add_job') %>" method="POST">
+			<form id="add_job_form" class="well" name="add_job_form" action="<%= u("/add_job") %>" method="POST">
 			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube" data-provide="typeahead" autocomplete="off">
 			  <input id="form_job_priority" type="text" class="span3" placeholder="Priority, e.g. 65536" name="priority">
 			  <input id="form_job_delay" type="text" class="span3" placeholder="Delay, e.g. 0" name="delay">
