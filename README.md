@@ -39,6 +39,17 @@ mount BeanstalkdView::Server, :at => "/beanstalkd"
 You can then browse to your application path to view information about your beanstalkd tubes, i.e.
 http://127.0.0.1:3000/beanstalkd
 
+If you wish to authenticate the mounted app with Devise, it would look something like:
+
+``` ruby
+devise_for :admin_users, ActiveAdmin::Devise.config
+
+match('/beanstalkd/admin/login' => redirect('/admin/login'))
+authenticate :admin_user do
+  mount BeanstalkdView::Server, at: "/beanstalkd"
+end
+```
+
 Running from the command line
 ------------------------
 
