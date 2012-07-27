@@ -3,22 +3,9 @@
 <html>
   <head>
     <title>Beanstalkd View - <%= BeanstalkdView::VERSION %></title>
-    <link rel="stylesheet" type="text/css" href="<%= u('/bootstrap/css/bootstrap.min.css') %>"/>
-    <link rel="stylesheet" type="text/css" href="<%= u('/bootstrap/css/overrides.css') %>"/>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <script type="text/javascript" src="<%= u('/js/jquery-1.7.1.min.js') %>"></script>
-    <script type="text/javascript" src="<%= u('/bootstrap/js/bootstrap.min.js') %>"></script>
-    <script type="text/javascript" src="<%= u('/js/json2.js') %>"></script>
-    <script type="text/javascript" src="<%= u('/js/peek_jobs.js') %>"></script>
-	<script language="javascript" src="<%= u('/js/bluff/js-class.js') %>"></script>
-	<script language="javascript" src="<%= u('/js/bluff/bluff-min.js') %>"></script>
-	<!--[if IE]><script language="javascript" src="<%= u('/js/bluff/excanvas.js') %>"></script><![endif]-->
-	<script type="text/javascript">
-		<!-- Enable Tooltips -->
-		$(document).ready(function() {
-	    	$("[rel=tooltip]").tooltip();
-		});
-	</script>
+    <%= css :application, :media => 'screen' %>
+	<%= js  :application %>    
   </head>
   <body>
 	<!-- Header -->

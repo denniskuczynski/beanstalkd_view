@@ -1,3 +1,8 @@
+APP_FILE  = 'lib/beanstalkd_view.rb'
+APP_CLASS = 'BeanstalkdView::Server'
+
+require 'sinatra/assetpack/rake'
+
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 

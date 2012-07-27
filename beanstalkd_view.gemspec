@@ -5,7 +5,7 @@ require "beanstalkd_view/version"
 Gem::Specification.new do |s|
   s.name        = 'beanstalkd_view'
   s.version     = BeanstalkdView::VERSION
-  s.date        = '2012-05-24'
+  s.date        = '2012-07-27'
   s.summary     = "A Sinatra app to view/manage beanstalkd queues that can be embedded in a Rails app similar to what's available in Resque"
   s.description = "A Sinatra app to view/manage beanstalkd queues that can be embedded in a Rails app similar to what's available in Resque"
   s.authors     = ["Dennis Kuczynski"]
@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.homepage    =
     'https://github.com/denniskuczynski/beanstalkd_view'
   
-  s.files             = %w( README.md Gemfile Rakefile MIT-LICENSE.txt )
+  s.files             = %w( README.md CHANGELOG.md Gemfile Rakefile MIT-LICENSE.txt )
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("bin/**/*")
   s.executables       = [ "beanstalkd_view" ]
@@ -22,11 +22,11 @@ Gem::Specification.new do |s|
 
   s.add_dependency "sinatra",         ">= 1.3.0"
   s.add_dependency "sinatra-contrib", ">= 1.3.0"
+  s.add_dependency "sinatra-assetpack", ">= 0.0.11"
   s.add_dependency "beanstalk-client",         ">= 1.1.1"
   s.add_dependency "vegas",           "~> 0.1.2"
   s.add_dependency "json"
 
-  s.add_development_dependency "rake"
   s.add_development_dependency "rack-test"
   s.add_development_dependency "rspec"
   s.add_development_dependency "capybara"
