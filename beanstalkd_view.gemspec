@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency "vegas",           "~> 0.1.2"
   s.add_dependency "json"
 
+  s.add_development_dependency "rake"
   s.add_development_dependency "rack-test"
   s.add_development_dependency "rspec"
   s.add_development_dependency "capybara"
