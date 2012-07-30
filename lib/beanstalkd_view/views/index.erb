@@ -282,6 +282,15 @@
 		  </div>
 		
 		<div class="span6">
+			<h3>Peek Range</h3>
+			<form class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
+			  <input type="text" class="span2" placeholder="0" name="min">
+			  <input type="text" class="span2" placeholder="0" name="max">
+			  <button type="submit" class="btn">Peek</button>
+			</form>
+		</div>
+		
+		<div class="span6">
 			<div id="total_jobs_container">
 				<h3>Total Jobs</h3>
 	            <canvas id="total_jobs_chart"></canvas>

@@ -29,5 +29,11 @@ module Beanstalk
       end
       response
     end
+    
+    # Overide the default behavior which uses send_to_all_conn, which returns Hash values for stats combining
+    def peek_job(id)
+      send_to_each_conn_first_res(:peek_job, id)
+    end
+    
   end
 end

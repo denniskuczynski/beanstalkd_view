@@ -29,6 +29,8 @@ module BeanstalkdView
         '/css/vendor/bootstrap.min.css', 
         '/css/app.css']
     end
+    
+    GUESS_PEEK_RANGE = 100 # Default number of elements to use in peek-range guesses
       
     get "/" do
       begin
@@ -95,6 +97,46 @@ module BeanstalkdView
         end
       rescue Beanstalk::NotConnected => @error
         { :error => @error.to_s }.to_json
+      end
+    end
+    
+    get "/peek-range" do
+      begin
+        @max = params[:max].to_i
+        @min = params[:min].to_i
+        @tube = params[:tube]
+        
+        # Get the Set of Tubes for the Form
+        tubes = beanstalk.list_tubes
+        @tube_set = tube_set(tubes)
+        # Only guess with the specified tube (if passed in)
+        guess_tubes = @tube_set
+        if @tube
+          guess_tubes = Set.new
+          guess_tubes << @tube
+        end
+        # Guess ID Range if not specified
+        @max = guess_max_peek_range(guess_tubes) if @max == 0
+        @min = guess_min_peek_range(@max) if @min == 0
+        
+        @jobs = []
+        for i in @min..@max
+          begin
+            response = beanstalk.peek_job(i)
+            if response
+              ret_value = response.stats
+              ret_value["body"] = response.body
+              parsed_body = JSON.parse(response.body)
+              ret_value["tube"] = parsed_body[0]
+              @jobs << ret_value
+            end
+          rescue Exception => e
+            puts e
+          end
+        end
+        erb :peek_range
+      rescue Beanstalk::NotConnected => @error
+        erb :error
       end
     end
 
@@ -211,6 +253,26 @@ module BeanstalkdView
         end
       end
       tube_set
+    end
+    
+    # Pick a Maximum Peek Range Based on calls to peek_ready
+    def guess_max_peek_range(tube_set)
+      max = 0
+      tube_set.each do |tube|
+        response = nil
+        beanstalk.on_tube(tube) do |conn|
+          response = conn.peek_ready()
+        end
+        if response
+          max = [max, response.id].max
+        end
+      end
+      max
+    end
+    
+    # Pick a Minimum Peek Range Based on the maximum
+    def guess_min_peek_range(max)
+      [(max-GUESS_PEEK_RANGE), 0].max
     end
 
   end  

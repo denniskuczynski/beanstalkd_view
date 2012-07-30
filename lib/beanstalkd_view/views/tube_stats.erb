@@ -107,6 +107,14 @@
 	  <a id="peek_delayed_btn" href="#" class="btn">Peek Delayed</a>
 	  <a id="peek_buried_btn" href="#" class="btn">Peek Buried</a>
 	</form>
+	
+	<h3>Peek Range</h3>
+	<form class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
+	  <input type="hidden" name="tube" value="<%= @tube %>">
+	  <input type="text" class="span2" placeholder="0" name="min">
+	  <input type="text" class="span2" placeholder="0" name="max">
+	  <button type="submit" class="btn">Peek</button>
+	</form>
 
   </div>
 

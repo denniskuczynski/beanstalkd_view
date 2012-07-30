@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="span12">
+		<h3>Peek Range</h3>
+		<form class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
+		  <input type="text" class="span2" name="min" value="<%= @min %>">
+		  <input type="text" class="span2" name="max" value="<%= @max %>">
+		  <select class="span2" name="tube">
+			<option></option>
+			<% @tube_set.each do |tube| %>
+			<option <% if @tube == tube%>selected="true"<% end %>><%=tube%></option>
+			<% end %>
+		  </select>
+		  <button type="submit" class="btn">Refresh</button>
+		</form>
+		<table id="peek_range_table" class="table table-bordered">
+			<tr>
+				<th>ID</th>
+				<th>Priority</th>
+				<th>Age</th>
+				<th>Delay</th>
+				<th>TTR</th>
+				<th>Time Left</th>
+				<th>Reserves</th>
+				<th>Timeouts</th>
+				<th>Releases</th>
+				<th>Buries</th>
+				<th>Kicks</th>
+				<th>Body</th>
+			</tr>
+			<% @jobs.each do |job| %>
+			<tr data-tube="<%=job['tube']%>">
+				<th><%=job['id']%></th>
+				<th><%=job['pri']%></th>
+				<th><%=job['age']%></th>
+				<th><%=job['delay']%></th>
+				<th><%=job['ttr']%></th>
+				<th><%=job['time-left']%></th>
+				<th><%=job['reserves']%></th>
+				<th><%=job['timeouts']%></th>
+				<th><%=job['releases']%></th>
+				<th><%=job['buries']%></th>
+				<th><%=job['kicks']%></th>
+				<th><%=job['body'].inspect%></th>
+			</tr>
+			<% end %>
+		</table>
+	</div>
+</div>
