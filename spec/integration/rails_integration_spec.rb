@@ -3,8 +3,7 @@ require 'spec_helper'
 describe "RailsIntegration", :type => :request, :js => true do
   
   before(:all) do
-    # Startup Rails app and configure Capybara for Rails
-    require "rails_helper"
+    # Configure Capybara for Rails
     require "capybara/rails"
   end
   

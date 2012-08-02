@@ -4,8 +4,11 @@
   <head>
     <title>Beanstalkd View - <%= BeanstalkdView::VERSION %></title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <%= css :application, :media => 'screen' %>
-	<%= js  :application %>    
+    <% css_imports = css :application, :media => 'screen' %>
+	<% js_imports =  js  :application %> 
+	<%# Must modify sinatra-assetpack output to use the Mount prefix when embedding through Rails %>
+    <%= css_imports.gsub(/href='\//, "href='#{path_prefix}") %>
+    <%= js_imports.gsub(/src='\//, "src='#{path_prefix}") %>
   </head>
   <body>
 	<!-- Header -->

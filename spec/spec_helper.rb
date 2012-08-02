@@ -5,6 +5,8 @@ require 'capybara/rspec'
 
 require 'beanstalkd_view'
 
+require "rails_helper"
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[File.dirname(__FILE__)+"/support/**/*.rb"].each  do |f|
