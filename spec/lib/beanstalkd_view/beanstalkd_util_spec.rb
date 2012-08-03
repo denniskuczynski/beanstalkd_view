@@ -26,7 +26,7 @@ describe BeanstalkdView::BeanstalkdUtils do
       utils = Object.new.extend BeanstalkdView::BeanstalkdUtils
       @stats = utils.beanstalk.stats
       @stats.keys.should include('current-jobs-ready')
-      @stats['current-jobs-ready'].should eq(0)
+      @stats['current-jobs-ready'].should > 0
     end
   end
 

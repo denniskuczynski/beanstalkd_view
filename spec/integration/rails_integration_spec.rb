@@ -7,8 +7,7 @@ describe "RailsIntegration", :type => :request do
     require "capybara/rails"
   end
   
-  it "should be mountable at /beanstalkd" do
-    visit '/beanstalkd'
-    page.should have_content "Beanstalk::NotConnected"
+  it_behaves_like "integration_test" do
+    let(:site_root) { '/beanstalkd/' }
   end
 end

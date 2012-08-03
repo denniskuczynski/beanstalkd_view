@@ -95,7 +95,7 @@
 	</form>
 
     <h3>Kick Tube</h3>
-	<form class="well form-inline" name="kick_form" action="<%= u("/kick") %>" method="POST">
+	<form id="kick_form" class="well form-inline" name="kick_form" action="<%= u("/kick") %>" method="POST">
 	  <input type="hidden" name="tube" value="<%= @tube %>">
 	  <input type="text" class="span3" placeholder="Number of jobs" name="bound">
 	  <button type="submit" class="btn">Kick</button>
@@ -109,7 +109,7 @@
 	</form>
 	
 	<h3>Peek Range</h3>
-	<form class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
+	<form id="peek_range_form" class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
 	  <input type="hidden" name="tube" value="<%= @tube %>">
 	  <input type="text" class="span2" placeholder="0" name="min">
 	  <input type="text" class="span2" placeholder="0" name="max">

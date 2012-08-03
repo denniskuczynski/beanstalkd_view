@@ -1,12 +1,21 @@
-require 'spec_helper'
+shared_examples 'integration_test' do
+  
+  describe "without beanstalkd daemon running" do
+    before :all do
+      # Make sure beanstalkd is NOT running
+      if `pgrep beanstalkd` != ""
+        raise "PRECONDITION NOT MET: beanstalkd running"
+      end
+    end
 
-describe BeanstalkdView::Server, :type => :request do
+    it "should show error at site root" do
+      visit site_root
+      page.should have_content "Beanstalk::NotConnected"
+    end
+  end
   
   describe "with beanstalkd daemon running", :requires_beanstalkd => true do
     before :all do
-      ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
-      Capybara.app = BeanstalkdView::Server.new
-
       # Make sure beanstalkd is running
       if `pgrep beanstalkd` == ""
         raise "PRECONDITION NOT MET: beanstalkd not running"
@@ -14,20 +23,20 @@ describe BeanstalkdView::Server, :type => :request do
     end
 
     it "should show the overview at: /" do
-      visit '/'
+      visit site_root
       body.should have_content "Beanstalkd View"
       body.should have_content "Statistics"
       body.should have_content "Tubes"
     end
   
     it "should show the default tube stats at: tube/default" do
-      visit '/tube/default'
+      visit "#{site_root}tube/default"
       body.should have_content "Beanstalkd View"
       body.should have_content "Statistics"
     end
     
     it "show be able to add a job on the overview page", :js => true do
-      visit '/'
+      visit site_root
       form = find('#add_job_form')
       form.fill_in 'form_tube_name', :with => 'test.tube'
       form.fill_in 'form_job_body', :with => '{"id": 1, "name": "Bob"}'
@@ -38,30 +47,41 @@ describe BeanstalkdView::Server, :type => :request do
     end
     
     it "show be able to click on the test.tube link (created by the last test)", :js => true do
-      visit '/'
+      visit site_root
       click_link('test.tube')
       body.should have_content "test.tube"
+    end
+    
+    it "show be able to peek_range and see job (created by the last test)", :js => true do
+      visit site_root
+      form = find('#peek_range_form')
+      form.fill_in 'min', :with => '0'
+      form.fill_in 'max', :with => '0'
+      click_button 'Peek'
+      body.should have_content "Peek Range"
     end
     
 =begin
     # Current beanstalk-client lib doesn't support pause_tube action
     it "show be able to pause a tube", :js => true do
-      visit '/tube/test.tube'
-      fill_in 'delay', :with => 1
+      visit "#{site_root}/tube/test.tube"
+      form = find('#pause_form')
+      form.fill_in 'delay', :with => 1
       click_button "Pause"
       body.should have_content "Paused test.tube"
     end
 =end
 
     it "show be able to kick a tube", :js => true do
-      visit '/tube/test.tube'
-      fill_in 'bound', :with => 1
+      visit "#{site_root}tube/test.tube"
+      form = find('#kick_form')
+      form.fill_in 'bound', :with => 1
       click_button "Kick"
       body.should have_content "Kicked test.tube"
     end
     
     it "show be able to peek_ready a tube", :js => true do
-      visit '/tube/test.tube'
+      visit "#{site_root}tube/test.tube"
       click_link('peek_ready_btn')
       body.should have_content "Job id:"
     end
@@ -69,9 +89,6 @@ describe BeanstalkdView::Server, :type => :request do
   
   describe "with two beanstalkd daemons running", :requires_two_beanstalkd => true do
     before :all do
-      ENV['BEANSTALK_URL'] = 'beanstalk://localhost:12300/,beanstalk://localhost:12400/'
-      Capybara.app = BeanstalkdView::Server.new
-
       # Make sure beanstalkd is running
       if `pgrep beanstalkd` == ""
         raise "PRECONDITION NOT MET: beanstalkd not running"
@@ -79,14 +96,14 @@ describe BeanstalkdView::Server, :type => :request do
     end
     
     it "should show the overview at: /" do
-      visit '/'
+      visit site_root
       body.should have_content "Beanstalkd View"
       body.should have_content "Statistics"
       body.should have_content "Tubes"
     end
     
     it "show be able to add a job on the overview page, and view its stats", :js => true do
-      visit '/'
+      visit site_root
       form = find('#add_job_form')
       form.fill_in 'form_tube_name', :with => 'test.tube'
       form.fill_in 'form_job_body', :with => '{"id": 1, "name": "Bob"}'
@@ -95,27 +112,10 @@ describe BeanstalkdView::Server, :type => :request do
       click_link "confirm_add_job_btn"
       body.should have_content "Added job "
       
-      visit '/'
+      visit site_root
       click_link('test.tube')
       body.should have_content "test.tube"
     end
   end
-  
-  describe "with out beanstalkd daemon running" do
-    before :all do
-      ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
-      Capybara.app = BeanstalkdView::Server.new
-      
-      # Make sure beanstalkd is NOT running
-      if `pgrep beanstalkd` != ""
-        raise "PRECONDITION NOT MET: beanstalkd running"
-      end
-    end
-    
-    it "should show error at: /" do
-      visit '/'
-      page.should have_content "Beanstalk::NotConnected"
-    end
-  end
-  
+
 end
