@@ -51,3 +51,14 @@ td.data_cell {
 .btn {
   margin-right: 14px;
 }
+
+.urgent {
+  font-weight: bold;
+}
+
+.peek_range_job_body {
+ height: 80px;
+ width: 300px;
+ word-wrap: break-word;
+ overflow-y: scroll; 
+}

@@ -23,7 +23,8 @@ module BeanstalkdView
         '/js/vendor/bluff-0.3.6.2/js-class.js', 
         '/js/vendor/bluff-0.3.6.2/bluff-min.js', 
         '/js/app.js',
-        '/js/peek_jobs.js'
+        '/js/peek_jobs.js',
+        '/js/peek_range.js'
       ]
       css :application, '/css/application.css', [
         '/css/vendor/bootstrap.min.css', 
@@ -102,8 +103,8 @@ module BeanstalkdView
     
     get "/peek-range" do
       begin
-        @max = params[:max].to_i
         @min = params[:min].to_i
+        @max = params[:max].to_i
         @tube = params[:tube]
         
         # Get the Set of Tubes for the Form
@@ -111,13 +112,13 @@ module BeanstalkdView
         @tube_set = tube_set(tubes)
         # Only guess with the specified tube (if passed in)
         guess_tubes = @tube_set
-        if @tube
+        if @tube and not @tube.empty?
           guess_tubes = Set.new
           guess_tubes << @tube
         end
         # Guess ID Range if not specified
-        @max = guess_max_peek_range(guess_tubes) if @max == 0
-        @min = guess_min_peek_range(@max) if @min == 0
+        @min = guess_min_peek_range(guess_tubes) if @min == 0
+        @max = guess_max_peek_range(@min) if @max == 0
         
         @jobs = []
         for i in @min..@max
@@ -255,24 +256,30 @@ module BeanstalkdView
       tube_set
     end
     
-    # Pick a Maximum Peek Range Based on calls to peek_ready
-    def guess_max_peek_range(tube_set)
-      max = 0
+    # Pick a Minimum Peek Range Based on calls to peek_ready
+    def guess_min_peek_range(tube_set)
+      min = 0
       tube_set.each do |tube|
         response = nil
         beanstalk.on_tube(tube) do |conn|
           response = conn.peek_ready()
         end
         if response
-          max = [max, response.id].max
+          if min == 0
+            min = response.id
+          else
+            min = [min, response.id].min
+          end
         end
       end
-      max
+      # Add some jitter in the opposite direction of 1/4 range
+      jitter_min = (min-(GUESS_PEEK_RANGE*0.25)).to_i
+      [1, jitter_min].max
     end
     
-    # Pick a Minimum Peek Range Based on the maximum
-    def guess_min_peek_range(max)
-      [(max-GUESS_PEEK_RANGE), 0].max
+    # Pick a Minimum Peek Range Based on the minimum
+    def guess_max_peek_range(min)
+      (min+GUESS_PEEK_RANGE)-1
     end
 
   end  
