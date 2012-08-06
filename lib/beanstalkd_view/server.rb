@@ -117,11 +117,11 @@ module BeanstalkdView
           guess_tubes << @tube
         end
         # Guess ID Range if not specified
-        @min = guess_min_peek_range(guess_tubes) if @min == 0
-        @max = guess_max_peek_range(@min) if @max == 0
+        min = guess_min_peek_range(guess_tubes) if @min == 0
+        max = guess_max_peek_range(min) if @max == 0
         
         @jobs = []
-        for i in @min..@max
+        for i in min..max
           begin
             response = beanstalk.peek_job(i)
             if response
@@ -132,7 +132,7 @@ module BeanstalkdView
               @jobs << ret_value
             end
           rescue Exception => e
-            puts e
+            #puts "Ignoring NotFoundError: #{ex.class}: #{ex}"
           end
         end
         erb :peek_range

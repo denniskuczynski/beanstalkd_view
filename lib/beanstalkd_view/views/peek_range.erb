@@ -1,6 +1,9 @@
 <div class="row">
 	<div class="span12">
 		<h3>Peek Range</h3>
+		<div class="alert alert-success">
+		  <strong>NOTE:</strong> Setting min and max to 0 will attempt to guess an appropriate range value based on the current ready queue.
+		</div>
 		<form class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
 		  <input type="text" class="span2" name="min" value="<%= @min %>">
 		  <input type="text" class="span2" name="max" value="<%= @max %>">
