@@ -25,8 +25,8 @@ describe BeanstalkdView::BeanstalkdUtils do
       ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
       utils = Object.new.extend BeanstalkdView::BeanstalkdUtils
       @stats = utils.beanstalk.stats
-      @stats.keys.should include('current-jobs-ready')
-      @stats['current-jobs-ready'].should eq(0)
+      @stats.keys.should include('current_jobs_ready')
+      @stats['current_jobs_ready'].should eq(0)
     end
   end
 

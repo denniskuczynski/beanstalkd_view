@@ -34,7 +34,7 @@ describe BeanstalkdView::Server, :type => :request do
       form.click_link('Add Job')
       body.should have_content "Add new job?"
       click_link "confirm_add_job_btn"
-      body.should have_content "Added job "
+      body.should have_content "Added job:"
     end
     
     it "show be able to click on the test.tube link (created by the last test)", :js => true do
@@ -43,7 +43,6 @@ describe BeanstalkdView::Server, :type => :request do
       body.should have_content "test.tube"
     end
     
-=begin
     # Current beanstalk-client lib doesn't support pause_tube action
     it "show be able to pause a tube", :js => true do
       visit '/tube/test.tube'
@@ -51,7 +50,6 @@ describe BeanstalkdView::Server, :type => :request do
       click_button "Pause"
       body.should have_content "Paused test.tube"
     end
-=end
 
     it "show be able to kick a tube", :js => true do
       visit '/tube/test.tube'
@@ -93,7 +91,7 @@ describe BeanstalkdView::Server, :type => :request do
       form.click_link('Add Job')
       body.should have_content "Add new job?"
       click_link "confirm_add_job_btn"
-      body.should have_content "Added job "
+      body.should have_content "Added job:"
       
       visit '/'
       click_link('test.tube')

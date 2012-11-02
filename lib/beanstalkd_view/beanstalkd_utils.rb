@@ -5,7 +5,7 @@ module BeanstalkdView
     class BadURL < RuntimeError; end
     
     def beanstalk
-      @@beanstalk ||= Beanstalk::Pool.new(beanstalk_addresses)
+      @@beanstalk ||= Beaneater::Pool.new(beanstalk_addresses)
     end
 
     def beanstalk_url

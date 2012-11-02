@@ -6,8 +6,8 @@
 		  <input type="text" class="span2" name="max" value="<%= @max %>">
 		  <select class="span2" name="tube">
 			<option></option>
-			<% @tube_set.each do |tube| %>
-			<option <% if @tube == tube%>selected="true"<% end %>><%=tube%></option>
+			<% @tubes.each do |tube| %>
+			<option <% if @tube and @tube.name == tube.name%>selected="true"<% end %>><%=tube.name%></option>
 			<% end %>
 		  </select>
 		  <button type="submit" class="btn">Refresh</button>
@@ -34,13 +34,13 @@
 				<th><%=job['age']%></th>
 				<th><%=job['delay']%></th>
 				<th><%=job['ttr']%></th>
-				<th><%=job['time-left']%></th>
+				<th><%=job['time_left']%></th>
 				<th><%=job['reserves']%></th>
 				<th><%=job['timeouts']%></th>
 				<th><%=job['releases']%></th>
 				<th><%=job['buries']%></th>
 				<th><%=job['kicks']%></th>
-				<th><%=job['body'].inspect%></th>
+				<th><%=job['body']%></th>
 			</tr>
 			<% end %>
 		</table>
