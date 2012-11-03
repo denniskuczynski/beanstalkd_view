@@ -1,3 +1,9 @@
+1.1.0
+-----------
+
+- Switched from beanstalk-client to beaneater gem
+
+
 1.0.2
 -----------
 

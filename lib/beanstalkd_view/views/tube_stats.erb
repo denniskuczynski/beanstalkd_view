@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="span6">
-		<h1><%= @tube %></h1>
+		<h1><%= @tube.name %></h1>
 
 	    <table class="table">
 	      <thead>
@@ -11,30 +11,30 @@
 	      <tbody>
 	        <tr rel="tooltip" title="The number of ready jobs with priority < 1024 in this tube.">
 	          <td>Urgent</td>
-			  <% if @stats["current-jobs-urgent"] > 0 %>
-                <td class="data_cell"><span class="badge badge-warning"><%= @stats["current-jobs-urgent"] %></span></td>
+			  <% if @stats[:current_jobs_urgent] > 0 %>
+                <td class="data_cell"><span class="badge badge-warning"><%= @stats[:current_jobs_urgent] %></span></td>
               <% else %>
-	            <td class="data_cell"><%= @stats["current-jobs-urgent"] %></td>
+	            <td class="data_cell"><%= @stats[:current_jobs_urgent] %></td>
               <% end %>
 	        </tr>
 	        <tr rel="tooltip" title="The number of jobs in the ready queue in this tube.">
 	          <td>Ready</td>
-	          <td class="data_cell"><%= @stats["current-jobs-ready"] %></td>
+	          <td class="data_cell"><%= @stats[:current_jobs_ready] %></td>
 	        </tr>
 	        <tr rel="tooltip" title="The number of jobs reserved by all clients in this tube.">
 	          <td>Reserved</td>
-	          <td class="data_cell"><%= @stats["current-jobs-reserved"] %></td>
+	          <td class="data_cell"><%= @stats[:current_jobs_reserved] %></td>
 	        </tr>
 	        <tr rel="tooltip" title="The number of delayed jobs in this tube.">
 	          <td>Delayed</td>
-	          <td class="data_cell"><%= @stats["current-jobs-delayed"] %></td>
+	          <td class="data_cell"><%= @stats[:current_jobs_delayed] %></td>
 	        </tr>
 	        <tr rel="tooltip" title="The number of buried jobs in this tube.">
 	          <td>Buried</td>
-			  <% if @stats["current-jobs-buried"] > 0 %>
-                <td class="data_cell"><span class="badge badge-error"><%= @stats["current-jobs-buried"] %></span></td>
+			  <% if @stats[:current_jobs_buried] > 0 %>
+                <td class="data_cell"><span class="badge badge-error"><%= @stats[:current_jobs_buried] %></span></td>
               <% else %>
-	            <td class="data_cell"><%= @stats["current-jobs-buried"] %></td>
+	            <td class="data_cell"><%= @stats[:current_jobs_buried] %></td>
               <% end %>
 	        </tr>
 		  </tbody>
@@ -49,22 +49,22 @@
 	      <tbody>
 	        <tr rel="tooltip" title="The cumulative count of jobs created in this tube.">
 	          <td>Total Jobs</td>
-	          <td class="data_cell"><%= @stats["total-jobs"] %></td>
+	          <td class="data_cell"><%= @stats[:total_jobs] %></td>
 	        </tr>
 	        <tr rel="tooltip" title="The number of open connections that have issued a reserve command while watching this tube but not yet received a response.">
 	          <td>Current Waiting</td>
-	          <td class="data_cell"><%= @stats["current-waiting"] %></td>
+	          <td class="data_cell"><%= @stats[:current_waiting] %></td>
 	        </tr>
 	        <tr rel="tooltip" title="The number of seconds the tube has been paused for.">
 	          <td>Time Paused</td>
-	          <td class="data_cell"><%= @stats["pause"] %></td>
+	          <td class="data_cell"><%= @stats[:pause] %></td>
 	        </tr>
 	        <tr rel="tooltip" title="The number of seconds until the tube is un-paused.">
 	          <td>Pause Time Left</td>
-	          <% if @stats["pause-time-left"] > 0 %>
-                <td class="data_cell"><span class="badge badge-warning"><%= @stats["pause-time-left"] %></span></td>
+	          <% if @stats[:pause_time_left] > 0 %>
+                <td class="data_cell"><span class="badge badge-warning"><%= @stats[:pause_time_left] %></span></td>
               <% else %>
-                <td class="data_cell"><%= @stats["pause-time-left"] %></td>
+                <td class="data_cell"><%= @stats[:pause_time_left] %></td>
               <% end %>
 	        </tr>
 	      </tbody>
@@ -79,7 +79,7 @@
 	      <tbody>
 	        <tr rel="tooltip" title="The cumulative number of pause-tube commands for this tube.">
 	          <td>pause-tube</td>
-	          <td class="data_cell"><%= @stats["cmd-pause-tube"] %></td>
+	          <td class="data_cell"><%= @stats[:cmd_pause_tube] %></td>
 	        </tr>
 	      </tbody>
 	    </table>
@@ -87,8 +87,8 @@
 
   <div class="span6">
     <h3>Pause Tube</h3>
-	<form class="well form-inline" name="pause_form" action="<%= u("/pause") %>" method="POST">
-	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @tube %>">
+	<form id="pause_form" class="well form-inline" name="pause_form" action="<%= u("/pause") %>" method="POST">
+	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @tube.name %>">
       <input id="form_url_base" type="hidden" name="url_base" value="<%= u("/") %>">
 	  <input type="text" class="span3" placeholder="Number of seconds to wait" name="delay">
 	  <button type="submit" class="btn">Pause</button>
@@ -96,7 +96,7 @@
 
     <h3>Kick Tube</h3>
 	<form id="kick_form" class="well form-inline" name="kick_form" action="<%= u("/kick") %>" method="POST">
-	  <input type="hidden" name="tube" value="<%= @tube %>">
+	  <input type="hidden" name="tube" value="<%= @tube.name %>">
 	  <input type="text" class="span3" placeholder="Number of jobs" name="bound">
 	  <button type="submit" class="btn">Kick</button>
 	</form>
@@ -110,7 +110,7 @@
 	
 	<h3>Peek Range</h3>
 	<form id="peek_range_form" class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
-	  <input type="hidden" name="tube" value="<%= @tube %>">
+	  <input type="hidden" name="tube" value="<%= @tube.name %>">
 	  <input type="text" class="span2" placeholder="0" name="min">
 	  <input type="text" class="span2" placeholder="0" name="max">
 	  <button type="submit" class="btn">Peek</button>

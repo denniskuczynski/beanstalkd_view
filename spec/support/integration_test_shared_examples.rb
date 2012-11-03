@@ -10,7 +10,7 @@ shared_examples 'integration_test' do
 
     it "should show error at site root" do
       visit site_root
-      page.should have_content "Beanstalk::NotConnected"
+      page.should have_content "Could not connect"
     end
   end
   
@@ -43,7 +43,7 @@ shared_examples 'integration_test' do
       form.click_link('Add Job')
       body.should have_content "Add new job?"
       click_link "confirm_add_job_btn"
-      body.should have_content "Added job "
+      body.should have_content "Added job:"
     end
     
     it "show be able to click on the test.tube link (created by the last test)", :js => true do
@@ -60,9 +60,7 @@ shared_examples 'integration_test' do
       click_button 'Peek'
       body.should have_content "Peek Range"
     end
-    
-=begin
-    # Current beanstalk-client lib doesn't support pause_tube action
+
     it "show be able to pause a tube", :js => true do
       visit "#{site_root}/tube/test.tube"
       form = find('#pause_form')
@@ -70,7 +68,6 @@ shared_examples 'integration_test' do
       click_button "Pause"
       body.should have_content "Paused test.tube"
     end
-=end
 
     it "show be able to kick a tube", :js => true do
       visit "#{site_root}tube/test.tube"
@@ -110,7 +107,7 @@ shared_examples 'integration_test' do
       form.click_link('Add Job')
       body.should have_content "Add new job?"
       click_link "confirm_add_job_btn"
-      body.should have_content "Added job "
+      body.should have_content "Added job:"
       
       visit site_root
       click_link('test.tube')

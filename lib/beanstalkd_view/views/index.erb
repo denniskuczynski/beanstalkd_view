@@ -5,18 +5,14 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Server</th>
             <th>Tubes</th>
           </tr>
         </thead>
         <tbody>
-		  <% @tubes.keys.each do |key| %>
-        	<% @tubes[key].each do |tube| %>
+		  <% @tubes.each do |tube| %>
 		    <tr>
-              <td><%= key %></td>
-			  <td><a href="<%= u("/tube/#{tube}") %>"><%= tube %></a></td>
+			    <td><a href="<%= u("/tube/#{tube.name}") %>"><%= tube.name %></a></td>
 		    </tr>
-			<% end %>
 		  <% end %>
 		</tbody>
       </table>
@@ -30,30 +26,30 @@
         <tbody>
           <tr rel="tooltip" title="The number of ready jobs with priority < 1024.">
             <td>Urgent</td>
-			<% if @stats["current-jobs-urgent"] > 0 %>
-              <td class="data_cell"><span class="badge badge-warning"><%= @stats["current-jobs-urgent"] %></span></td>
+			<% if @stats[:current_jobs_urgent] > 0 %>
+              <td class="data_cell"><span class="badge badge-warning"><%= @stats[:current_jobs_urgent] %></span></td>
 			<% else %>
-              <td class="data_cell"><%= @stats["current-jobs-urgent"] %></td>
+              <td class="data_cell"><%= @stats[:current_jobs_urgent] %></td>
 			<% end %>
           </tr>
           <tr rel="tooltip" title="The number of jobs in the ready queue.">
             <td>Ready</td>
-            <td class="data_cell"><%= @stats["current-jobs-ready"] %></td>
+            <td class="data_cell"><%= @stats[:current_jobs_ready] %></td>
           </tr>
           <tr rel="tooltip" title="The number of jobs reserved by all clients.">
             <td>Reserved</td>
-            <td class="data_cell"><%= @stats["current-jobs-reserved"] %></td>
+            <td class="data_cell"><%= @stats[:current_jobs_reserved] %></td>
           </tr>
           <tr rel="tooltip" title="The number of delayed jobs.">
             <td>Delayed</td>
-            <td class="data_cell"><%= @stats["current-jobs-delayed"] %></td>
+            <td class="data_cell"><%= @stats[:current_jobs_delayed] %></td>
           </tr>
           <tr rel="tooltip" title="he number of buried jobs.">
             <td>Buried</td>
-			<% if @stats["current-jobs-buried"] > 0 %>
-              <td class="data_cell"><span class="badge badge-error"><%= @stats["current-jobs-buried"] %></span></td>
+			<% if @stats[:current_jobs_buried] > 0 %>
+              <td class="data_cell"><span class="badge badge-error"><%= @stats[:current_jobs_buried] %></span></td>
 			<% else %>
-              <td class="data_cell"><%= @stats["current-jobs-buried"] %></td>
+              <td class="data_cell"><%= @stats[:current_jobs_buried] %></td>
             <% end %>
           </tr>
         </tbody>
@@ -68,7 +64,7 @@
 	      <tbody>
 	        <tr rel="tooltip" title="The rate of job bury calls to reserve calls.">
 	          <td>Bury Rate</td>
-			  <% bury_reserve_rate = (@stats["cmd-bury"].to_f / @stats["cmd-reserve"].to_f) %>
+			  <% bury_reserve_rate = (@stats[:cmd_bury].to_f / @stats[:cmd_reserve].to_f) %>
 			  <% bury_reserve_rate = 0 if bury_reserve_rate.nan? %>
 			  <% if bury_reserve_rate > 0.01 %>
 	          	<td class="data_cell"><span class="badge badge-error"><%= bury_reserve_rate %></span></td>
@@ -78,7 +74,7 @@
 	        </tr>
 			<tr rel="tooltip" title="The rate of job timeouts to reserve calls.">
 	          <td>Timeout Rate</td>
-	          <% timeout_reserve_rate = (@stats["job-timeouts"].to_f / @stats["cmd-reserve"].to_f) %>
+	          <% timeout_reserve_rate = (@stats[:job_timeouts].to_f / @stats[:cmd_reserve].to_f) %>
 	          <% timeout_reserve_rate = 0 if timeout_reserve_rate.nan? %>
 			  <% if timeout_reserve_rate > 0.01 %>
 	          	<td class="data_cell"><span class="badge badge-error"><%= timeout_reserve_rate %></span></td>
@@ -98,55 +94,55 @@
         <tbody>
           <tr rel="tooltip" title="The cumulative count of times a job has timed out.">
             <td>Job Timeouts</td>
-            <td class="data_cell"><%= @stats["job-timeouts"] %></td>
+            <td class="data_cell"><%= @stats[:job_timeouts] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative count of jobs created.">
             <td>Total Jobs</td>
-            <td class="data_cell"><%= @stats["total-jobs"] %></td>
+            <td class="data_cell"><%= @stats[:total_jobs] %></td>
           </tr>
           <tr rel="tooltip" title="The maximum number of bytes in a job.">
             <td>Max Job Size</td>
-            <td class="data_cell"><%= @stats["max-job-size"] %></td>
+            <td class="data_cell"><%= @stats[:max_job_size] %></td>
           </tr>
           <tr rel="tooltip" title="The number of currently open connections.">
             <td>Current Connections</td>
-            <td class="data_cell"><%= @stats["current-connections"] %></td>
+            <td class="data_cell"><%= @stats[:current_connections] %></td>
           </tr>
           <tr rel="tooltip" title="The number of open connections that have each issued at least one put command.">
             <td>Current Producers</td>
-            <td class="data_cell"><%= @stats["current-producers"] %></td>
+            <td class="data_cell"><%= @stats[:current_producers] %></td>
           </tr>
           <tr rel="tooltip" title="The number of open connections that have each issued at least one reserve command.">
             <td>Current Workers</td>
-            <td class="data_cell"><%= @stats["current-workers"] %></td>
+            <td class="data_cell"><%= @stats[:current_workers] %></td>
           </tr>
           <tr rel="tooltip" title="The number of open connections that have issued a reserve command but not yet received a response.">
             <td>Current Waiting</td>
-            <td class="data_cell"><%= @stats["current-waiting"] %></td>
+            <td class="data_cell"><%= @stats[:current_waiting] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative count of connections.">
             <td>Total Connections</td>
-            <td class="data_cell"><%= @stats["total-connections"] %></td>
+            <td class="data_cell"><%= @stats[:total_connections] %></td>
           </tr>
           <tr rel="tooltip" title="The process id of the server.">
             <td>pid</td>
-            <td class="data_cell"><%= @stats["pid"] %></td>
+            <td class="data_cell"><%= @stats[:pid] %></td>
           </tr>
           <tr rel="tooltip" title="The version string of the server.">
             <td>Version</td>
-            <td class="data_cell"><%= @stats["version"] %></td>
+            <td class="data_cell"><%= @stats[:version] %></td>
           </tr>
           <tr rel="tooltip" title="The accumulated user CPU time of this process in seconds and microseconds.">
             <td>rusage-utime</td>
-            <td class="data_cell"><%= @stats["rusage-utime"] %></td>
+            <td class="data_cell"><%= @stats[:rusage_utime] %></td>
           </tr>
           <tr rel="tooltip" title="The accumulated system CPU time of this process in seconds and microseconds.">
             <td>rusage-stime</td>
-            <td class="data_cell"><%= @stats["rusage-stime"] %></td>
+            <td class="data_cell"><%= @stats[:rusage_stime] %></td>
           </tr>
           <tr rel="tooltip" title="The number of seconds since this server started running.">
             <td>Uptime</td>
-            <td class="data_cell"><%= @stats["uptime"] %></td>
+            <td class="data_cell"><%= @stats[:uptime] %></td>
           </tr>
         </tbody>
       </table>
@@ -160,15 +156,15 @@
         <tbody>
           <tr rel="tooltip" title="The index of the oldest binlog file needed to store the current jobs.">
             <td>Oldest Index</td>
-            <td class="data_cell"><%= @stats["binlog-oldest-index"] %></td>
+            <td class="data_cell"><%= @stats[:binlog_oldest_index] %></td>
           </tr>
           <tr rel="tooltip" title="The index of the current binlog file being written to. If binlog is not active this value will be 0.">
             <td>Current Index</td>
-            <td class="data_cell"><%= @stats["binlog-current-index"] %></td>
+            <td class="data_cell"><%= @stats[:binlog_current_index] %></td>
           </tr>
           <tr rel="tooltip" title="The maximum size in bytes a binlog file is allowed to get before a new binlog file is opened.">
             <td>Max Size</td>
-            <td class="data_cell"><%= @stats["binlog-max-size"] %></td>
+            <td class="data_cell"><%= @stats[:binlog_max_size] %></td>
           </tr>
         </tbody>
       </table>
@@ -184,83 +180,83 @@
         <tbody>
           <tr rel="tooltip" title="The cumulative number of put commands.">
             <td>put</td>
-            <td class="data_cell"><%= @stats["cmd-put"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_put] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of peek commands.">
             <td>peek</td>
-            <td class="data_cell"><%= @stats["cmd-peek"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_peek] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of peek-ready commands.">
             <td>peek-ready</td>
-            <td class="data_cell"><%= @stats["cmd-peek-ready"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_peek_ready] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of peek-delayed commands.">
             <td>peek-delayed</td>
-            <td class="data_cell"><%= @stats["cmd-peek-delayed"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_peek_delayed] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of peek-buried commands.">
             <td>peek-buried</td>
-            <td class="data_cell"><%= @stats["cmd-peek-buried"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_peek_buried] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of reserve commands.">
             <td>reserve</td>
-            <td class="data_cell"><%= @stats["cmd-reserve"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_reserve] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of use commands.">
             <td>use</td>
-            <td class="data_cell"><%= @stats["cmd-use"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_use] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of watch commands.">
             <td>watch</td>
-            <td class="data_cell"><%= @stats["cmd-watch"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_watch] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of ignore commands.">
             <td>ignore</td>
-            <td class="data_cell"><%= @stats["cmd-ignore"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_ignore] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of delete commands.">
             <td>delete</td>
-            <td class="data_cell"><%= @stats["cmd-delete"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_delete] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of release commands.">
             <td>release</td>
-            <td class="data_cell"><%= @stats["cmd-release"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_release] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of bury commands.">
             <td>bury</td>
-            <td class="data_cell"><%= @stats["cmd-bury"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_bury] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of kick commands.">
             <td>kick</td>
-            <td class="data_cell"><%= @stats["cmd-kick"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_kick] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of stats commands.">
             <td>stats</td>
-            <td class="data_cell"><%= @stats["cmd-stats"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_stats] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of stats-job commands.">
             <td>stats-job</td>
-            <td class="data_cell"><%= @stats["cmd-stats-job"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_stats_job] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of stats-tube commands.">
             <td>stats-tube</td>
-            <td class="data_cell"><%= @stats["cmd-stats-tube"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_stats_tube] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of list-tubes commands.">
             <td>list-tubes</td>
-            <td class="data_cell"><%= @stats["cmd-list-tubes"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_list_tubes] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of list-tube-used commands.">
             <td>list-tube-used</td>
-            <td class="data_cell"><%= @stats["cmd-list-tube-used"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_list_tube_used] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of list-tubes-watched commands.">
             <td>list-tubes-watched</td>
-            <td class="data_cell"><%= @stats["cmd-list-tubes-watched"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_list_tubes_watched] %></td>
           </tr>
           <tr rel="tooltip" title="The cumulative number of pause-tube commands.">
             <td>pause-tube</td>
-            <td class="data_cell"><%= @stats["cmd-pause-tube"] %></td>
+            <td class="data_cell"><%= @stats[:cmd_pause_tube] %></td>
           </tr>
         </tbody>
       </table>
@@ -347,8 +343,8 @@ $(document).ready(function(){
 	
 	//Setup Typeahead For Tube Names on Add Job Form
 	var tubeNames = [];
-	<% @tube_set.each do |tube| %>
-	  tubeNames.push('<%=tube%>');
+	<% @tubes.each do |tube| %>
+	  tubeNames.push('<%=tube.name%>');
 	<% end %>
 	$('#form_tube_name').typeahead({source: tubeNames});
 });

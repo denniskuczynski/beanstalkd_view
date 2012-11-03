@@ -69,6 +69,13 @@ Screenshot
 ------------------------
 ![Screenshot](http://s16.postimage.org/4mdum0x79/i_OS_Simulator_Screen_shot_Apr_24_2012_10_29_33.png)
 
+Running the tests
+------------------------
+There are 3 variants of RSpec tests.
+* Without beanstalkd running, just execute: rspec spec
+* Without 1 instance of beanstalkd running (default port), execute: rspec spec --tag requires_beanstalkd
+* Without 2 instances of beanstalkd running (ports 12300 and 12400), execute: rspec spec --tag requires_two_beanstalkd
+
 License
 ------------------------
 

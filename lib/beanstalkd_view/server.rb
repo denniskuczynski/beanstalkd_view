@@ -35,14 +35,13 @@ module BeanstalkdView
       
     get "/" do
       begin
-        @tubes = beanstalk.list_tubes
+        @tubes = beanstalk.tubes.all
         @stats = beanstalk.stats
-        @tube_set = tube_set(@tubes)
-        chart_data = get_chart_data_hash(@tube_set)
+        chart_data = get_chart_data_hash(@tubes)
         @total_jobs_data = chart_data["total_jobs_data"]
         @buried_jobs_data = chart_data["buried_jobs_data"] if chart_data["buried_jobs_data"]["items"].size > 0
         erb :index
-      rescue Beanstalk::NotConnected => @error
+      rescue Beaneater::NotConnected => @error
         erb :error
       end
     end
@@ -50,28 +49,27 @@ module BeanstalkdView
     post "/add_job" do
       begin
         response = nil
-        body = JSON.parse(params[:body])
-        beanstalk.on_tube(params[:tube]) do |conn|
-          response = conn.put([ params[:tube], body ].to_json, params[:priority].to_i, params[:delay].to_i, params[:ttr].to_i)
-        end
+        tube = beanstalk.tubes[params[:tube]]
+        response = tube.put params[:body], 
+          :pri => params[:priority].to_i, :delay => params[:delay].to_i, :ttr => params[:ttr].to_i
         if response
-          cookies[:beanstalkd_view_notice] = "Added job #{response.inspect}"
+          cookies[:beanstalkd_view_notice] = "Added job: #{response.inspect}"
           redirect url("/")
         else
           cookies[:beanstalkd_view_notice] = "Error adding job"
           redirect url("/")
         end
-      rescue Beanstalk::NotConnected => @error
+      rescue Beaneater::NotConnected => @error
         erb :error
       end
     end
     
     get "/tube/:tube" do
       begin
-        @tube = params[:tube]
-        @stats = beanstalk.stats_tube(@tube)
+        @tube = beanstalk.tubes[params[:tube]]
+        @stats = @tube.stats
         erb :tube_stats
-      rescue Beanstalk::NotConnected => @error
+      rescue Beaneater::NotConnected => @error
         erb :error
       end
     end
@@ -79,24 +77,14 @@ module BeanstalkdView
     get "/peek/:tube/:type" do
       content_type :json
       begin
-        response = nil
-        beanstalk.on_tube(params[:tube]) do |conn|
-          if (params[:type]) == "ready"
-            response = conn.peek_ready()
-          elsif (params[:type]) == "delayed"
-            response = conn.peek_delayed()
-          else
-            response = conn.peek_buried()
-          end
-        end
+        tube = beanstalk.tubes[params[:tube]]
+        response = tube.peek(params[:type])
         if response
-          ret_value = response.stats
-          ret_value["body"] = response.body
-          ret_value.to_json
+          job_to_hash(response).to_json
         else
           { :error => "No job was found, or an error occurred while trying to peek at the next job."}.to_json
         end
-      rescue Beanstalk::NotConnected => @error
+      rescue Beaneater::NotConnected => @error
         { :error => @error.to_s }.to_json
       end
     end
@@ -105,15 +93,15 @@ module BeanstalkdView
       begin
         @min = params[:min].to_i
         @max = params[:max].to_i
-        @tube = params[:tube]
+        @min = params[:min].to_i
+        tubes = beanstalk.tubes
+        @tubes = tubes.all
+        @tube = tubes[params[:tube]] if params[:tube] and params[:tube] != ''
         
-        # Get the Set of Tubes for the Form
-        tubes = beanstalk.list_tubes
-        @tube_set = tube_set(tubes)
         # Only guess with the specified tube (if passed in)
-        guess_tubes = @tube_set
-        if @tube and not @tube.empty?
-          guess_tubes = Set.new
+        guess_tubes = @tubes
+        if @tube
+          guess_tubes = []
           guess_tubes << @tube
         end
         # Guess ID Range if not specified
@@ -123,20 +111,14 @@ module BeanstalkdView
         @jobs = []
         for i in min..max
           begin
-            response = beanstalk.peek_job(i)
-            if response
-              ret_value = response.stats
-              ret_value["body"] = response.body
-              parsed_body = JSON.parse(response.body)
-              ret_value["tube"] = parsed_body[0]
-              @jobs << ret_value
-            end
-          rescue Exception => e
-            #puts "Ignoring NotFoundError: #{ex.class}: #{ex}"
+            job = beanstalk.jobs.find(i)
+            @jobs << job_to_hash(job) if job
+          rescue Beaneater::NotFound => e
+            # Since we're looping over potentially non-existant jobs, ignore
           end
         end
         erb :peek_range
-      rescue Beanstalk::NotConnected => @error
+      rescue Beaneater::NotConnected => @error
         erb :error
       end
     end
@@ -144,9 +126,8 @@ module BeanstalkdView
     get "/delete/:tube/:job_id" do
        begin
           response = nil
-          beanstalk.on_tube(params[:tube]) do |conn|
-            response = conn.delete(params[:job_id].to_i)
-          end
+          job = beanstalk.jobs.find(params[:job_id].to_i)
+          response = job.delete if job
           if response
             cookies[:beanstalkd_view_notice] = "Deleted Job #{params[:job_id]}"
             redirect url("/tube/#{params[:tube]}")
@@ -154,14 +135,15 @@ module BeanstalkdView
             cookies[:beanstalkd_view_notice] = "Error deleting Job #{params[:job_id]}"
             redirect url("/tube/#{params[:tube]}")
           end
-        rescue Beanstalk::NotConnected => @error
+        rescue Beaneater::NotConnected => @error
           erb :error
         end
     end
     
     post "/pause" do
       begin
-        response = beanstalk.pause_tube(params[:tube], params[:delay].to_i)
+        tube = beanstalk.tubes[params[:tube]]
+        response = tube.pause(params[:delay].to_i)
         if response
           cookies[:beanstalkd_view_notice] = "Paused #{params[:tube]}. No jobs will be reserved for #{params[:delay].to_i} seconds."
           redirect url("/tube/#{params[:tube]}")
@@ -169,10 +151,7 @@ module BeanstalkdView
           cookies[:beanstalkd_view_notice] = "Error pausing #{params[:tube]}."
           redirect url("/tube/#{params[:tube]}")
         end
-      rescue NameError => @error
-        cookies[:beanstalkd_view_notice] = "The pause_tube method is currently not implemented by this version of beanstalk-client."
-        redirect url("/tube/#{params[:tube]}")
-      rescue Beanstalk::NotConnected => @error
+      rescue Beaneater::NotConnected => @error
         erb :error
       end
     end
@@ -180,17 +159,16 @@ module BeanstalkdView
     post "/kick" do
       begin
         response = nil
-        beanstalk.on_tube(params[:tube]) do |conn|
-          response = conn.kick(params[:bound].to_i)
-        end
+        tube = beanstalk.tubes[params[:tube]]
+        response = tube.kick(params[:bound].to_i)
         if response
-          cookies[:beanstalkd_view_notice] = "Kicked #{params[:tube]} for #{response} jobs."
+          cookies[:beanstalkd_view_notice] = "Kicked #{params[:tube]}: #{response}"
           redirect url("/tube/#{params[:tube]}")
         else
           cookies[:beanstalkd_view_notice] = "Error kicking #{params[:tube]}."
           redirect url("/tube/#{params[:tube]}")
         end
-      rescue Beanstalk::NotConnected => @error
+      rescue Beaneater::NotConnected => @error
         erb :error
       end
     end
@@ -211,64 +189,54 @@ module BeanstalkdView
     end
 
     private
+
+    def job_to_hash(job)
+      ret_value = {}
+      job_stats = job.stats
+      job_stats.keys.each { |key| ret_value[key] = job_stats[key] }
+      ret_value['body'] = job.body.inspect
+      ret_value
+    end
         
     # Return the stats data in a format for the Bluff JS UI Charts
-    def get_chart_data_hash(tube_set)
-      chart_data = Hash.new
+    def get_chart_data_hash(tubes)
+      chart_data = {}
       chart_data["total_jobs_data"] = Hash.new
       chart_data["buried_jobs_data"] = Hash.new
       chart_data["total_jobs_data"]["items"] = Array.new
       chart_data["buried_jobs_data"]["items"] = Array.new 
-      tube_set.each do |tube|
-        begin
-          stats = beanstalk.stats_tube(tube)
-          #total_jobs
-          total_jobs = stats['total-jobs']
-            if total_jobs > 0
-            total_datum = Hash.new
-            total_datum["label"] = tube
-            total_datum["data"] = total_jobs
-            chart_data["total_jobs_data"]["items"] << total_datum
-          end
-          #buried_jobs
-          buried_jobs = stats['current-jobs-buried']
-          if buried_jobs > 0
-            buried_datum = Hash.new
-            buried_datum["label"] = tube
-            buried_datum["data"] = buried_jobs
-            chart_data["buried_jobs_data"]["items"] << buried_datum
-          end
-        rescue Beanstalk::NotFoundError
-          puts "Ignoring Beanstalk::NotFoundError for #{tube}"
+      tubes.each do |tube|
+        stats = tube.stats
+        #total_jobs
+        total_jobs = stats[:total_jobs]
+          if total_jobs > 0
+          total_datum = {}
+          total_datum["label"] = tube.name
+          total_datum["data"] = total_jobs
+          chart_data["total_jobs_data"]["items"] << total_datum
+        end
+        #buried_jobs
+        buried_jobs = stats[:current_jobs_buried]
+        if buried_jobs > 0
+          buried_datum = {}
+          buried_datum["label"] = tube.name
+          buried_datum["data"] = buried_jobs
+          chart_data["buried_jobs_data"]["items"] << buried_datum
         end
       end
       chart_data
     end
     
-    # Return a Set of tube names
-    def tube_set(tubes)
-      tube_set = Set.new
-      tubes.keys.each do |key|
-        tubes[key].each do |tube|
-          tube_set.add(tube)
-        end
-      end
-      tube_set
-    end
-    
     # Pick a Minimum Peek Range Based on calls to peek_ready
-    def guess_min_peek_range(tube_set)
+    def guess_min_peek_range(tubes)
       min = 0
-      tube_set.each do |tube|
-        response = nil
-        beanstalk.on_tube(tube) do |conn|
-          response = conn.peek_ready()
-        end
+      tubes.each do |tube|
+        response = tube.peek('ready')
         if response
           if min == 0
-            min = response.id
+            min = response.id.to_i
           else
-            min = [min, response.id].min
+            min = [min, response.id.to_i].min
           end
         end
       end
