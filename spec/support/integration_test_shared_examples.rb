@@ -112,6 +112,10 @@ shared_examples 'integration_test' do
       visit site_root
       click_link('test.tube')
       body.should have_content "test.tube"
+
+      visit "#{site_root}tube/test.tube"
+      click_link('peek_ready_btn')
+      body.should have_content "Job id:"
     end
   end
 
