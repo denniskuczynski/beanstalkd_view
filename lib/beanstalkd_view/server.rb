@@ -113,7 +113,7 @@ module BeanstalkdView
           begin
             job = beanstalk.jobs.find(i)
             @jobs << job_to_hash(job) if job
-          rescue Beaneater::NotFound => e
+          rescue Beaneater::NotFoundError => e
             # Since we're looping over potentially non-existant jobs, ignore
           end
         end

@@ -3,7 +3,6 @@ require 'spec_helper'
 describe "SinatraIntegration", :type => :request do
   
   before :all do
-    ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
     Capybara.app = BeanstalkdView::Server.new
   end
   

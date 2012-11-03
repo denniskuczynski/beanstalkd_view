@@ -10,7 +10,6 @@ Configuration
 To use in a Rails app, include the gem in your Gemfile:
 
 ``` ruby
-gem 'beanstalk-client', :git => 'https://github.com/kr/beanstalk-client-ruby.git' #Use the latest, if you need the pause-tube command
 gem beanstalkd_view
 ```
 
@@ -75,6 +74,7 @@ There are 3 variants of RSpec tests.
 * Without beanstalkd running, just execute: rspec spec
 * Without 1 instance of beanstalkd running (default port), execute: rspec spec --tag requires_beanstalkd
 * Without 2 instances of beanstalkd running (ports 12300 and 12400), execute: rspec spec --tag requires_two_beanstalkd
+  (Also, you must uncomment the modified BEANSTALK_URL setting in spec_helper.rb for requires_two_beanstalk tests.)
 
 License
 ------------------------

@@ -7,6 +7,9 @@ require 'beanstalkd_view'
 
 require "rails_helper"
 
+# Uncomment for requires_two_beanstalkd test
+#ENV['BEANSTALK_URL'] = 'beanstalk://localhost:12300,beanstalk://localhost:12400'
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[File.dirname(__FILE__)+"/support/**/*.rb"].each  do |f|

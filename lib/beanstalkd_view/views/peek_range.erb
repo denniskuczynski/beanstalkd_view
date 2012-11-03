@@ -18,6 +18,7 @@
 		<table id="peek_range_table" class="table table-bordered">
 			<tr class="header">
 				<th>ID</th>
+				<th>Tube</th>
 				<th>Priority</th>
 				<th>Age</th>
 				<th>Delay</th>
@@ -33,6 +34,7 @@
 			<% @jobs.each do |job| %>
 			<tr class="datum" data-tube="<%=job['tube']%>" <% if job['pri'] < 1024 %>class="urgent"<%end%>>
 				<td><%=job['id']%></td>
+				<td><%=job['tube']%></td>
 				<td><%=job['pri']%></td>
 				<td><%=job['age']%></td>
 				<td><%=job['delay']%></td>

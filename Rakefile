@@ -10,7 +10,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 task :default  => :spec
 
-require 'beanstalk-client'
+require 'beaneater'
 require 'json'
 
 namespace :beanstalkd_view do
@@ -21,17 +21,17 @@ namespace :beanstalkd_view do
   task :enqueue_test do
     host = "localhost"
     port = 11300
-    beanstalk = Beanstalk::Pool.new([ "#{host}:#{port}" ])
+    beanstalk = Beaneater::Pool.new([ "#{host}:#{port}" ])
 
     # Loop flooding the queues with jobs
     while true
-      tube = TEST_QUEUES.sample
+      tube_name = TEST_QUEUES.sample
       pri = 65536
       delay = 0
       ttr = 120
-      beanstalk.use tube
-      beanstalk.put [ tube, {} ].to_json, pri, delay, ttr
-      puts "Enqueued Job to #{tube}"
+      tube = beanstalk.tubes[tube_name]
+      tube.put '{}', :pri => pri, :delay => delay, :ttr => ttr
+      puts "Enqueued Job to #{tube_name}"
     end
   end
   
@@ -39,14 +39,18 @@ namespace :beanstalkd_view do
   task :pull_test do
     host = "localhost"
     port = 11300
-    beanstalk = Beanstalk::Pool.new([ "#{host}:#{port}" ])
+    beanstalk = Beaneater::Pool.new([ "#{host}:#{port}" ])
 
     while true
-      tube = TEST_QUEUES.sample
-      beanstalk.watch(tube)
-      job = beanstalk.reserve
-      puts "Pulled Job #{job} from #{tube}"
-      job.delete
+      tube_name = TEST_QUEUES.sample
+      begin
+        tube = beanstalk.tubes[tube_name]
+        job = tube.reserve
+        puts "Pulled Job #{job} from #{tube_name}"
+        job.delete
+      rescue Exception => ex
+        puts "Exception while pulling job from #{tube_name}: #{ex}"
+      end
     end
   end
   
