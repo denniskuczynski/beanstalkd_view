@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     beanstalkd_view (1.1.0)
-      beaneater (>= 0.1.0)
+      beaneater (~> 0.1.0)
       json
       sinatra (>= 1.3.0)
       sinatra-assetpack (>= 0.0.11)

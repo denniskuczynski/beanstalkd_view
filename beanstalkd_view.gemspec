@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency "sinatra",         ">= 1.3.0"
   s.add_dependency "sinatra-contrib", ">= 1.3.0"
   s.add_dependency "sinatra-assetpack", ">= 0.0.11"
-  s.add_dependency "beaneater",         ">= 0.1.0"
+  s.add_dependency "beaneater",         "~> 0.1.0"
   s.add_dependency "vegas",           "~> 0.1.2"
   s.add_dependency "json"
 

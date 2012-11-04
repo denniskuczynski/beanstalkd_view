@@ -22,7 +22,7 @@ Use the following environment variable to specify the location of the beanstalk 
 ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
 ```
 
-(This can be a comma separated list.)
+This can be a comma separated list, e.g. 'beanstalk://localhost:11300,beanstalk://localhost:11400'
 
 Embedding in a Rails app
 ------------------------
@@ -62,7 +62,10 @@ bundle exec beanstalkd_view
 
 (This will use the vegas gem to launch the Sinatra app on an available port.)
 
-Alternatively, a Rackup file is provided.  To use: cd into the beanstalkd_view directory and execute the rackup command.
+Alternatively, a Rackup file is provided.  To use: cd into the beanstalkd_view directory and execute:
+
+rackup
+
 
 Screenshot
 ------------------------
@@ -73,8 +76,7 @@ Running the tests
 There are 3 variants of RSpec tests.
 * Without beanstalkd running, just execute: rspec spec
 * Without 1 instance of beanstalkd running (default port), execute: rspec spec --tag requires_beanstalkd
-* Without 2 instances of beanstalkd running (ports 12300 and 12400), execute: rspec spec --tag requires_two_beanstalkd
-  (Also, you must uncomment the modified BEANSTALK_URL setting in spec_helper.rb for requires_two_beanstalk tests.)
+* Without 2 instances of beanstalkd running (ports 11300 and 11400), execute: rspec spec --tag requires_two_beanstalkd
 
 License
 ------------------------

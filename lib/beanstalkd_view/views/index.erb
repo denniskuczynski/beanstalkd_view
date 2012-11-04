@@ -5,16 +5,31 @@
       <table class="table">
         <thead>
           <tr>
+            <th>Connections</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @connections.each do |connection| %>
+        <tr>
+          <td><%= connection.address %></a></td>
+        </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+      <table class="table">
+        <thead>
+          <tr>
             <th>Tubes</th>
           </tr>
         </thead>
         <tbody>
-		  <% @tubes.each do |tube| %>
+		    <% @tubes.each do |tube| %>
 		    <tr>
 			    <td><a href="<%= u("/tube/#{tube.name}") %>"><%= tube.name %></a></td>
 		    </tr>
-		  <% end %>
-		</tbody>
+		    <% end %>
+		    </tbody>
       </table>
 
 	<table class="table">

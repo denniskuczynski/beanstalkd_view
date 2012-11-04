@@ -44,10 +44,12 @@ namespace :beanstalkd_view do
     while true
       tube_name = TEST_QUEUES.sample
       begin
-        tube = beanstalk.tubes[tube_name]
-        job = tube.reserve
-        puts "Pulled Job #{job} from #{tube_name}"
-        job.delete
+        beanstalk.tubes.watch!(tube_name)
+        job = beanstalk.tubes.reserve(1)
+        if job
+          puts "Pulled Job #{job} from #{tube_name}"
+          job.delete
+        end
       rescue Exception => ex
         puts "Exception while pulling job from #{tube_name}: #{ex}"
       end
