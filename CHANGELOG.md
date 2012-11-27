@@ -1,4 +1,4 @@
-1.1.0
+1.1.1
 -----------
 
 - Added clear tube functionality via @vad4msiu
