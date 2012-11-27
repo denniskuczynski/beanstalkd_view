@@ -69,7 +69,7 @@
 	        </tr>
 	      </tbody>
 	    </table>
-	
+
 		<table class="table">
 	      <thead>
 	        <tr>
@@ -94,6 +94,14 @@
 	  <button type="submit" class="btn">Pause</button>
 	</form>
 
+    <h3>Clear Tube</h3>
+	<form id="clear_form" class="well form-inline" name="clear_form" action="<%= u("/clear") %>" method="POST">
+	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @tube.name %>">
+      <input id="form_url_base" type="hidden" name="url_base" value="<%= u("/") %>">
+	  <input type="text" class="span3" placeholder="delayed, buried  or ready" name="state">
+	  <button type="submit" class="btn">Clear</button>
+	</form>
+
     <h3>Kick Tube</h3>
 	<form id="kick_form" class="well form-inline" name="kick_form" action="<%= u("/kick") %>" method="POST">
 	  <input type="hidden" name="tube" value="<%= @tube.name %>">
@@ -101,13 +109,13 @@
 	  <button type="submit" class="btn">Kick</button>
 	</form>
 
-    <h3>Peek Jobs</h3>	
+    <h3>Peek Jobs</h3>
 	<form class="well" name="peek_jobs">
   	  <a id="peek_ready_btn" href="#" class="btn">Peek Ready</a>
 	  <a id="peek_delayed_btn" href="#" class="btn">Peek Delayed</a>
 	  <a id="peek_buried_btn" href="#" class="btn">Peek Buried</a>
 	</form>
-	
+
 	<h3>Peek Range</h3>
 	<form id="peek_range_form" class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
 	  <input type="hidden" name="tube" value="<%= @tube.name %>">
