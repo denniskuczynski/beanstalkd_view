@@ -3,7 +3,7 @@ module BeanstalkdView
   class Server < Sinatra::Base
     include BeanstalkdView::BeanstalkdUtils
     helpers Sinatra::Cookies
-    
+
     root = File.dirname(File.expand_path(__FILE__))
     set :root, root
     set :views,  "#{root}/views"
@@ -17,20 +17,20 @@ module BeanstalkdView
     register Sinatra::AssetPack
     assets do
       js :application, '/js/application.js', [
-        '/js/vendor/json2.js', 
+        '/js/vendor/json2.js',
         '/js/vendor/jquery-1.7.1.min.js',
-        '/js/vendor/bootstrap.min.js', 
-        '/js/vendor/bluff-0.3.6.2/js-class.js', 
-        '/js/vendor/bluff-0.3.6.2/bluff-min.js', 
+        '/js/vendor/bootstrap.min.js',
+        '/js/vendor/bluff-0.3.6.2/js-class.js',
+        '/js/vendor/bluff-0.3.6.2/bluff-min.js',
         '/js/app.js',
         '/js/peek_jobs.js',
         '/js/peek_range.js'
       ]
       css :application, '/css/application.css', [
-        '/css/vendor/bootstrap.min.css', 
+        '/css/vendor/bootstrap.min.css',
         '/css/app.css']
     end
-          
+
     get "/" do
       begin
         @connections = beanstalk.connections
@@ -44,12 +44,12 @@ module BeanstalkdView
         erb :error
       end
     end
-    
+
     post "/add_job" do
       begin
         response = nil
         tube = beanstalk.tubes[params[:tube]]
-        response = tube.put params[:body], 
+        response = tube.put params[:body],
           :pri => params[:priority].to_i, :delay => params[:delay].to_i, :ttr => params[:ttr].to_i
         if response
           cookies[:beanstalkd_view_notice] = "Added job: #{response.inspect}"
@@ -62,7 +62,7 @@ module BeanstalkdView
         erb :error
       end
     end
-    
+
     get "/tube/:tube" do
       begin
         @tube = beanstalk.tubes[params[:tube]]
@@ -72,7 +72,7 @@ module BeanstalkdView
         erb :error
       end
     end
-    
+
     get "/peek/:tube/:type" do
       content_type :json
       begin
@@ -87,7 +87,7 @@ module BeanstalkdView
         { :error => @error.to_s }.to_json
       end
     end
-    
+
     get "/peek-range" do
       begin
         @min = params[:min].to_i
@@ -96,7 +96,7 @@ module BeanstalkdView
         tubes = beanstalk.tubes
         @tubes = tubes.all
         @tube = tubes[params[:tube]] if params[:tube] and params[:tube] != ''
-        
+
         # Only guess with the specified tube (if passed in)
         guess_tubes = @tubes
         if @tube
@@ -106,7 +106,7 @@ module BeanstalkdView
         # Guess ID Range if not specified
         min = guess_min_peek_range(guess_tubes) if @min == 0
         max = guess_max_peek_range(min) if @max == 0
-        
+
         @jobs = []
         for i in min..max
           begin
@@ -140,7 +140,7 @@ module BeanstalkdView
           erb :error
         end
     end
-    
+
     post "/pause" do
       begin
         tube = beanstalk.tubes[params[:tube]]
@@ -156,7 +156,25 @@ module BeanstalkdView
         erb :error
       end
     end
-    
+
+    post "/clear" do
+      begin
+        allowed_states = %w(delayed buried ready)
+        if allowed_states.include?(params[:state])
+          tube = beanstalk.tubes[params[:tube]]
+          while job = tube.peek(params[:state].to_sym)
+            job.delete
+          end
+          cookies[:beanstalkd_view_notice] = "Cleared all #{params[:state]} jobs from #{params[:tube]}."
+        else
+          cookies[:beanstalkd_view_notice] = "State isn't included in #{allowed_states.join(', ')}."
+        end
+        redirect url("/tube/#{params[:tube]}")
+      rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
+        erb :error
+      end
+    end
+
     post "/kick" do
       begin
         response = nil
@@ -173,7 +191,7 @@ module BeanstalkdView
         erb :error
       end
     end
-    
+
     def url_path(*path_parts)
       [ path_prefix, path_parts ].join("/").squeeze('/')
     end
@@ -190,6 +208,6 @@ module BeanstalkdView
       cookies[:beanstalkd_view_notice] = ''
       message
     end
-    
-  end  
+
+  end
 end
