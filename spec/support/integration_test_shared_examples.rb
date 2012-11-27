@@ -86,7 +86,7 @@ shared_examples 'integration_test' do
     it "show be able to clear a tube", :js => true do
       visit "#{site_root}/tube/test.tube"
       form = find('#clear_form')
-      form.fill_in 'state', :with => 'buried'
+      form.select 'Buried', :from => 'state'
       click_button "Clear"
       body.should have_content "Cleared all buried jobs from test.tube"
     end

@@ -1,6 +1,12 @@
 1.1.0
 -----------
 
+- Added clear tube functionality via @vad4msiu
+
+
+1.1.0
+-----------
+
 - Switched from beanstalk-client to beaneater gem
 
 
