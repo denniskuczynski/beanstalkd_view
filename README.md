@@ -97,3 +97,4 @@ It makes use of the following components also using the MIT license:
 And under the Apache license:
 
 * Twitter Bootstrap - http://twitter.github.com/bootstrap/
+
