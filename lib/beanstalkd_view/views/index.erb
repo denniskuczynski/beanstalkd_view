@@ -26,7 +26,7 @@
         <tbody>
 		    <% @tubes.each do |tube| %>
 		    <tr>
-			    <td><a href="<%= u("/tube/#{tube.name}") %>"><%= tube.name %></a></td>
+			    <td><a href="<%= u("/tube/#{CGI::escape(tube.name)}") %>"><%= tube.name %></a></td>
 		    </tr>
 		    <% end %>
 		    </tbody>

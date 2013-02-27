@@ -131,10 +131,10 @@ module BeanstalkdView
           response = job.delete if job
           if response
             cookies[:beanstalkd_view_notice] = "Deleted Job #{params[:job_id]}"
-            redirect url("/tube/#{params[:tube]}")
+            redirect url("/tube/#{escaped_tube_param}")
           else
             cookies[:beanstalkd_view_notice] = "Error deleting Job #{params[:job_id]}"
-            redirect url("/tube/#{params[:tube]}")
+            redirect url("/tube/#{escaped_tube_param}")
           end
         rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
           erb :error
@@ -147,10 +147,10 @@ module BeanstalkdView
         response = tube.pause(params[:delay].to_i)
         if response
           cookies[:beanstalkd_view_notice] = "Paused #{params[:tube]}. No jobs will be reserved for #{params[:delay].to_i} seconds."
-          redirect url("/tube/#{params[:tube]}")
+          redirect url("/tube/#{escaped_tube_param}")
         else
           cookies[:beanstalkd_view_notice] = "Error pausing #{params[:tube]}."
-          redirect url("/tube/#{params[:tube]}")
+          redirect url("/tube/#{escaped_tube_param}")
         end
       rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
         erb :error
@@ -169,7 +169,7 @@ module BeanstalkdView
         else
           cookies[:beanstalkd_view_notice] = "State isn't included in #{allowed_states.join(', ')}."
         end
-        redirect url("/tube/#{params[:tube]}")
+        redirect url("/tube/#{escaped_tube_param}")
       rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
         erb :error
       end
@@ -182,10 +182,10 @@ module BeanstalkdView
         response = tube.kick(params[:bound].to_i)
         if response
           cookies[:beanstalkd_view_notice] = "Kicked #{params[:tube]}: #{response}"
-          redirect url("/tube/#{params[:tube]}")
+          redirect url("/tube/#{escaped_tube_param}")
         else
           cookies[:beanstalkd_view_notice] = "Error kicking #{params[:tube]}."
-          redirect url("/tube/#{params[:tube]}")
+          redirect url("/tube/#{escaped_tube_param}")
         end
       rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
         erb :error
@@ -198,6 +198,10 @@ module BeanstalkdView
     alias_method :u, :url_path
 
     private
+
+    def escaped_tube_param
+      CGI::escape(params[:tube])
+    end
 
     def path_prefix
       request.env['SCRIPT_NAME']
