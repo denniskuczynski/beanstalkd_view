@@ -11,7 +11,7 @@
         <tbody>
         <% @connections.each do |connection| %>
         <tr>
-          <td><%= connection.address %></a></td>
+          <td><%= connection.address %></td>
         </tr>
         <% end %>
         </tbody>
@@ -285,7 +285,7 @@
 			  <input id="form_job_priority" type="text" class="span3" placeholder="Priority, e.g. 65536" name="priority">
 			  <input id="form_job_delay" type="text" class="span3" placeholder="Delay, e.g. 0" name="delay">
 			  <input id="form_job_ttr" type="text" class="span3" placeholder="TTR, e.g. 120" name="ttr">
-			  <label class="control-label" for="textarea">Job Body JSON Hash, e.g. {} or {"id": 1, "name": "Bob"}</label>
+			  <label class="control-label" for="form_job_body">Job Body JSON Hash, e.g. {} or {"id": 1, "name": "Bob"}</label>
 			  <textarea id="form_job_body" class="input-xlarge" name="body" rows="3"></textarea>
 			  <br/>
 			  <a id="add_job_btn" href="#" class="btn">Add Job</a>
