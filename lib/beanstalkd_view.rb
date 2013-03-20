@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'sinatra/base'
 require 'sinatra/cookies'
-require 'sinatra/assetpack'
 require 'erb'
 require "beaneater"
 require "json"

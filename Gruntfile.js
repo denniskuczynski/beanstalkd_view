@@ -4,18 +4,28 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
-      dist: {
-        src: ['lib/beanstalkd_view/resources/js/**/*.js'],
-        dest: 'dist/<%= pkg.name %>.js'
+      css: {
+        src: ['web/css/vendor/bootstrap.min.css',
+              'web/css/*.css'],
+        dest: 'lib/beanstalkd_view/resources/css/<%= pkg.name %>.css'
+      },
+      js: {
+        src: ['web/js/vendor/jquery-1.7.1.min.js',
+              'web/js/vendor/bootstrap.min.js',
+              'web/js/vendor/json-2.js',
+              'web/js/vendor/bluff-0.3.6.2/js-class.js',
+              'web/js/vendor/bluff-0.3.6.2/bluff-min.js',
+              'web/js/*.js'],
+        dest: 'lib/beanstalkd_view/resources/js/<%= pkg.name %>.js'
       }
     },
     jshint: {
-      beforeconcat: ['lib/beanstalkd_view/resources/js/*.js']
+      beforeconcat: ['web/js/*.js']
     },
     uglify: {
       build: {
-        src: 'dist/<%= pkg.name %>.js',
-        dest: 'dist/<%= pkg.name %>.min.js'
+        src: 'lib/beanstalkd_view/resources/js/<%= pkg.name %>.js',
+        dest: 'lib/beanstalkd_view/resources/js/<%= pkg.name %>.min.js'
       }
     }
   });

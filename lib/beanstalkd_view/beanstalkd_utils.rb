@@ -44,24 +44,19 @@ module BeanstalkdView
       chart_data["buried_jobs_data"]["items"] = Array.new 
       tubes.each do |tube|
         stats = tube.stats
-        #total_jobs
-        total_jobs = stats[:total_jobs]
-          if total_jobs > 0
-          total_datum = {}
-          total_datum["label"] = tube.name
-          total_datum["data"] = total_jobs
-          chart_data["total_jobs_data"]["items"] << total_datum
-        end
-        #buried_jobs
-        buried_jobs = stats[:current_jobs_buried]
-        if buried_jobs > 0
-          buried_datum = {}
-          buried_datum["label"] = tube.name
-          buried_datum["data"] = buried_jobs
-          chart_data["buried_jobs_data"]["items"] << buried_datum
-        end
+        add_chart_data_to_hash(tube, stats[:total_jobs], chart_data["total_jobs_data"]["items"])
+        add_chart_data_to_hash(tube, stats[:current_jobs_buried], chart_data["buried_jobs_data"]["items"])
       end
       chart_data
+    end
+
+    def add_chart_data_to_hash(tube, jobs, items)
+      if jobs > 0
+        datum = {}
+        datum["label"] = tube.name
+        datum["data"] = jobs
+        items << datum
+      end
     end
     
     # Pick a Minimum Peek Range Based on minumum ready jobs on all tubes
