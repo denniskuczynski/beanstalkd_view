@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "RailsIntegration", :type => :request do
+describe "RailsIntegration", :type => :feature do
   
   before(:all) do
     # Configure Capybara for Rails

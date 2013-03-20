@@ -67,10 +67,22 @@ Alternatively, a Rackup file is provided.  To use: cd into the beanstalkd_view d
 
 rackup
 
-
 Screenshot
 ------------------------
 ![Screenshot](http://s16.postimage.org/4mdum0x79/i_OS_Simulator_Screen_shot_Apr_24_2012_10_29_33.png)
+
+Building the front-end Javascript
+------------------------
+
+This project uses Grunt (http://gruntjs.com/) to manage javascript linting, concatenation, and minification.
+
+For development, install Grunt as specified on the Grunt website.  Then execute
+
+```ruby
+grunt
+```
+
+from the command line after modifying any javascript or css files.  The output files will be placed in the lib/beanstalkd_view/resources directory.
 
 Running the tests
 ------------------------

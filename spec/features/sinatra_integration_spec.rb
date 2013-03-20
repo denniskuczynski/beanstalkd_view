@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "SinatraIntegration", :type => :request do
+describe "SinatraIntegration", :type => :feature do
   
   before :all do
     Capybara.app = BeanstalkdView::Server.new

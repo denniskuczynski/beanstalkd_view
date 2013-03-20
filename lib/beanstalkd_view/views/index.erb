@@ -24,15 +24,17 @@
           </tr>
         </thead>
         <tbody>
+        <% tube_names = [] %>
 		    <% @tubes.each do |tube| %>
-		    <tr>
-			    <td><a href="<%= u("/tube/#{CGI::escape(tube.name)}") %>"><%= tube.name %></a></td>
-		    </tr>
+          <% tube_names << tube.name.strip %>
+  		    <tr>
+  			    <td><a href="<%= u("/tube/#{CGI::escape(tube.name)}") %>"><%= tube.name %></a></td>
+  		    </tr>
 		    <% end %>
 		    </tbody>
       </table>
 
-	<table class="table">
+    	<table class="table">
         <thead>
           <tr>
             <th colspan="2">Current Jobs</th>
@@ -41,11 +43,11 @@
         <tbody>
           <tr rel="tooltip" title="The number of ready jobs with priority < 1024.">
             <td>Urgent</td>
-			<% if @stats[:current_jobs_urgent] > 0 %>
-              <td class="data_cell"><span class="badge badge-warning"><%= @stats[:current_jobs_urgent] %></span></td>
-			<% else %>
-              <td class="data_cell"><%= @stats[:current_jobs_urgent] %></td>
-			<% end %>
+      			<% if @stats[:current_jobs_urgent] > 0 %>
+                    <td class="data_cell"><span class="badge badge-warning"><%= @stats[:current_jobs_urgent] %></span></td>
+      			<% else %>
+                    <td class="data_cell"><%= @stats[:current_jobs_urgent] %></td>
+      			<% end %>
           </tr>
           <tr rel="tooltip" title="The number of jobs in the ready queue.">
             <td>Ready</td>
@@ -61,9 +63,9 @@
           </tr>
           <tr rel="tooltip" title="he number of buried jobs.">
             <td>Buried</td>
-			<% if @stats[:current_jobs_buried] > 0 %>
-              <td class="data_cell"><span class="badge badge-error"><%= @stats[:current_jobs_buried] %></span></td>
-			<% else %>
+      			<% if @stats[:current_jobs_buried] > 0 %>
+                    <td class="data_cell"><span class="badge badge-error"><%= @stats[:current_jobs_buried] %></span></td>
+      			<% else %>
               <td class="data_cell"><%= @stats[:current_jobs_buried] %></td>
             <% end %>
           </tr>
@@ -79,9 +81,9 @@
 	      <tbody>
 	        <tr rel="tooltip" title="The rate of job bury calls to reserve calls.">
 	          <td>Bury Rate</td>
-			  <% bury_reserve_rate = (@stats[:cmd_bury].to_f / @stats[:cmd_reserve].to_f) %>
-			  <% bury_reserve_rate = 0 if bury_reserve_rate.nan? %>
-			  <% if bury_reserve_rate > 0.01 %>
+    			  <% bury_reserve_rate = (@stats[:cmd_bury].to_f / @stats[:cmd_reserve].to_f) %>
+    			  <% bury_reserve_rate = 0 if bury_reserve_rate.nan? %>
+    			  <% if bury_reserve_rate > 0.01 %>
 	          	<td class="data_cell"><span class="badge badge-error"><%= bury_reserve_rate %></span></td>
 	          <% else %>
 	            <td class="data_cell"><%= bury_reserve_rate %></td>
@@ -91,7 +93,7 @@
 	          <td>Timeout Rate</td>
 	          <% timeout_reserve_rate = (@stats[:job_timeouts].to_f / @stats[:cmd_reserve].to_f) %>
 	          <% timeout_reserve_rate = 0 if timeout_reserve_rate.nan? %>
-			  <% if timeout_reserve_rate > 0.01 %>
+    			  <% if timeout_reserve_rate > 0.01 %>
 	          	<td class="data_cell"><span class="badge badge-error"><%= timeout_reserve_rate %></span></td>
 	          <% else %>
 	            <td class="data_cell"><%= timeout_reserve_rate %></td>
@@ -279,9 +281,9 @@
 	
 	<div class="span6">
 		  <div class="span6">
-            <h3>Add Job</h3>
+      <h3>Add Job</h3>
 			<form id="add_job_form" class="well" name="add_job_form" action="<%= u("/add_job") %>" method="POST">
-			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube" data-provide="typeahead" autocomplete="off">
+			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube" data-provide="typeahead" autocomplete="off" data-tubes='<%= "#{tube_names.to_json.to_s}" %>'>
 			  <input id="form_job_priority" type="text" class="span3" placeholder="Priority, e.g. 65536" name="priority">
 			  <input id="form_job_delay" type="text" class="span3" placeholder="Delay, e.g. 0" name="delay">
 			  <input id="form_job_ttr" type="text" class="span3" placeholder="TTR, e.g. 120" name="ttr">
@@ -304,65 +306,15 @@
 		<div class="span6">
 			<div id="total_jobs_container">
 				<h3>Total Jobs</h3>
-	            <canvas id="total_jobs_chart"></canvas>
+	      <canvas id="total_jobs_chart" data-set='<%= "#{@total_jobs_data.to_json.to_s}" %>'></canvas>
 			</div>
 			<div id="buried_jobs_container" style="visibility:hidden">
 				<br/>
 				<h3>Current Jobs Buried</h3>
-	            <canvas id="buried_jobs_chart"></canvas>
+	      <canvas id="buried_jobs_chart" data-set='<%= "#{@buried_jobs_data.to_json.to_s}" %>'></canvas>
 			</div>
 		</div>
     </div>
 </div>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	
-	function draw_pie_chart(div, data) {
-		//Create pie charts
-		var chart = new Bluff.Bar(div, 460);
-	    //Setup theme
-	    var colors = ['#6886B4', '#FDD84E', '#72AE6E', '#D1695E', '#8A6EAF', '#EFAA43', 'white'];  
-	  	chart.set_theme({
-		  colors: colors,
-		  marker_color: 'white',
-		  font_color: 'white',
-		  background_colors: ['#008000', '#008000']
-		});
-		chart.tooltips = true;
-		chart.hide_line_markers = false;
-		chart.minimum_value = 0;
-		var max_value = 0;
-		//Add each data item to chart
-		for (i in data.items) {
-		  var item = data.items[i];
-		  chart.data(item.label, item.data);
-		  if (item.data > max_value) {
-			max_value = item.data;
-		  }
-		}
-		chart.maximum_value = max_value;
-		//Finally draw the chart
-		chart.draw();
-	}
-
-	<% if @total_jobs_data %>
-		var total_jobs_data = <%= @total_jobs_data.to_json %>
-		draw_pie_chart('total_jobs_chart', total_jobs_data);
-	<% end %>
-	<% if @buried_jobs_data %>
-	  var buried_jobs_data = <%= @buried_jobs_data.to_json %>	
-	  draw_pie_chart('buried_jobs_chart', buried_jobs_data);
-	  $("#buried_jobs_container").css('visibility', 'visible');
-	<% end %>
-	
-	//Setup Typeahead For Tube Names on Add Job Form
-	var tubeNames = [];
-	<% @tubes.each do |tube| %>
-	  tubeNames.push('<%=tube.name%>');
-	<% end %>
-	$('#form_tube_name').typeahead({source: tubeNames});
-});
-</script>
 
 <%= erb :job_info_popup %>
