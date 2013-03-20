@@ -14,23 +14,6 @@ module BeanstalkdView
         end
     set :static, true
 
-    register Sinatra::AssetPack
-    assets do
-      js :application, '/js/application.js', [
-        '/js/vendor/json2.js',
-        '/js/vendor/jquery-1.7.1.min.js',
-        '/js/vendor/bootstrap.min.js',
-        '/js/vendor/bluff-0.3.6.2/js-class.js',
-        '/js/vendor/bluff-0.3.6.2/bluff-min.js',
-        '/js/app.js',
-        '/js/peek_jobs.js',
-        '/js/peek_range.js'
-      ]
-      css :application, '/css/application.css', [
-        '/css/vendor/bootstrap.min.css',
-        '/css/app.css']
-    end
-
     get "/" do
       begin
         @connections = beanstalk.connections

@@ -42,9 +42,9 @@ shared_examples 'integration_test' do
 
     it "should show the overview at: /", :requires_two_beanstalkd => true do
       visit site_root
-      body.should have_content "Beanstalkd View"
-      body.should have_content "Statistics"
-      body.should have_content "Tubes"
+      page.should have_content "Beanstalkd View"
+      page.should have_content "Statistics"
+      page.should have_content "Tubes"
     end
 
     it_behaves_like "queue_browser", :requires_two_beanstalkd => true do

@@ -4,3 +4,6 @@ doc
 *.gem
 
 spec/rails_app/log
+
+node_modules
+dist

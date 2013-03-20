@@ -12,7 +12,7 @@ $(document).ready(function() {
 
   if ($('#peek_range_table').length > 0) {
     $("#peek_range_tube_select").change(function(event) {
-		  filter_table_by_tube();
+      filter_table_by_tube();
     });
     
     //Run Immediately on Page Load
