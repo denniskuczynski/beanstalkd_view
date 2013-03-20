@@ -4,6 +4,8 @@ a {
 
 h1 {
   margin-bottom: 10px;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 h3 {

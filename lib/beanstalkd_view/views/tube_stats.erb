@@ -89,18 +89,18 @@
     <h3>Pause Tube</h3>
 	<form id="pause_form" class="well form-inline" name="pause_form" action="<%= u("/pause") %>" method="POST">
 	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @tube.name %>">
-      <input id="form_url_base" type="hidden" name="url_base" value="<%= u("/") %>">
+    <input id="form_url_base" type="hidden" name="url_base" value="<%= u("/") %>">
 	  <input type="text" class="span3" placeholder="Number of seconds to wait" name="delay">
 	  <button type="submit" class="btn">Pause</button>
 	</form>
 
     <h3>Clear Tube</h3>
 	<form id="clear_form" class="well form-inline" name="clear_form" action="<%= u("/clear") %>" method="POST">
-	  <input id="form_tube_name" type="hidden" name="tube" value="<%= @tube.name %>">
-      <input id="form_url_base" type="hidden" name="url_base" value="<%= u("/") %>">
-      <select name="state"class="span3">
-	    <option value="buried"/>Buried</option>
-	    <option value="ready"/>Ready</option>
+	  <input type="hidden" name="tube" value="<%= @tube.name %>">
+      <input type="hidden" name="url_base" value="<%= u("/") %>">
+      <select name="state" class="span3">
+	    <option value="buried">Buried</option>
+	    <option value="ready">Ready</option>
 	    <option value="delayed">Delayed</option>
 	  </select>
 	  <button type="submit" class="btn">Clear</button>
