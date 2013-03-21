@@ -89,7 +89,7 @@
 	            <td class="data_cell"><%= bury_reserve_rate %></td>
 	          <% end %>
 	        </tr>
-			<tr rel="tooltip" title="The rate of job timeouts to reserve calls.">
+			    <tr rel="tooltip" title="The rate of job timeouts to reserve calls.">
 	          <td>Timeout Rate</td>
 	          <% timeout_reserve_rate = (@stats[:job_timeouts].to_f / @stats[:cmd_reserve].to_f) %>
 	          <% timeout_reserve_rate = 0 if timeout_reserve_rate.nan? %>
@@ -99,8 +99,8 @@
 	            <td class="data_cell"><%= timeout_reserve_rate %></td>
 	          <% end %>
 	        </tr>
-	 	</tbody>
-	  </table>
+	 	    </tbody>
+	    </table>
 
       <table class="table">
         <thead>
@@ -164,7 +164,7 @@
         </tbody>
       </table>
 
-	  <table class="table">
+	    <table class="table">
         <thead>
           <tr>
             <th colspan="2">Binlog</th>
@@ -280,7 +280,7 @@
 	</div>
 	
 	<div class="span6">
-		  <div class="span6">
+		<div class="span6">
       <h3>Add Job</h3>
 			<form id="add_job_form" class="well" name="add_job_form" action="<%= u("/add_job") %>" method="POST">
 			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube" data-provide="typeahead" autocomplete="off" data-tubes='<%= "#{tube_names.to_json.to_s}" %>'>
@@ -292,7 +292,7 @@
 			  <br/>
 			  <a id="add_job_btn" href="#" class="btn">Add Job</a>
 			</form>
-		  </div>
+		</div>
 		
 		<div class="span6">
 			<h3>Peek Range</h3>
@@ -314,7 +314,7 @@
 	      <canvas id="buried_jobs_chart" data-set='<%= "#{@buried_jobs_data.to_json.to_s}" %>'></canvas>
 			</div>
 		</div>
-    </div>
+  </div>
 </div>
 
 <%= erb :job_info_popup %>

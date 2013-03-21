@@ -11,6 +11,7 @@ module.exports = function(grunt) {
       },
       js: {
         src: ['web/js/vendor/jquery-1.7.1.min.js',
+              'web/js/vendor/underscore-min.js',
               'web/js/vendor/bootstrap.min.js',
               'web/js/vendor/json-2.js',
               'web/js/vendor/bluff-0.3.6.2/js-class.js',

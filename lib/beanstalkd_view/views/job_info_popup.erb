@@ -2,9 +2,70 @@
 	<div class="modal-header">
     	<a class="close" data-dismiss="modal">×</a>
     	<h3 id="job_info_popup_title"></h3>
-  	</div>
-	<div class="modal-body" id="job_info_popup_body">
-  	</div>
-  	<div class="modal-footer" id="job_info_popup_footer">
-  	</div>
+  </div>
+	<div class="modal-body" id="job_info_popup_body"></div>
+  <div class="modal-footer" id="job_info_popup_footer"></div>
 </div>
+
+<script id="job_modal_template" type="text/template">
+  <table class="table">
+    <tbody>
+      <tr rel="tooltip" data-original-title="The tube to which the job will be added.">
+        <td>tube</td>
+        <td>{{= data.tube }}</td>
+      </tr>
+      <tr rel="tooltip" data-original-title="The priority value set by the put, release, or bury commands.">
+        <td>pri</td>
+        <td>{{= data.pri }}</td>
+      </tr>
+      {{ if (data.age !== undefined) { }}
+        <tr rel="tooltip" data-original-title="The time in seconds since the put command that created this job.">
+          <td>age</td>
+          <td>{{= data.age }}</td>
+        </tr>
+      {{ } }}
+      <tr rel="tooltip" data-original-title="The delay value in seconds">
+        <td>delay</td>
+        <td>{{= data.delay }}</td>
+      </tr>
+      <tr rel="tooltip" data-original-title="The number of seconds to allow a worker to run this job. This time is counted from the moment a worker reserves this job. If the worker does not delete, release, or bury the job within ttr seconds, the job will time out and the server will release the job.">
+        <td>ttr</td>
+        <td>{{= data.ttr }}</td>
+      </tr>
+      {{ if (data.reserves !== undefined) { }}
+        <tr rel="tooltip" data-original-title="The number of times this job has been reserved">
+          <td>reserves</td>
+          <td>{{= data.reserves }}</td>
+        </tr>
+      {{ } }}
+      {{ if (data.timeouts !== undefined) { }}
+        <tr rel="tooltip" data-original-title="The number of times this job has timed out during a reservation.">
+          <td>timeouts</td>
+          <td>{{= data.timeouts }}</td>
+        </tr>
+      {{ } }}
+      {{ if (data.releases !== undefined) { }}
+        <tr rel="tooltip" data-original-title="The number of times a client has released this job from a reservation.">
+          <td>releases</td>
+          <td>{{= data.releases }}</td>
+        </tr>
+      {{ } }}
+      {{ if (data.buries !== undefined) { }}
+        <tr rel="tooltip" data-original-title=" The number of times this job has been buried.">
+          <td>buries</td>
+          <td>{{= data.buries }}</td>
+        </tr>
+      {{ } }}
+      {{ if (data.kicks !== undefined) { }}
+        <tr rel="tooltip" data-original-title="The number of times this job has been kicked.">
+          <td>kicks</td>
+          <td>{{= data.kicks }}</td>
+        </tr>
+      {{ } }}
+      <tr rel="tooltip" data-original-title="The jobs body content.">
+        <td>body</td>
+        <td>{{= data.body }}</td>
+      </tr>
+    </tbody>
+  </table>
+</script>

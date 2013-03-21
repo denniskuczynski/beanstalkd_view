@@ -10,11 +10,11 @@ Gem::Specification.new do |s|
   s.description = "A Sinatra app to view/manage beanstalkd queues that can be embedded in a Rails app similar to what's available in Resque"
   s.authors     = ["Dennis Kuczynski"]
   s.email       = 'dennis.kuczynski@gmail.com'
-  s.homepage    =
-    'https://github.com/denniskuczynski/beanstalkd_view'
+  s.homepage    = 'https://github.com/denniskuczynski/beanstalkd_view'
   
-  s.files             = %w( README.md CHANGELOG.md Gemfile Rakefile MIT-LICENSE.txt )
+  s.files             = %w( README.md CHANGELOG.md Gemfile Rakefile package.json Gruntfile.js MIT-LICENSE.txt )
   s.files            += Dir.glob("lib/**/*")
+  s.files            += Dir.glob("web/**/*")
   s.files            += Dir.glob("bin/**/*")
   s.executables       = [ "beanstalkd_view" ]
   s.test_files    = Dir.glob("spec/**/*")
