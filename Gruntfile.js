@@ -5,15 +5,15 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       css: {
-        src: ['web/css/vendor/bootstrap.min.css',
+        src: ['components/bootstrap/docs/assets/css/bootstrap.css',
               'web/css/*.css'],
         dest: 'lib/beanstalkd_view/resources/css/<%= pkg.name %>.css'
       },
       js: {
-        src: ['web/js/vendor/jquery-1.7.1.min.js',
-              'web/js/vendor/underscore-min.js',
-              'web/js/vendor/bootstrap.min.js',
-              'web/js/vendor/json-2.js',
+        src: ['components/json2/json2.js',
+              'components/jquery/jquery.js',
+              'components/bootstrap/docs/assets/js/bootstrap.js',
+              'components/underscore/underscore.js',
               'web/js/vendor/bluff-0.3.6.2/js-class.js',
               'web/js/vendor/bluff-0.3.6.2/bluff-min.js',
               'web/js/*.js'],
@@ -28,14 +28,22 @@ module.exports = function(grunt) {
         src: 'lib/beanstalkd_view/resources/js/<%= pkg.name %>.js',
         dest: 'lib/beanstalkd_view/resources/js/<%= pkg.name %>.min.js'
       }
+    },
+    cssmin: {
+      compress: {
+        files: {
+          'lib/beanstalkd_view/resources/css/<%= pkg.name %>.min.css': ['lib/beanstalkd_view/resources/css/<%= pkg.name %>.css']
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'cssmin']);
 
 };

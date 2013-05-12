@@ -74,11 +74,12 @@ Screenshot
 Building the front-end Javascript
 ------------------------
 
-This project uses Grunt (http://gruntjs.com/) to manage javascript linting, concatenation, and minification.
+This project uses Grunt (http://gruntjs.com/) to manage javascript/css linting, concatenation, and minification, and Bower (https://github.com/bower/bower) to manage Javascript dependencies.
 
-For development, install Grunt as specified on the Grunt website.  Then execute
+For development, install Grunt and Bower as specified on their websites.  Then execute
 
 ```ruby
+bower install
 grunt
 ```
 
