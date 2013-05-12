@@ -50,6 +50,12 @@ authenticate :admin_user do
 end
 ```
 
+Troubleshooting
+------------------------
+1. CSS/JS assets not being served in Rails when running behind Apache or Nginx
+
+See http://stackoverflow.com/questions/16167317/sinatra-static-assets-empty/16317727
+
 Running from the command line
 ------------------------
 
