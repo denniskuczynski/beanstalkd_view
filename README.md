@@ -95,8 +95,8 @@ Running the tests
 ------------------------
 There are 3 variants of RSpec tests.
 * Without beanstalkd running, just execute: rspec spec
-* Without 1 instance of beanstalkd running (default port), execute: rspec spec --tag requires_beanstalkd
-* Without 2 instances of beanstalkd running (ports 11300 and 11400), execute: rspec spec --tag requires_two_beanstalkd
+* With 1 instance of beanstalkd running (default port), execute: rspec spec --tag requires_beanstalkd
+* With 2 instances of beanstalkd running (ports 11300 and 11400), execute: rspec spec --tag requires_two_beanstalkd
 
 License
 ------------------------
