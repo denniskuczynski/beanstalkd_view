@@ -11,7 +11,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Dennis Kuczynski"]
   s.email       = 'dennis.kuczynski@gmail.com'
   s.homepage    = 'https://github.com/denniskuczynski/beanstalkd_view'
-  
+  s.license = 'MIT'
+
   s.files             = %w( README.md CHANGELOG.md Gemfile Rakefile package.json Gruntfile.js MIT-LICENSE.txt )
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("web/**/*")
