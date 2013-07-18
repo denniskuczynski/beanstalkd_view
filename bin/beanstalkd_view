@@ -9,6 +9,6 @@ rescue LoadError
 end  
 require 'beanstalkd_view'
 
-ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
+ENV['BEANSTALK_URL'] ||= 'beanstalk://localhost/'
 
 Vegas::Runner.new(BeanstalkdView::Server, 'Beanstalkd View')
