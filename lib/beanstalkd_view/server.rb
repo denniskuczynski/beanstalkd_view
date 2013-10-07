@@ -76,7 +76,6 @@ module BeanstalkdView
       begin
         @min = params[:min].to_i
         @max = params[:max].to_i
-        @min = params[:min].to_i
         tubes = beanstalk.tubes
         @tubes = tubes.all
         @tube = tubes[params[:tube]] if params[:tube] and params[:tube] != ''
@@ -111,7 +110,10 @@ module BeanstalkdView
     get "/delete/:tube/:job_id" do
        begin
           response = nil
-          job = beanstalk.jobs.find(params[:job_id].to_i)
+          jobs = beanstalk.jobs.find_all(params[:job_id].to_i)
+          raise Beaneater::NotFoundError.new("Job not found with specified id", 'find') if jobs.size == 0
+          raise Beaneater::NotFoundError.new("Multiple jobs found with specified id", 'find') if jobs.size > 1
+          job = jobs[0]
           response = job.delete if job
           if response
             cookies[:beanstalkd_view_notice] = "Deleted Job #{params[:job_id]}"
