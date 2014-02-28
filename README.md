@@ -73,6 +73,19 @@ Alternatively, a Rackup file is provided.  To use: cd into the beanstalkd_view d
 
 rackup
 
+Running with Docker
+------------------------
+
+You can have a look at beanstalkd_view by running it in a [Docker][1] container:
+
+    docker build -t beanstalkd_view git://denniskuczynski/beanstalkd_view.git
+
+    docker run -t -i -p 5678:5678 -e BEANSTALK_URL=beanstalk://172.17.0.2 beanstalkd_view
+
+Most likely you have to adjust BEANSTALK_URL for your setup. You can then access beanstalkd_view on http://localhost:5678
+
+[1]: https://www.docker.io/
+
 Screenshot
 ------------------------
 ![Screenshot](http://s16.postimage.org/4mdum0x79/i_OS_Simulator_Screen_shot_Apr_24_2012_10_29_33.png)
