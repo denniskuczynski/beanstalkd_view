@@ -78,7 +78,7 @@ Running with Docker
 
 You can have a look at beanstalkd_view by running it in a [Docker][1] container:
 
-    docker build -t beanstalkd_view git://denniskuczynski/beanstalkd_view.git
+    docker build -t beanstalkd_view git://github.com/denniskuczynski/beanstalkd_view.git
 
     docker run -t -i -p 5678:5678 -e BEANSTALK_URL=beanstalk://172.17.0.2 beanstalkd_view
 
