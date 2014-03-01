@@ -1,3 +1,8 @@
+1.2.7
+-----------
+
+- Added Dockerfile via @pschultz
+
 1.1.1
 -----------
 

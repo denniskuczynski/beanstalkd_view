@@ -5,7 +5,7 @@ require "beanstalkd_view/version"
 Gem::Specification.new do |s|
   s.name        = 'beanstalkd_view'
   s.version     = BeanstalkdView::VERSION
-  s.date        = '2013-10-06'
+  s.date        = '2014-02-28'
   s.summary     = "A Sinatra app to view/manage beanstalkd queues that can be embedded in a Rails app similar to what's available in Resque"
   s.description = "A Sinatra app to view/manage beanstalkd queues that can be embedded in a Rails app similar to what's available in Resque"
   s.authors     = ["Dennis Kuczynski"]
@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/denniskuczynski/beanstalkd_view'
   s.license = 'MIT'
 
-  s.files             = %w( README.md CHANGELOG.md Gemfile Rakefile package.json Gruntfile.js MIT-LICENSE.txt )
+  s.files             = %w( README.md CHANGELOG.md Gemfile Rakefile package.json Gruntfile.js Dockerfile MIT-LICENSE.txt )
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("web/**/*")
   s.files            += Dir.glob("bin/**/*")
