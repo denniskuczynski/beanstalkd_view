@@ -82,5 +82,9 @@ module BeanstalkdView
       (min+GUESS_PEEK_RANGE)-1
     end
 
+    def refresh_connections
+      beanstalk.close
+      @@beanstalk = nil
+    end
   end
 end

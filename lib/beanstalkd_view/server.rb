@@ -25,6 +25,7 @@ module BeanstalkdView
         @buried_jobs_data = chart_data["buried_jobs_data"] if chart_data["buried_jobs_data"]["items"].size > 0
         erb :index
       rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
+        refresh_connections
         erb :error
       end
     end
