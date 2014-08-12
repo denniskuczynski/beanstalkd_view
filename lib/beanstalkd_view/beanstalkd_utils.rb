@@ -82,5 +82,14 @@ module BeanstalkdView
       (min+GUESS_PEEK_RANGE)-1
     end
 
+    def close_connections
+      begin
+        beanstalk.close
+      rescue Beaneater::NotConnected
+        # Ignore not being able to connect if trying to close
+      ensure
+        @@beanstalk = nil
+      end
+    end
   end
 end
