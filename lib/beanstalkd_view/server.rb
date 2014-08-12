@@ -8,10 +8,10 @@ module BeanstalkdView
     set :root, root
     set :views,  "#{root}/views"
     if respond_to? :public_folder
-          set :public_folder, "#{root}/resources"
-        else
-          set :public, "#{root}/resources"
-        end
+      set :public_folder, "#{root}/resources"
+    else
+      set :public, "#{root}/resources"
+    end
     set :static, true
 
     get "/" do
@@ -24,8 +24,10 @@ module BeanstalkdView
         @total_jobs_data = chart_data["total_jobs_data"]
         @buried_jobs_data = chart_data["buried_jobs_data"] if chart_data["buried_jobs_data"]["items"].size > 0
         erb :index
-      rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
-        refresh_connections
+      rescue Beaneater::NotFoundError => @error
+        erb :error
+      rescue Beaneater::NotConnected => @error
+        close_connections
         erb :error
       end
     end
@@ -43,7 +45,10 @@ module BeanstalkdView
           cookies[:beanstalkd_view_notice] = "Error adding job"
           redirect url("/")
         end
-      rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
+      rescue Beaneater::NotFoundError => @error
+        erb :error
+      rescue Beaneater::NotConnected => @error
+        close_connections
         erb :error
       end
     end
@@ -53,7 +58,10 @@ module BeanstalkdView
         @tube = beanstalk.tubes[params[:tube]]
         @stats = @tube.stats
         erb :tube_stats
-      rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
+      rescue Beaneater::NotFoundError => @error
+        erb :error
+      rescue Beaneater::NotConnected => @error
+        close_connections
         erb :error
       end
     end
@@ -68,7 +76,10 @@ module BeanstalkdView
         else
           { :error => "No job was found, or an error occurred while trying to peek at the next job."}.to_json
         end
-      rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
+      rescue Beaneater::NotFoundError => @error
+        { :error => @error.to_s }.to_json
+      rescue Beaneater::NotConnected => @error
+        close_connections
         { :error => @error.to_s }.to_json
       end
     end
@@ -98,18 +109,21 @@ module BeanstalkdView
             jobs.each do |job|
               @jobs << job_to_hash(job)
             end
-          rescue Beaneater::NotFoundError => e
+          rescue Beaneater::NotFoundError
             # Since we're looping over potentially non-existant jobs, ignore
           end
         end
         erb :peek_range
-      rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
+      rescue Beaneater::NotFoundError => @error
+        erb :error
+      rescue Beaneater::NotConnected => @error
+        close_connections
         erb :error
       end
     end
 
     get "/delete/:tube/:job_id" do
-       begin
+      begin
           response = nil
           jobs = beanstalk.jobs.find_all(params[:job_id].to_i)
           raise Beaneater::NotFoundError.new("Job not found with specified id", 'find') if jobs.size == 0
@@ -123,9 +137,12 @@ module BeanstalkdView
             cookies[:beanstalkd_view_notice] = "Error deleting Job #{params[:job_id]}"
             redirect url("/tube/#{escaped_tube_param}")
           end
-        rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
-          erb :error
-        end
+      rescue Beaneater::NotFoundError => @error
+        erb :error
+      rescue Beaneater::NotConnected => @error
+        close_connections
+        erb :error
+      end
     end
 
     post "/pause" do
@@ -139,7 +156,10 @@ module BeanstalkdView
           cookies[:beanstalkd_view_notice] = "Error pausing #{params[:tube]}."
           redirect url("/tube/#{escaped_tube_param}")
         end
-      rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
+      rescue Beaneater::NotFoundError => @error
+        erb :error
+      rescue Beaneater::NotConnected => @error
+        close_connections
         erb :error
       end
     end
@@ -157,7 +177,10 @@ module BeanstalkdView
           cookies[:beanstalkd_view_notice] = "State isn't included in #{allowed_states.join(', ')}."
         end
         redirect url("/tube/#{escaped_tube_param}")
-      rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
+      rescue Beaneater::NotFoundError => @error
+        erb :error
+      rescue Beaneater::NotConnected => @error
+        close_connections
         erb :error
       end
     end
@@ -174,7 +197,10 @@ module BeanstalkdView
           cookies[:beanstalkd_view_notice] = "Error kicking #{params[:tube]}."
           redirect url("/tube/#{escaped_tube_param}")
         end
-      rescue Beaneater::NotConnected, Beaneater::NotFoundError => @error
+      rescue Beaneater::NotFoundError => @error
+        erb :error
+      rescue Beaneater::NotConnected => @error
+        close_connections
         erb :error
       end
     end

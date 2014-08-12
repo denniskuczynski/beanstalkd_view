@@ -1,3 +1,8 @@
+1.2.8
+-----------
+
+- Reconnect to beanstalkd on Beaneater::NotConnected via @ueno1969
+
 1.2.7
 -----------
 
