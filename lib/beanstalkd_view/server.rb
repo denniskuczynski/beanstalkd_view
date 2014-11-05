@@ -6,7 +6,7 @@ module BeanstalkdView
 
     root = File.dirname(File.expand_path(__FILE__))
     set :root, root
-    set :views,  "#{root}/views"
+    set :views, (ENV['BEANSTALKD_VIEW_TEMPLATES'] || "#{root}/views")
     if respond_to? :public_folder
       set :public_folder, "#{root}/resources"
     else
@@ -85,6 +85,7 @@ module BeanstalkdView
     end
 
     get "/peek-range" do
+
       begin
         @min = params[:min].to_i
         @max = params[:max].to_i
