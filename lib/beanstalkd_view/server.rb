@@ -99,8 +99,8 @@ module BeanstalkdView
           guess_tubes << @tube
         end
         # Guess ID Range if not specified
-        min = guess_min_peek_range(guess_tubes) if @min == 0
-        max = guess_max_peek_range(min) if @max == 0
+        min = @min == 0 ? guess_min_peek_range(guess_tubes) : @min
+        max = @max == 0 ? guess_max_peek_range(min) : @max
 
         @jobs = []
         for i in min..max
