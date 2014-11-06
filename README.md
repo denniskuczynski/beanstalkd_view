@@ -111,6 +111,17 @@ There are 3 variants of RSpec tests.
 * With 1 instance of beanstalkd running (default port), execute: rspec spec --tag requires_beanstalkd
 * With 2 instances of beanstalkd running (ports 11300 and 11400), execute: rspec spec --tag requires_two_beanstalkd
 
+Customization
+------------------------
+beanstalk_view provides a way to customize your views.
+Set environment variable with desired views path:
+```ruby
+ENV['BEANSTALKD_VIEW_TEMPLATES'] = File.join("my", "app", "views", "beanstalkd")
+```
+The just copy lib/beanstalkd_view/views/*.erb and customize them as you want.
+
+*Note: the environment variable should be set before gem loads.*
+
 License
 ------------------------
 
