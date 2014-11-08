@@ -1,3 +1,9 @@
+1.2.10
+-----------
+
+- Fix bug in peek range view via @silentshade
+- Allow customizations of views via @silentshade
+
 1.2.8
 -----------
 
