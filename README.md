@@ -11,7 +11,7 @@ Configuration
 To use in a Rails app, include the gem in your Gemfile:
 
 ``` ruby
-gem beanstalkd_view
+gem 'beanstalkd_view'
 ```
 
 Otherwise, gem install beanstalkd_view
@@ -22,6 +22,8 @@ Use the following environment variable to specify the location of the beanstalk 
 ``` ruby
 ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
 ```
+
+This environment variable can be specified per Rails environment. So for instance, the above code could be put into environments/development.rb
 
 This can be a comma separated list, e.g. 'beanstalk://localhost:11300,beanstalk://localhost:11400'
 
