@@ -12,7 +12,7 @@ module BeanstalkdView
 
     def beanstalk_url
       return @@url if defined?(@@url) and @@url
-      ENV['BEANSTALK_URL'] || 'beanstalk://localhost/'
+      ENV['BEANSTALK_URL'] || 'beanstalk://127.0.0.1/'
     end
 
     def beanstalk_addresses
