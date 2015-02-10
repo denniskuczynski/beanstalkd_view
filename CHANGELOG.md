@@ -1,3 +1,8 @@
+1.2.11
+-----------
+
+- Use 127.0.0.1 as the default host instead of localhost via @alup
+
 1.2.10
 -----------
 

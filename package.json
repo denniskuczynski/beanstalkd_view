@@ -1,6 +1,6 @@
 {
   "name": "beanstalkd_view",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.3.0",
