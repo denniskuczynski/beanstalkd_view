@@ -81,6 +81,22 @@ Alternatively, a Rackup file is provided. To use go to the beanstalkd_view direc
 rackup
 ```
 
+If you run beanstalkd_view from the command line you can specify the URL base path.
+
+Set environment variable with the base URL (don't forget the leading slash '/''):
+
+```ruby
+ENV['BEANSTALKD_VIEW_PATH'] = '/path'
+```
+
+or
+
+```bash
+export BEANSTALKD_VIEW_PATH = '/path'
+```
+
+Setting `BEANSTALKD_VIEW_PATH` applies to both `rackup` and `vegas`. The default path is '/'.
+
 Running with Docker
 ------------------------
 
@@ -131,7 +147,13 @@ ENV['BEANSTALKD_VIEW_TEMPLATES'] = File.join("my", "app", "views", "beanstalkd")
 
 Then just copy `lib/beanstalkd_view/views/*.erb` and customize them as you want.
 
-*Note: the environment variable should be set before gem loads.*
+If you run beanstalkd_view using the command line you can set the URL base path:
+
+```ruby
+ENV['BEANSTALKD_VIEW_PATH'] = '/path'
+```
+
+*Note: the environment variables should be set before gem loads.*
 
 License
 ------------------------
