@@ -10,5 +10,6 @@ end
 require 'beanstalkd_view'
 
 ENV['BEANSTALK_URL'] ||= 'beanstalk://localhost/'
+ENV['BEANSTALKD_VIEW_PATH'] ||= '/'
 
-Vegas::Runner.new(BeanstalkdView::Server, 'Beanstalkd View')
+Vegas::Runner.new(Rack::URLMap.new(ENV['BEANSTALKD_VIEW_PATH'] => BeanstalkdView::Server), 'Beanstalkd View')
