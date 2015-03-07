@@ -63,17 +63,39 @@ Running from the command line
 
 Run the beanstalkd_view executable, e.g.
 
+```bash
 beanstalkd_view
+```
 
 or from a Rails app:
 
+```bash
 bundle exec beanstalkd_view
+```
 
 (This will use the vegas gem to launch the Sinatra app on an available port.)
 
-Alternatively, a Rackup file is provided.  To use: cd into the beanstalkd_view directory and execute:
+Alternatively, a Rackup file is provided. To use go to the beanstalkd_view directory and execute:
 
+```
 rackup
+```
+
+If you run beanstalkd_view from the command line you can specify the URL base path.
+
+Set environment variable with the base URL (don't forget the leading slash '/''):
+
+```ruby
+ENV['BEANSTALKD_VIEW_PATH'] = '/path'
+```
+
+or
+
+```bash
+export BEANSTALKD_VIEW_PATH = '/path'
+```
+
+Setting `BEANSTALKD_VIEW_PATH` applies to both `rackup` and `vegas`. The default path is '/'.
 
 Running with Docker
 ------------------------
@@ -115,14 +137,23 @@ There are 3 variants of RSpec tests.
 
 Customization
 ------------------------
-beanstalk_view provides a way to customize your views.
+beanstalkd_view provides a way to customize your views.
+
 Set environment variable with desired views path:
+
 ```ruby
 ENV['BEANSTALKD_VIEW_TEMPLATES'] = File.join("my", "app", "views", "beanstalkd")
 ```
-The just copy lib/beanstalkd_view/views/*.erb and customize them as you want.
 
-*Note: the environment variable should be set before gem loads.*
+Then just copy `lib/beanstalkd_view/views/*.erb` and customize them as you want.
+
+If you run beanstalkd_view using the command line you can set the URL base path:
+
+```ruby
+ENV['BEANSTALKD_VIEW_PATH'] = '/path'
+```
+
+*Note: the environment variables should be set before gem loads.*
 
 License
 ------------------------
