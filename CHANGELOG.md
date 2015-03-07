@@ -1,3 +1,9 @@
+1.2.12
+-----------
+
+- Customize URL base when running standalone via @fotos 
+- Fix typo in lib/beanstalkd_view/views/index.erb via @Zorbash
+
 1.2.11
 -----------
 
