@@ -1,3 +1,20 @@
+1.2.12
+-----------
+
+- Customize URL base when running standalone via @fotos 
+- Fix typo in lib/beanstalkd_view/views/index.erb via @Zorbash
+
+1.2.11
+-----------
+
+- Use 127.0.0.1 as the default host instead of localhost via @alup
+
+1.2.10
+-----------
+
+- Fix bug in peek range view via @silentshade
+- Allow customizations of views via @silentshade
+
 1.2.8
 -----------
 
