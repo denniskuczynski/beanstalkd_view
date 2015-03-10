@@ -34,6 +34,13 @@ module BeanstalkdView
       ret_value['body'] = job.body.inspect
       ret_value
     end
+
+    def tubes_tree(names)
+      return nil if names.flatten.blank?
+      names.inject({}) do |res, arr|
+        res.deep_merge!({arr.shift => tubes_tree([arr])})
+      end
+    end
         
     # Return the stats data in a format for the Bluff JS UI Charts
     def get_chart_data_hash(tubes)
