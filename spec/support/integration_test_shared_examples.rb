@@ -10,7 +10,7 @@ shared_examples 'integration_test' do
 
     it "should should error at site root" do
       visit site_root
-      page.should have_content "Could not connect"
+      page.should have_content "Connection to beanstalk 'localhost:11300' is closed!"
     end
   end
 
