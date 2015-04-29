@@ -105,14 +105,8 @@ module BeanstalkdView
 
         @jobs = []
         for i in min..max
-          begin
-            jobs = beanstalk.jobs.find_all(i)
-            jobs.each do |job|
-              @jobs << job_to_hash(job)
-            end
-          rescue Beaneater::NotFoundError
-            # Since we're looping over potentially non-existant jobs, ignore
-          end
+          job = beanstalk.jobs.find(i)
+          @jobs << job_to_hash(job) if job
         end
         erb :peek_range
       rescue Beaneater::NotFoundError => @error
@@ -126,11 +120,9 @@ module BeanstalkdView
     get "/delete/:tube/:job_id" do
       begin
           response = nil
-          jobs = beanstalk.jobs.find_all(params[:job_id].to_i)
-          raise Beaneater::NotFoundError.new("Job not found with specified id", 'find') if jobs.size == 0
-          raise Beaneater::NotFoundError.new("Multiple jobs found with specified id", 'find') if jobs.size > 1
-          job = jobs[0]
-          response = job.delete if job
+          job = beanstalk.jobs.find(params[:job_id].to_i)
+          raise Beaneater::NotFoundError.new("Job not found with specified id", 'find') if job.nil?
+          response = job.delete
           if response
             cookies[:beanstalkd_view_notice] = "Deleted Job #{params[:job_id]}"
             redirect url("/tube/#{escaped_tube_param}")
