@@ -7,7 +7,7 @@ module BeanstalkdView
     class BadURL < RuntimeError; end
     
     def beanstalk
-      @@beanstalk ||= Beaneater::Pool.new(beanstalk_addresses)
+      @@beanstalk ||= Beaneater.new(beanstalk_address)
     end
 
     def beanstalk_url
@@ -15,9 +15,9 @@ module BeanstalkdView
       ENV['BEANSTALK_URL'] || 'beanstalk://127.0.0.1/'
     end
 
-    def beanstalk_addresses
+    def beanstalk_address
       uris = beanstalk_url.split(/[\s,]+/)
-      uris.map {|uri| beanstalk_host_and_port(uri)}
+      beanstalk_host_and_port(uris.first)
     end
 
     def beanstalk_host_and_port(uri_string)

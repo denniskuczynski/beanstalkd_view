@@ -16,7 +16,7 @@ module BeanstalkdView
 
     get "/" do
       begin
-        @connections = beanstalk.connections
+        @connection = beanstalk.connection
         @tubes = beanstalk.tubes.all
         @tubes = @tubes.sort_by{|obj| obj.name }
         @stats = beanstalk.stats
