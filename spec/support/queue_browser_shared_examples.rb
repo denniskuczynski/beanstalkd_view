@@ -40,7 +40,7 @@ shared_examples 'queue_browser' do
   end
 
   it "should be able to pause a tube", :js => true do
-    visit "#{site_root}/tube/#{CGI::escape(tube_name)}"
+    visit "#{site_root}tube/#{CGI::escape(tube_name)}"
     form = find('#pause_form')
     form.fill_in 'delay', :with => 1
     click_button "Pause"
@@ -62,7 +62,7 @@ shared_examples 'queue_browser' do
   end
 
   it "should be able to clear a tube", :js => true do
-    visit "#{site_root}/tube/#{CGI::escape(tube_name)}"
+    visit "#{site_root}tube/#{CGI::escape(tube_name)}"
     form = find('#clear_form')
     form.select 'Buried', :from => 'state'
     click_button "Clear"
