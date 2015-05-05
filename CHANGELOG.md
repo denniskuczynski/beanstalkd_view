@@ -1,3 +1,8 @@
+2.0.0
+-----------
+
+- Depend on beaneater 1.0.0 via @ryanjohns 
+
 1.2.12
 -----------
 
