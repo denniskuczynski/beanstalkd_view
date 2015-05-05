@@ -52,6 +52,12 @@ authenticate :admin_user do
 end
 ```
 
+Breaking changes since 2.0.0!
+------------------------
+
+As of version 2.0.0, beanstalkd_view no longer supports connection to multiple beanstalkd
+servers due to a decision to drop connection pool support in the beaneater gem.
+
 Troubleshooting
 ------------------------
 1. CSS/JS assets not being served in Rails when running behind Apache or Nginx
@@ -130,10 +136,9 @@ from the command line after modifying any javascript or css files.  The output f
 
 Running the tests
 ------------------------
-There are 3 variants of RSpec tests.
+There are 2 variants of RSpec tests.
 * Without beanstalkd running, just execute: rspec spec
-* With 1 instance of beanstalkd running (default port), execute: rspec spec --tag requires_beanstalkd
-* With 2 instances of beanstalkd running (ports 11300 and 11400), execute: rspec spec --tag requires_two_beanstalkd
+* With beanstalkd running (default port), execute: rspec spec --tag requires_beanstalkd
 
 Customization
 ------------------------

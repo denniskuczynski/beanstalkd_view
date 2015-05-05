@@ -16,7 +16,7 @@ module BeanstalkdView
 
     get "/" do
       begin
-        @connections = beanstalk.connections
+        @connection = beanstalk.connection
         @tubes = beanstalk.tubes.all
         @tubes = @tubes.sort_by{|obj| obj.name }
         @stats = beanstalk.stats
@@ -27,7 +27,7 @@ module BeanstalkdView
       rescue Beaneater::NotFoundError => @error
         erb :error
       rescue Beaneater::NotConnected => @error
-        close_connections
+        close_connection
         erb :error
       end
     end
@@ -48,29 +48,32 @@ module BeanstalkdView
       rescue Beaneater::NotFoundError => @error
         erb :error
       rescue Beaneater::NotConnected => @error
-        close_connections
+        close_connection
         erb :error
       end
     end
 
-    get "/tube/:tube" do
+    get "/tube/*" do
       begin
-        @tube = beanstalk.tubes[params[:tube]]
+        @tube = beanstalk.tubes[params[:splat].first]
         @stats = @tube.stats
         erb :tube_stats
       rescue Beaneater::NotFoundError => @error
         erb :error
       rescue Beaneater::NotConnected => @error
-        close_connections
+        close_connection
         erb :error
       end
     end
 
-    get "/peek/:tube/:type" do
+    get "/peek/*" do
       content_type :json
+      parts = params[:splat].first.split('/')
+      tube = parts[0...-1].join('/')
+      type = parts.last
       begin
-        tube = beanstalk.tubes[params[:tube]]
-        response = tube.peek(params[:type])
+        tube = beanstalk.tubes[tube]
+        response = tube.peek(type)
         if response
           job_to_hash(response).to_json
         else
@@ -79,7 +82,7 @@ module BeanstalkdView
       rescue Beaneater::NotFoundError => @error
         { :error => @error.to_s }.to_json
       rescue Beaneater::NotConnected => @error
-        close_connections
+        close_connection
         { :error => @error.to_s }.to_json
       end
     end
@@ -105,43 +108,38 @@ module BeanstalkdView
 
         @jobs = []
         for i in min..max
-          begin
-            jobs = beanstalk.jobs.find_all(i)
-            jobs.each do |job|
-              @jobs << job_to_hash(job)
-            end
-          rescue Beaneater::NotFoundError
-            # Since we're looping over potentially non-existant jobs, ignore
-          end
+          job = beanstalk.jobs.find(i)
+          @jobs << job_to_hash(job) if job
         end
         erb :peek_range
       rescue Beaneater::NotFoundError => @error
         erb :error
       rescue Beaneater::NotConnected => @error
-        close_connections
+        close_connection
         erb :error
       end
     end
 
-    get "/delete/:tube/:job_id" do
+    get "/delete/*" do
+      parts = params[:splat].first.split('/')
+      tube = parts[0...-1].join('/')
+      job_id = parts.last
       begin
           response = nil
-          jobs = beanstalk.jobs.find_all(params[:job_id].to_i)
-          raise Beaneater::NotFoundError.new("Job not found with specified id", 'find') if jobs.size == 0
-          raise Beaneater::NotFoundError.new("Multiple jobs found with specified id", 'find') if jobs.size > 1
-          job = jobs[0]
-          response = job.delete if job
+          job = beanstalk.jobs.find(job_id.to_i)
+          raise Beaneater::NotFoundError.new("Job not found with specified id", 'find') if job.nil?
+          response = job.delete
           if response
-            cookies[:beanstalkd_view_notice] = "Deleted Job #{params[:job_id]}"
-            redirect url("/tube/#{escaped_tube_param}")
+            cookies[:beanstalkd_view_notice] = "Deleted Job #{job_id}"
+            redirect url("/tube/#{escaped_tube_param(tube)}")
           else
-            cookies[:beanstalkd_view_notice] = "Error deleting Job #{params[:job_id]}"
-            redirect url("/tube/#{escaped_tube_param}")
+            cookies[:beanstalkd_view_notice] = "Error deleting Job #{job_id}"
+            redirect url("/tube/#{escaped_tube_param(tube)}")
           end
       rescue Beaneater::NotFoundError => @error
         erb :error
       rescue Beaneater::NotConnected => @error
-        close_connections
+        close_connection
         erb :error
       end
     end
@@ -160,7 +158,7 @@ module BeanstalkdView
       rescue Beaneater::NotFoundError => @error
         erb :error
       rescue Beaneater::NotConnected => @error
-        close_connections
+        close_connection
         erb :error
       end
     end
@@ -181,7 +179,7 @@ module BeanstalkdView
       rescue Beaneater::NotFoundError => @error
         erb :error
       rescue Beaneater::NotConnected => @error
-        close_connections
+        close_connection
         erb :error
       end
     end
@@ -201,7 +199,7 @@ module BeanstalkdView
       rescue Beaneater::NotFoundError => @error
         erb :error
       rescue Beaneater::NotConnected => @error
-        close_connections
+        close_connection
         erb :error
       end
     end
@@ -213,8 +211,8 @@ module BeanstalkdView
 
     private
 
-    def escaped_tube_param
-      CGI::escape(params[:tube])
+    def escaped_tube_param(tube = nil)
+      CGI::escape(tube || params[:tube])
     end
 
     def path_prefix

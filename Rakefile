@@ -19,7 +19,7 @@ namespace :beanstalkd_view do
   task :enqueue_test do
     host = "localhost"
     port = 11300
-    beanstalk = Beaneater::Pool.new([ "#{host}:#{port}" ])
+    beanstalk = Beaneater.new("#{host}:#{port}")
 
     # Loop flooding the queues with jobs
     while true
@@ -37,7 +37,7 @@ namespace :beanstalkd_view do
   task :pull_test do
     host = "localhost"
     port = 11300
-    beanstalk = Beaneater::Pool.new([ "#{host}:#{port}" ])
+    beanstalk = Beaneater.new("#{host}:#{port}")
 
     while true
       tube_name = TEST_QUEUES.sample

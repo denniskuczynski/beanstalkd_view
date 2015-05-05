@@ -5,15 +5,13 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Connections</th>
+            <th>Connection</th>
           </tr>
         </thead>
         <tbody>
-        <% @connections.each do |connection| %>
-        <tr>
-          <td><%= connection.address %></td>
-        </tr>
-        <% end %>
+          <tr>
+            <td><%= @connection.address %></td>
+          </tr>
         </tbody>
       </table>
 

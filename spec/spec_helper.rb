@@ -17,17 +17,9 @@ end
   
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
-  config.filter_run_excluding :requires_beanstalkd, :requires_two_beanstalkd
+  config.filter_run_excluding :requires_beanstalkd
 
-  config.before(:each) do      
-      requires_two_beanstalkd = example.options[:requires_two_beanstalkd]
-      if requires_two_beanstalkd
-        ENV['BEANSTALK_URL'] = 'beanstalk://localhost:11300,beanstalk://localhost:11400'
-      else
-        ENV['BEANSTALK_URL'] = 'beanstalk://localhost:11300'
-      end
-    end
+  config.before(:each) do
+    ENV['BEANSTALK_URL'] = 'beanstalk://localhost:11300'
+  end
 end
-
-
-
