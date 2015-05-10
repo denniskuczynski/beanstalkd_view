@@ -278,37 +278,61 @@
 	</div>
 	
 	<div class="col-md-6">
-  		<div>
-        <h3>Add Job</h3>
-  			<form id="add_job_form" class="well" name="add_job_form" action="<%= u("/add_job") %>" method="POST">
-  			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube" data-provide="typeahead" autocomplete="off" data-tubes='<%= "#{tube_names.to_json.to_s}" %>'>
-  			  <input id="form_job_priority" type="text" class="span3" placeholder="Priority, e.g. 65536" name="priority">
-  			  <input id="form_job_delay" type="text" class="span3" placeholder="Delay, e.g. 0" name="delay">
-  			  <input id="form_job_ttr" type="text" class="span3" placeholder="TTR, e.g. 120" name="ttr">
-  			  <label class="control-label" for="form_job_body">Job Body JSON Hash, e.g. {} or {"id": 1, "name": "Bob"}</label>
-  			  <textarea id="form_job_body" class="input-xlarge" name="body" rows="3"></textarea>
-  			  <br/>
-  			  <a id="add_job_btn" href="#" class="btn">Add Job</a>
+  		<div class="well">
+        <h4>Add Job</h4>
+  			<form id="add_job_form" class="form-horizontal" name="add_job_form" action="<%= u("/add_job") %>" method="POST">
+          <div class="form-group">
+            <label class="control-label col-md-2" for="tube">Tube</label>
+            <div class="col-md-10">
+  			      <input id="form_tube_name" type="text" class="form-control" name="tube" autocomplete="off">
+            </div>
+          </div>
+  			  <div class="form-group">
+            <label class="control-label col-md-2" for="priority">Priority</label>
+            <div class="col-md-10">
+              <input id="form_job_priority" type="text" class="form-control" placeholder="e.g. 65536" name="priority">
+            </div>
+          </div>
+  			  <div class="form-group">
+            <label class="control-label col-md-2" for="delay">Delay</label>
+            <div class="col-md-10">
+              <input id="form_job_delay" type="text" class="form-control" placeholder="e.g. 0" name="delay">
+            </div>
+          </div>
+  			  <div class="form-group">
+            <label class="control-label col-md-2" for="ttr">TTR</label>
+            <div class="col-md-10">
+              <input id="form_job_ttr" type="text" class="form-control" placeholder="e.g. 120" name="ttr">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2" for="body">Job JSON</label>
+  			    <div class="col-md-10">
+              <textarea id="form_job_body" class="form-control" name="body" rows="3"></textarea>
+              <p class="help-block">e.g. {} or {"id": 1, "name": "Bob"}</p>
+            </div>
+          </div>
+  			  <button id="add_job_btn" class="btn btn-primary">Add Job</button>
   			</form>
   		</div>
   		
-  		<div>
-  			<h3>Peek Range</h3>
-  			<form id="peek_range_form" class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
-  			  <input type="text" class="span2" placeholder="0" name="min">
-  			  <input type="text" class="span2" placeholder="0" name="max">
-  			  <button type="submit" class="btn">Peek</button>
+  		<div class="well">
+  			<h4>Peek Range</h4>
+  			<form id="peek_range_form" class="form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
+  			  <input type="text" class="form-control" placeholder="0" name="min">
+  			  <input type="text" class="form-control" placeholder="0" name="max">
+  			  <button type="submit" class="btn btn-primary">Peek</button>
   			</form>
   		</div>
   		
-  		<div>
+  		<div class="well">
   			<div id="total_jobs_container">
-  				<h3>Total Jobs</h3>
+  				<h4>Total Jobs</h4>
   	      <canvas id="total_jobs_chart" data-set='<%= "#{@total_jobs_data.to_json.to_s}" %>'></canvas>
   			</div>
-  			<div id="buried_jobs_container" style="visibility:hidden">
+  			<div id="buried_jobs_container" hidden>
   				<br/>
-  				<h3>Current Jobs Buried</h3>
+  				<h4>Current Jobs Buried</h4>
   	      <canvas id="buried_jobs_chart" data-set='<%= "#{@buried_jobs_data.to_json.to_s}" %>'></canvas>
   			</div>
   		</div>

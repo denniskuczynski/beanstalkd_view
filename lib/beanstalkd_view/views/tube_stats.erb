@@ -86,47 +86,57 @@
   </div>
 
   <div class="col-md-6">
-    <h3>Pause Tube</h3>
-	  <form id="pause_form" class="well form-inline" name="pause_form" action="<%= u("/pause") %>" method="POST">
+    <div class="well">
+      <h4>Pause Tube</h4>
+	  <form id="pause_form" class="form-inline" name="pause_form" action="<%= u("/pause") %>" method="POST">
 	    <input id="form_tube_name" type="hidden" name="tube" value="<%= @tube.name %>">
-      <input id="form_url_base" type="hidden" name="url_base" value="<%= u("/") %>">
-	    <input type="text" class="span3" placeholder="Number of seconds to wait" name="delay">
-	    <button type="submit" class="btn">Pause</button>
+        <input id="form_url_base" type="hidden" name="url_base" value="<%= u("/") %>">
+	    <input type="text" class="form-control" placeholder="Number of seconds to wait" name="delay">
+	    <button type="submit" class="btn btn-primary">Pause</button>
 	  </form>
+	</div>
 
-    <h3>Clear Tube</h3>
-	  <form id="clear_form" class="well form-inline" name="clear_form" action="<%= u("/clear") %>" method="POST">
+    <div class="well">
+      <h4>Clear Tube</h4>
+	  <form id="clear_form" class="form-inline" name="clear_form" action="<%= u("/clear") %>" method="POST">
 	    <input type="hidden" name="tube" value="<%= @tube.name %>">
-      <input type="hidden" name="url_base" value="<%= u("/") %>">
-      <select name="state" class="span3">
+        <input type="hidden" name="url_base" value="<%= u("/") %>">
+        <select name="state" class="form-control">
 	      <option value="buried">Buried</option>
 	      <option value="ready">Ready</option>
 	      <option value="delayed">Delayed</option>
 	    </select>
-	    <button type="submit" class="btn">Clear</button>
+	    <button type="submit" class="btn btn-primary">Clear</button>
 	  </form>
+	 </div>
 
-    <h3>Kick Tube</h3>
-	  <form id="kick_form" class="well form-inline" name="kick_form" action="<%= u("/kick") %>" method="POST">
+    <div class="well">
+      <h4>Kick Tube</h4>
+	  <form id="kick_form" class="form-inline" name="kick_form" action="<%= u("/kick") %>" method="POST">
 	    <input type="hidden" name="tube" value="<%= @tube.name %>">
-	    <input type="text" class="span3" placeholder="Number of jobs" name="bound">
-	    <button type="submit" class="btn">Kick</button>
+	    <input type="text" class="form-control" placeholder="Number of jobs" name="bound">
+	    <button type="submit" class="btn btn-primary">Kick</button>
 	  </form>
+	 </div>
 
-    <h3>Peek Jobs</h3>
-	  <form class="well" name="peek_jobs">
-  	  <a id="peek_ready_btn" href="#" class="btn">Peek Ready</a>
-	    <a id="peek_delayed_btn" href="#" class="btn">Peek Delayed</a>
-	    <a id="peek_buried_btn" href="#" class="btn">Peek Buried</a>
+    <div class="well">
+      <h4>Peek Jobs</h4>
+	  <form name="peek_jobs">
+  	    <button id="peek_ready_btn" class="btn btn-primary">Peek Ready</button>
+	    <button id="peek_delayed_btn" class="btn btn-primary">Peek Delayed</button>
+	    <button id="peek_buried_btn" class="btn btn-primary">Peek Buried</button>
 	  </form>
+	 </div>
 
-	  <h3>Peek Range</h3>
-	  <form id="peek_range_form" class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
+	<div class="well">
+      <h4>Peek Range</h4>
+	  <form id="peek_range_form" class="form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
 	    <input type="hidden" name="tube" value="<%= @tube.name %>">
-	    <input type="text" class="span2" placeholder="0" name="min">
-	    <input type="text" class="span2" placeholder="0" name="max">
-	    <button type="submit" class="btn">Peek</button>
-	  </form>
+	    <input type="text" class="form-control" placeholder="0" name="min">
+	    <input type="text" class="form-control" placeholder="0" name="max">
+	    <button type="submit" class="btn btn-primary">Peek</button>
+	 </form>
+	</div>
   </div>
 
   <%= erb :job_info_popup %>

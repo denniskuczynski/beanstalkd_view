@@ -4,17 +4,19 @@
 		<div class="alert alert-success">
 		  <strong>NOTE:</strong> Setting min and max to 0 will attempt to guess an appropriate range value based on the current ready queue.
 		</div>
-		<form class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
-		  <input type="text" class="span2" name="min" value="<%= @min %>">
-		  <input type="text" class="span2" name="max" value="<%= @max %>">
-		  <select id="peek_range_tube_select" class="span2" name="tube">
-			<option></option>
-			<% @tubes.each do |tube| %>
-			<option <% if @tube and @tube.name == tube.name%>selected="true"<% end %>><%=tube.name%></option>
-			<% end %>
-		  </select>
-		  <button type="submit" class="btn">Refresh</button>
-		</form>
+		<div class="well">
+			<form class="form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
+			  <input type="text" class="form-control" name="min" value="<%= @min %>">
+			  <input type="text" class="form-control" name="max" value="<%= @max %>">
+			  <select id="peek_range_tube_select" class="form-control" name="tube">
+				<option></option>
+				<% @tubes.each do |tube| %>
+				<option <% if @tube and @tube.name == tube.name%>selected="true"<% end %>><%=tube.name%></option>
+				<% end %>
+			  </select>
+			  <button type="submit" class="btn btn-primary">Refresh</button>
+			</form>
+		</div>
 		<table id="peek_range_table" class="table table-bordered">
 			<tr class="header">
 				<th>ID</th>

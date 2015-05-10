@@ -6583,3 +6583,47 @@ button.close {
 }
 /*# sourceMappingURL=bootstrap.css.map */
 
+a, .navbar-default .navbar-brand {
+  color: #090;
+}
+
+a:hover, .navbar-default .navbar-brand:hover {
+  color: #080;
+}
+
+.btn-primary {
+  background-color: #090;   
+}
+
+.btn-primary:hover {
+  background-color: #080;   
+}
+
+h1 {
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+td {
+  width: 285px;
+}
+
+td.data_cell {
+  margin: auto;
+  text-align: center; 
+}
+
+.btn {
+  margin-right: 14px;
+}
+
+.urgent {
+  font-weight: bold;
+}
+
+.peek_range_job_body {
+ height: 80px;
+ width: 300px;
+ word-wrap: break-word;
+ overflow-y: scroll; 
+}
