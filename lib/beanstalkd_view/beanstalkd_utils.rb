@@ -16,8 +16,7 @@ module BeanstalkdView
     end
 
     def beanstalk_address
-      uris = beanstalk_url.split(/[\s,]+/)
-      beanstalk_host_and_port(uris.first)
+      beanstalk_host_and_port(beanstalk_url)
     end
 
     def beanstalk_host_and_port(uri_string)

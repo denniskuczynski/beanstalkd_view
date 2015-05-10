@@ -5,15 +5,14 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       css: {
-        src: ['components/bootstrap/docs/assets/css/bootstrap.css',
+        src: ['bower_components/bootstrap/dist/css/bootstrap.css',
               'web/css/*.css'],
         dest: 'lib/beanstalkd_view/resources/css/<%= pkg.name %>.css'
       },
       js: {
-        src: ['components/json2/json2.js',
-              'components/jquery/jquery.js',
-              'components/bootstrap/docs/assets/js/bootstrap.js',
-              'components/underscore/underscore.js',
+        src: ['bower_components/jquery/dist/jquery.js',
+              'bower_components/bootstrap/dist/js/bootstrap.js',
+              'bower_components/underscore/underscore.js',
               'web/js/vendor/bluff-0.3.6.2/js-class.js',
               'web/js/vendor/bluff-0.3.6.2/bluff-min.js',
               'web/js/*.js'],

@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="span6">
+	<div class="col-md-6">
       <h1>Overview</h1>
 
       <table class="table">
@@ -277,42 +277,42 @@
       </table>
 	</div>
 	
-	<div class="span6">
-		<div class="span6">
-      <h3>Add Job</h3>
-			<form id="add_job_form" class="well" name="add_job_form" action="<%= u("/add_job") %>" method="POST">
-			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube" data-provide="typeahead" autocomplete="off" data-tubes='<%= "#{tube_names.to_json.to_s}" %>'>
-			  <input id="form_job_priority" type="text" class="span3" placeholder="Priority, e.g. 65536" name="priority">
-			  <input id="form_job_delay" type="text" class="span3" placeholder="Delay, e.g. 0" name="delay">
-			  <input id="form_job_ttr" type="text" class="span3" placeholder="TTR, e.g. 120" name="ttr">
-			  <label class="control-label" for="form_job_body">Job Body JSON Hash, e.g. {} or {"id": 1, "name": "Bob"}</label>
-			  <textarea id="form_job_body" class="input-xlarge" name="body" rows="3"></textarea>
-			  <br/>
-			  <a id="add_job_btn" href="#" class="btn">Add Job</a>
-			</form>
-		</div>
-		
-		<div class="span6">
-			<h3>Peek Range</h3>
-			<form id="peek_range_form" class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
-			  <input type="text" class="span2" placeholder="0" name="min">
-			  <input type="text" class="span2" placeholder="0" name="max">
-			  <button type="submit" class="btn">Peek</button>
-			</form>
-		</div>
-		
-		<div class="span6">
-			<div id="total_jobs_container">
-				<h3>Total Jobs</h3>
-	      <canvas id="total_jobs_chart" data-set='<%= "#{@total_jobs_data.to_json.to_s}" %>'></canvas>
-			</div>
-			<div id="buried_jobs_container" style="visibility:hidden">
-				<br/>
-				<h3>Current Jobs Buried</h3>
-	      <canvas id="buried_jobs_chart" data-set='<%= "#{@buried_jobs_data.to_json.to_s}" %>'></canvas>
-			</div>
-		</div>
-  </div>
+	<div class="col-md-6">
+  		<div>
+        <h3>Add Job</h3>
+  			<form id="add_job_form" class="well" name="add_job_form" action="<%= u("/add_job") %>" method="POST">
+  			  <input id="form_tube_name" type="text" class="span3" placeholder="Tube name" name="tube" data-provide="typeahead" autocomplete="off" data-tubes='<%= "#{tube_names.to_json.to_s}" %>'>
+  			  <input id="form_job_priority" type="text" class="span3" placeholder="Priority, e.g. 65536" name="priority">
+  			  <input id="form_job_delay" type="text" class="span3" placeholder="Delay, e.g. 0" name="delay">
+  			  <input id="form_job_ttr" type="text" class="span3" placeholder="TTR, e.g. 120" name="ttr">
+  			  <label class="control-label" for="form_job_body">Job Body JSON Hash, e.g. {} or {"id": 1, "name": "Bob"}</label>
+  			  <textarea id="form_job_body" class="input-xlarge" name="body" rows="3"></textarea>
+  			  <br/>
+  			  <a id="add_job_btn" href="#" class="btn">Add Job</a>
+  			</form>
+  		</div>
+  		
+  		<div>
+  			<h3>Peek Range</h3>
+  			<form id="peek_range_form" class="well form-inline" name="peek_range_form" action="<%= u("/peek-range") %>" method="GET">
+  			  <input type="text" class="span2" placeholder="0" name="min">
+  			  <input type="text" class="span2" placeholder="0" name="max">
+  			  <button type="submit" class="btn">Peek</button>
+  			</form>
+  		</div>
+  		
+  		<div>
+  			<div id="total_jobs_container">
+  				<h3>Total Jobs</h3>
+  	      <canvas id="total_jobs_chart" data-set='<%= "#{@total_jobs_data.to_json.to_s}" %>'></canvas>
+  			</div>
+  			<div id="buried_jobs_container" style="visibility:hidden">
+  				<br/>
+  				<h3>Current Jobs Buried</h3>
+  	      <canvas id="buried_jobs_chart" data-set='<%= "#{@buried_jobs_data.to_json.to_s}" %>'></canvas>
+  			</div>
+  		</div>
+    </div>
 </div>
 
 <%= erb :job_info_popup %>

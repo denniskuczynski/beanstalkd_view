@@ -25,8 +25,6 @@ ENV['BEANSTALK_URL'] = 'beanstalk://localhost/'
 
 This environment variable can be specified per Rails environment. So for instance, the above code could be put into environments/development.rb
 
-This can be a comma separated list, e.g. 'beanstalk://localhost:11300,beanstalk://localhost:11400'
-
 Embedding in a Rails app
 ------------------------
 
@@ -52,14 +50,15 @@ authenticate :admin_user do
 end
 ```
 
-Breaking changes since 2.0.0!
+Breaking changes since 2.0.0
 ------------------------
 
 As of version 2.0.0, beanstalkd_view no longer supports connection to multiple beanstalkd
-servers due to a decision to drop connection pool support in the beaneater gem.
+servers due to a decision to drop connection pool support in the beaneater gem. If you want to use the pool feature you should switch to 1.x releases instead.
 
 Troubleshooting
 ------------------------
+
 1. CSS/JS assets not being served in Rails when running behind Apache or Nginx
 
 See http://stackoverflow.com/questions/16167317/sinatra-static-assets-empty/16317727

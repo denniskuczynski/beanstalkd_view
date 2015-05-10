@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="span6">
+	<div class="col-md-6">
 		<h1><%= @tube.name %></h1>
 
 	    <table class="table">
@@ -85,7 +85,7 @@
 	    </table>
   </div>
 
-  <div class="span6">
+  <div class="col-md-6">
     <h3>Pause Tube</h3>
 	  <form id="pause_form" class="well form-inline" name="pause_form" action="<%= u("/pause") %>" method="POST">
 	    <input id="form_tube_name" type="hidden" name="tube" value="<%= @tube.name %>">

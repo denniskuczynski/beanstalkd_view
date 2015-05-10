@@ -9,10 +9,10 @@
   </head>
   <body>
 	<!-- Header -->
-	<div class="navbar">
-	  <div class="navbar-inner">
-	    <div class="container">
-			<a class="brand" href="<%= u("/") %>">Beanstalkd View - <%= BeanstalkdView::VERSION %></a>
+	<div class="navbar navbar-default">
+	  <div class="container">
+	  	<div class="navbar-header">
+		  <a class="navbar-brand" href="<%= u("/") %>">Beanstalkd View - <%= BeanstalkdView::VERSION %></a>
 		</div>
 	  </div>
 	</div>
@@ -23,7 +23,7 @@
 		<% if message and not message.empty? %>
 			<div id='flash' class='notice'>
 				<div class="row">
-					<div class="span12">
+					<div class="col-md-12">
 						<div class="alert alert-success">
 						 <h4 class="alert-heading">Notice:</h4>
 						  <%= message %>
@@ -38,14 +38,14 @@
 
 		<!-- Footer -->
 		<div class="row">
-			<div class="span12"><hr/></div>
+			<div class="col-md-12"><hr/></div>
 		</div>		
 		<div class="row">
- 		  <div class="span4">&nbsp;</div>
-		  <div class="span4">
+ 		  <div class="col-md-4">&nbsp;</div>
+		  <div class="col-md-4">
 		      Powered by <a href="http://github.com/denniskuczynski/beanstalkd_view">Beanstalkd View</a>
 		  </div>
- 		  <div class="span4">&nbsp;</div>
+ 		  <div class="col-md-4">&nbsp;</div>
 		</div>
 	</div>
   </body>
