@@ -1,3 +1,3 @@
 module BeanstalkdView
-  VERSION = "1.2.12"
+  VERSION = "2.0.0"
 end
