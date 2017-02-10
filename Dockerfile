@@ -1,9 +1,9 @@
-FROM debian:wheezy
+FROM ruby:2.1-slim
 
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get install -y rubygems
-RUN gem install beanstalkd_view --no-rdoc --no-ri
+# thin requires some dev toll from build-essential
+RUN apt-get update && apt-get install -y build-essential \
+  && rm -rf /var/lib/apt/lists/*
+RUN gem install beanstalkd_view thin --no-rdoc --no-ri
 
 EXPOSE 5678
 
