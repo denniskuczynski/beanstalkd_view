@@ -1,4 +1,4 @@
-FROM ruby:2.1-slim
+FROM ruby:2.2-slim
 
 # thin requires some dev toll from build-essential
 RUN apt-get update && apt-get install -y build-essential \
