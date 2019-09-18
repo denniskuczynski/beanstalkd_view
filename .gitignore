@@ -4,7 +4,9 @@ doc
 *.gem
 
 spec/rails_app/log
+spec/rails_app/tmp
 
-components
+bower_components
 node_modules
 dist
+package-lock.json

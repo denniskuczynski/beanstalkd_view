@@ -1,52 +1,46 @@
 <!doctype html>
+<html lang="en" class="h-100">
+	<head>
+		<title>Beanstalkd View - <%= BeanstalkdView::VERSION %></title>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" type="text/css" href="<%= "#{path_prefix}/css/beanstalkd_view.min.css" %>">
+		<script type="text/javascript" src="<%= "#{path_prefix}/js/beanstalkd_view.min.js" %>"></script>
+	</head>
 
-<html>
-  <head>
-    <title>Beanstalkd View - <%= BeanstalkdView::VERSION %></title>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="<%= "#{path_prefix}/css/beanstalkd_view.min.css" %>">
-    <script type="text/javascript" src="<%= "#{path_prefix}/js/beanstalkd_view.min.js" %>"></script>
-  </head>
-  <body>
-	<!-- Header -->
-	<div class="navbar">
-	  <div class="navbar-inner">
-	    <div class="container">
-			<a class="brand" href="<%= u("/") %>">Beanstalkd View - <%= BeanstalkdView::VERSION %></a>
-		</div>
-	  </div>
-	</div>
-	
-	<div class="container">
-		
-		<% message = notice_message %>
-		<% if message and not message.empty? %>
-			<div id='flash' class='notice'>
-				<div class="row">
-					<div class="span12">
-						<div class="alert alert-success">
-						 <h4 class="alert-heading">Notice:</h4>
-						  <%= message %>
+	<body class="d-flex flex-column h-100">
+		<header>
+			<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+				<a class="navbar-brand" href="<%= u("/") %>">Beanstalkd View - <%= BeanstalkdView::VERSION %></a>
+			</nav>
+		</header>
+
+		<main role="main" class="flex-shrink-0">
+			<div class="container my-4 py-5">
+				<% message = notice_message %>
+				<% if message and not message.empty? %>
+					<div id='flash' class='notice'>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-success">
+								 <h4 class="alert-heading">Notice:</h4>
+									<%= message %>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>		
+				<% end %>
+
+				<%= yield %>
 			</div>
-		<% end %>
-		
-		<%= yield %>
+		</main>
 
-
-		<!-- Footer -->
-		<div class="row">
-			<div class="span12"><hr/></div>
-		</div>		
-		<div class="row">
- 		  <div class="span4">&nbsp;</div>
-		  <div class="span4">
-		      Powered by <a href="http://github.com/denniskuczynski/beanstalkd_view">Beanstalkd View</a>
-		  </div>
- 		  <div class="span4">&nbsp;</div>
-		</div>
-	</div>
-  </body>
+		<footer class="footer fixed-bottom mt-auto">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="navbar-text ml-auto mr-auto">
+					Powered by <a href="http://github.com/denniskuczynski/beanstalkd_view">Beanstalkd View</a>
+				</div>
+			</nav>
+		</footer>
+	</body>
 </html>

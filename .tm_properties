@@ -1,0 +1,1 @@
+excludeDirectories = "{$excludeDirectories,pkg,node_modules,bower_components}"

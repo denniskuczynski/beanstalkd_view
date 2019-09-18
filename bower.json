@@ -2,10 +2,11 @@
   "name": "beanstalkd_view",
   "version": "0.0.0",
   "dependencies": {
-    "bootstrap": "~2.3.1",
-    "jquery": "~1.8.3",
-    "json2": "~ff55d8d4513b149e2511aee01c3a61d372837d1f",
-    "underscore": "~1.4.4"
+    "underscore": "~1.9",
+    "json2": "",
+    "jquery": "~3.4",
+    "bootstrap": "~4",
+    "bootstrap3-typeahead": "~4"
   },
   "ignore": [
     "**/.*",

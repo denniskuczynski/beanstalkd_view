@@ -34,13 +34,24 @@
         if (data.hasOwnProperty("error")) {
           alert(data.error);
         } else {
+          var parsed = data.body;
+
+          // Double JSON encoding can occur.
+          //
+          try {
+            parsed = JSON.parse(parsed);
+            parsed = JSON.parse(parsed);
+          } catch(e) {}
+
+          data.body = JSON.stringify(parsed, null, "  ");
+
           $("#job_info_popup_title").html(create_job_info_title(data));
           $("#job_info_popup_body").html(create_job_info_table(data));
           $("#job_info_popup_footer").html(create_job_info_buttons(tube, data, url_base));
           $("[rel=tooltip]").tooltip();  //refresh tooltips
           $("#job_info_popup").modal({});
         }
-      }).error(function() { alert("An error occurred while trying to peek at the next job."); });
+      }).fail(function() { alert("An error occurred while trying to peek at the next job."); });
     }
 
     function add_job() {
@@ -104,7 +115,7 @@
 
     function create_new_job_buttons() {
       var job_info_buttons = "";
-      job_info_buttons += "<a id=\"confirm_add_job_btn\" href=\"#\" class=\"btn\">Add Job</a>";
+      job_info_buttons += "<a id=\"confirm_add_job_btn\" href=\"#\" class=\"btn btn-primary mr-0\">Add Job</a>";
       return job_info_buttons;
     }
 
@@ -112,7 +123,9 @@
       var job_id = data.id;
       var priority = data.pri;
       var job_info_buttons = "";
-      job_info_buttons += "<a href=\""+url_base+"delete/"+encodeURIComponent(tube)+"/"+job_id+"\" class=\"btn\">Delete Job</a>";
+      job_info_buttons +=
+        "<a href=\""+url_base+"kick/"+encodeURIComponent(tube)+"/"+job_id+"\" class=\"btn btn-success\">Kick Job</a>" +
+        "<a href=\""+url_base+"delete/"+encodeURIComponent(tube)+"/"+job_id+"\" class=\"btn btn-danger mr-0\">Delete Job</a>";
       return job_info_buttons;
     }
 

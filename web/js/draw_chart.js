@@ -5,12 +5,12 @@
       //Create pie charts
       var chart = new Bluff.Bar(div, 460);
         //Setup theme
-        var colors = ['#6886B4', '#FDD84E', '#72AE6E', '#D1695E', '#8A6EAF', '#EFAA43', 'white'];
+        var colors = ['#6886B4', '#FDD84E', '#72AE6E', '#D1695E', '#8A6EAF', '#EFAA43', 'black'];
         chart.set_theme({
         colors: colors,
-        marker_color: 'white',
-        font_color: 'white',
-        background_colors: ['#008000', '#008000']
+        marker_color: 'black',
+        font_color: 'black',
+        background_colors: ['white', 'white']
       });
       chart.tooltips = true;
       chart.hide_line_markers = false;

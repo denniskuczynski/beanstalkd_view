@@ -1,70 +1,78 @@
-<div class="modal" id="job_info_popup" style="display:none;">
-	<div class="modal-header">
-    	<a class="close" data-dismiss="modal">×</a>
-    	<h3 id="job_info_popup_title"></h3>
+<div class="modal fade" tabindex="-1" role="dialog" id="job_info_popup">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 id="job_info_popup_title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" id="job_info_popup_body"></div>
+      <div class="modal-footer" id="job_info_popup_footer"></div>
+    </div>
   </div>
-	<div class="modal-body" id="job_info_popup_body"></div>
-  <div class="modal-footer" id="job_info_popup_footer"></div>
 </div>
 
 <script id="job_modal_template" type="text/template">
-  <table class="table">
+  <table class="table table-sm table-borderless table-striped table-responsive-lg">
     <tbody>
       <tr rel="tooltip" data-original-title="The tube to which the job will be added.">
-        <td>tube</td>
-        <td>{{= data.tube }}</td>
+        <th style="width: 20%">tube</th>
+        <td style="width: 80%">{{= data.tube }}</td>
       </tr>
       <tr rel="tooltip" data-original-title="The priority value set by the put, release, or bury commands.">
-        <td>pri</td>
+        <th>pri</th>
         <td>{{= data.pri }}</td>
       </tr>
       {{ if (data.age !== undefined) { }}
         <tr rel="tooltip" data-original-title="The time in seconds since the put command that created this job.">
-          <td>age</td>
+          <th>age</th>
           <td>{{= data.age }}</td>
         </tr>
       {{ } }}
       <tr rel="tooltip" data-original-title="The delay value in seconds">
-        <td>delay</td>
+        <th>delay</th>
         <td>{{= data.delay }}</td>
       </tr>
       <tr rel="tooltip" data-original-title="The number of seconds to allow a worker to run this job. This time is counted from the moment a worker reserves this job. If the worker does not delete, release, or bury the job within ttr seconds, the job will time out and the server will release the job.">
-        <td>ttr</td>
+        <th>ttr</th>
         <td>{{= data.ttr }}</td>
       </tr>
       {{ if (data.reserves !== undefined) { }}
         <tr rel="tooltip" data-original-title="The number of times this job has been reserved">
-          <td>reserves</td>
+          <th>reserves</th>
           <td>{{= data.reserves }}</td>
         </tr>
       {{ } }}
       {{ if (data.timeouts !== undefined) { }}
         <tr rel="tooltip" data-original-title="The number of times this job has timed out during a reservation.">
-          <td>timeouts</td>
+          <th>timeouts</th>
           <td>{{= data.timeouts }}</td>
         </tr>
       {{ } }}
       {{ if (data.releases !== undefined) { }}
         <tr rel="tooltip" data-original-title="The number of times a client has released this job from a reservation.">
-          <td>releases</td>
+          <th>releases</th>
           <td>{{= data.releases }}</td>
         </tr>
       {{ } }}
       {{ if (data.buries !== undefined) { }}
-        <tr rel="tooltip" data-original-title=" The number of times this job has been buried.">
-          <td>buries</td>
+        <tr rel="tooltip" data-original-title="The number of times this job has been buried.">
+          <th>buries</th>
           <td>{{= data.buries }}</td>
         </tr>
       {{ } }}
       {{ if (data.kicks !== undefined) { }}
         <tr rel="tooltip" data-original-title="The number of times this job has been kicked.">
-          <td>kicks</td>
+          <th>kicks</th>
           <td>{{= data.kicks }}</td>
         </tr>
       {{ } }}
-      <tr rel="tooltip" data-original-title="The jobs body content.">
-        <td>body</td>
-        <td>{{= data.body }}</td>
+      <tr rel="tooltip" data-original-title="The job's body content.">
+        <th>body</th>
+        <td><pre>{{= data.body }}</pre></td>
       </tr>
     </tbody>
   </table>
