@@ -33,5 +33,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "capybara"
 
   # For Rails integration testing
-  s.add_development_dependency "rails"
+  s.add_development_dependency "rails", "~> 5.2"
 end
