@@ -12,24 +12,35 @@ h3 {
   margin-bottom: 4px;
 }
 
-.navbar-inner {
-  background-color: #008000;
-  background-image: none;
+.navbar.bg-dark {
+  background-color: #008000 !important;
 }
 
-.navbar .brand {
+.navbar .navbar-brand {
   color: white;
   font-weight: bold;
 }
 
 .well {
-  background-color: #008000;
+  background-color: #eee;
+  border-radius: 4px;
 }
 
-.control-label {
-  color: white;
+.spaced {
+  display: flex;
+  justify-content: space-around;
+}
+
+.col-form-label {
   font-weight: bold;
-  }
+}
+
+.modal-content {
+  background: transparent;
+}
+
+.modal-body {
+  background: white;
 }
 
 .modal-header {
@@ -38,7 +49,7 @@ h3 {
 }
 
 .modal-footer {
-  background-color: #008000;  
+  background-color: #008000;
 }
 
 td {
@@ -46,8 +57,7 @@ td {
 }
 
 td.data_cell {
-  margin: auto;
-  text-align: center; 
+  text-align: right;
 }
 
 .btn {
@@ -62,5 +72,5 @@ td.data_cell {
  height: 80px;
  width: 300px;
  word-wrap: break-word;
- overflow-y: scroll; 
+ overflow-y: scroll;
 }

@@ -1,11 +1,13 @@
 {
   "name": "beanstalkd_view",
-  "version": "2.0.0",
+  "version": "2.1.0",
+  "repository": "https://github.com/denniskuczynski/beanstalkd_view",
+  "license": "MIT",
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.3.0",
-    "grunt-contrib-concat": "~0.1.3",
-    "grunt-contrib-uglify": "~0.2.0",
-    "grunt-contrib-cssmin": "~0.6.0"
+    "grunt": "^1.0.4",
+    "grunt-contrib-concat": "~1.0.1",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-contrib-uglify": "^4.0.1"
   }
 }

@@ -1,12 +1,20 @@
+2.1.0
+-----------
+
+- Update some of the underlying packages via @pond
+- Upgrade UI from Bootstrap 2 to Bootstrap 4 via @pond
+- Add 'Kick' for individual buried jobs via @pond
+- Body data in job modal is now formatted JSON via @pond
+
 2.0.0
 -----------
 
-- Depend on beaneater 1.0.0 via @ryanjohns 
+- Depend on beaneater 1.0.0 via @ryanjohns
 
 1.2.12
 -----------
 
-- Customize URL base when running standalone via @fotos 
+- Customize URL base when running standalone via @fotos
 - Fix typo in lib/beanstalkd_view/views/index.erb via @Zorbash
 
 1.2.11

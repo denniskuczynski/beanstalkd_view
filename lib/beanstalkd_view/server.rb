@@ -184,6 +184,9 @@ module BeanstalkdView
       end
     end
 
+    # POST route to kick a job via a form with user-provided job ID. See also
+    # 'get "/kick/*"'.
+    #
     post "/kick" do
       begin
         response = nil
@@ -194,13 +197,49 @@ module BeanstalkdView
           redirect url("/tube/#{escaped_tube_param}")
         else
           cookies[:beanstalkd_view_notice] = "Error kicking #{params[:tube]}."
-          redirect url("/tube/#{escaped_tube_param}")
+          redirect url("/tube/#{escaped_tube_param(tube_name)}")
         end
       rescue Beaneater::NotFoundError => @error
         erb :error
       rescue Beaneater::NotConnected => @error
         close_connection
         erb :error
+      end
+    end
+
+    # Companion to the POST route for easy access via links encoding the job
+    # ID, without needing to write a small HTML wrapper form. See also 'post
+    # "/kick"'.
+    #
+    get "/kick/*" do
+      parts     = params[:splat].first.split('/')
+      job_id    = parts.last.to_i
+      tube_name = parts[0...-1].join('/')
+      tube      = beanstalk.tubes[tube_name]
+
+      begin
+        response = nil
+        raise Beaneater::NotFoundError.new("Tube not found with specified name", 'find') if tube.nil?
+
+        job = beanstalk.jobs.find(job_id)
+        raise Beaneater::NotFoundError.new("Job not found with specified id", 'find') if job.nil?
+        response = tube.kick(job_id)
+
+        if response
+          cookies[:beanstalkd_view_notice] = "Kicked #{tube_name}: #{response}"
+          redirect url("/tube/#{escaped_tube_param(tube_name)}")
+        else
+          cookies[:beanstalkd_view_notice] = "Error kicking #{tube_name}."
+          redirect url("/tube/#{escaped_tube_param(tube_name)}")
+        end
+
+      rescue Beaneater::NotFoundError => @error
+        erb :error
+
+      rescue Beaneater::NotConnected => @error
+        close_connection
+        erb :error
+
       end
     end
 

@@ -125,14 +125,23 @@ Building the front-end Javascript
 
 This project uses Grunt (http://gruntjs.com/) to manage javascript/css linting, concatenation, and minification, and Bower (https://github.com/bower/bower) to manage Javascript dependencies.
 
-For development, install Grunt and Bower as specified on their websites.  Then execute
+For development, install NPM, Grunt and Bower as specified on their websites.  Then execute
+
+```ruby
+bower install
+npm install
+grunt
+```
+
+...from the command line initially, then:
+
 
 ```ruby
 bower install
 grunt
 ```
 
-from the command line after modifying any javascript or css files.  The output files will be placed in the lib/beanstalkd_view/resources directory.
+...after modifying any javascript or css files.  The output files will be placed in the lib/beanstalkd_view/resources directory.
 
 Running the tests
 ------------------------
