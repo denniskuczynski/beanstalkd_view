@@ -2,15 +2,15 @@ shared_examples 'queue_browser' do
 
   it "should show the overview at: /" do
     visit site_root
-    page.should have_content "Beanstalkd View"
-    page.should have_content "Statistics"
-    page.should have_content "Tubes"
+    expect(page).to have_content "Beanstalkd View"
+    expect(page).to have_content "Statistics"
+    expect(page).to have_content "Tubes"
   end
 
   it "should show the default tube stats at: tube/default" do
     visit "#{site_root}tube/default"
-    page.should have_content "Beanstalkd View"
-    page.should have_content "Statistics"
+    expect(page).to have_content "Beanstalkd View"
+    expect(page).to have_content "Statistics"
   end
 
   it "should be able to add a job on the overview page", :js => true do
@@ -19,15 +19,15 @@ shared_examples 'queue_browser' do
     form.fill_in 'form_tube_name', :with => tube_name
     form.fill_in 'form_job_body', :with => '{"id": 1, "name": "Bob"}'
     form.click_link('Add Job')
-    page.should have_content "Add new job?"
+    expect(page).to have_content "Add new job?"
     click_link "confirm_add_job_btn"
-    page.should have_content "Added job:"
+    expect(page).to have_content "Added job:"
   end
 
   it "should be able to click on the tube_name link (created by the last test)", :js => true do
     visit site_root
     click_link('test.tube')
-    page.should have_content "test.tube"
+    expect(page).to have_content "test.tube"
   end
 
   it "should be able to peek_range and see job (created by the last test)", :js => true do
@@ -36,7 +36,7 @@ shared_examples 'queue_browser' do
     form.fill_in 'min', :with => '0'
     form.fill_in 'max', :with => '0'
     click_button 'Peek'
-    page.should have_content "Peek Range"
+    expect(page).to have_content "Peek Range"
   end
 
   it "should be able to pause a tube", :js => true do
@@ -44,7 +44,7 @@ shared_examples 'queue_browser' do
     form = find('#pause_form')
     form.fill_in 'delay', :with => 1
     click_button "Pause"
-    page.should have_content "Paused #{tube_name}"
+    expect(page).to have_content "Paused #{tube_name}"
   end
 
   it "should be able to kick a tube", :js => true do
@@ -52,13 +52,13 @@ shared_examples 'queue_browser' do
     form = find('#kick_form')
     form.fill_in 'bound', :with => 1
     click_button "Kick"
-    page.should have_content "Kicked #{tube_name}"
+    expect(page).to have_content "Kicked #{tube_name}"
   end
 
   it "should be able to peek_ready a tube", :js => true do
     visit "#{site_root}tube/#{CGI::escape(tube_name)}"
     click_link('peek_ready_btn')
-    page.should have_content "Job id:"
+    expect(page).to have_content "Job id:"
   end
 
   it "should be able to clear a tube", :js => true do
@@ -66,7 +66,7 @@ shared_examples 'queue_browser' do
     form = find('#clear_form')
     form.select 'Buried', :from => 'state'
     click_button "Clear"
-    page.should have_content "Cleared all buried jobs from #{tube_name}"
+    expect(page).to have_content "Cleared all buried jobs from #{tube_name}"
   end
 
 end

@@ -4,6 +4,7 @@ doc
 *.gem
 
 spec/rails_app/log
+spec/rails_app/tmp
 
 bower_components
 node_modules

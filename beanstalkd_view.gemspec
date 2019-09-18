@@ -27,10 +27,12 @@ Gem::Specification.new do |s|
   s.add_dependency "vegas",           "~> 0.1.2"
   s.add_dependency "json"
 
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rack-test"
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "capybara"
+  s.add_development_dependency "rake",       "~> 12.3"
+  s.add_development_dependency "rack-test",  "~> 1.1"
+  s.add_development_dependency "rspec",      "~> 3.8"
+  s.add_development_dependency "capybara",   "~> 3.2"
+  s.add_development_dependency "webdrivers", "~> 4.1"
+  s.add_development_dependency "puma",       "~> 4.1"
 
   # For Rails integration testing
   s.add_development_dependency "rails", "~> 5.2"
