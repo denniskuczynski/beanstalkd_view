@@ -115,7 +115,7 @@
 
     function create_new_job_buttons() {
       var job_info_buttons = "";
-      job_info_buttons += "<a id=\"confirm_add_job_btn\" href=\"#\" class=\"btn btn-secondary\">Add Job</a>";
+      job_info_buttons += "<a id=\"confirm_add_job_btn\" href=\"#\" class=\"btn btn-primary mr-0\">Add Job</a>";
       return job_info_buttons;
     }
 
